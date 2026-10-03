@@ -37,3 +37,12 @@ export async function resolveBusiness(lookup: TenantLookup): Promise<Business | 
     .limit(1);
   return row?.business ?? null;
 }
+
+export async function getActiveBusinessById(id: string): Promise<Business | null> {
+  const [row] = await db
+    .select()
+    .from(businesses)
+    .where(and(eq(businesses.id, id), eq(businesses.isActive, true)))
+    .limit(1);
+  return row ?? null;
+}

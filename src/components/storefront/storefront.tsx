@@ -1,6 +1,6 @@
 import type { Business } from "@/domain/business/resolve-business";
 import { getCatalogCached } from "@/lib/tenant";
-import { ServicePicker } from "./service-picker";
+import { BookingWizard } from "@/components/booking/booking-wizard";
 
 /**
  * A business's public booking page. Rendered identically whether the
@@ -18,10 +18,16 @@ export async function Storefront({ business }: { business: Business }) {
         {business.address && <p className="mt-1 text-sm text-muted">{business.address}</p>}
       </header>
 
-      <ServicePicker
-        businessId={business.id}
-        currency={business.currency}
-        locale={business.locale}
+      {/* Only pass what the browser needs – never the whole business row. */}
+      <BookingWizard
+        business={{
+          id: business.id,
+          name: business.name,
+          timezone: business.timezone,
+          currency: business.currency,
+          locale: business.locale,
+          maxAdvanceDays: business.maxAdvanceDays,
+        }}
         initialCatalog={catalog}
       />
     </main>

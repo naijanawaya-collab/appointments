@@ -45,6 +45,28 @@ Then open:
 | `pnpm db:studio` | Browse the database in Drizzle Studio |
 | `pnpm db:reset` | Wipe the local DB volume and start fresh |
 | `pnpm db:setup` | `db:up` + `db:migrate` + `db:seed` |
+| `pnpm test` | Unit + component tests (fast, no database) |
+| `pnpm test:watch` | Same, in watch mode while you code |
+| `pnpm test:integration` | Domain logic against a real Postgres (`pnpm db:up` first) |
+| `pnpm test:e2e` | Playwright against a production build (desktop + mobile) |
+| `pnpm test:all` | Everything above |
+
+## Testing
+
+Every feature ships with tests at the layer that fits it. CI runs all of them on
+every push and pull request (`.github/workflows/ci.yml`).
+
+| Layer | Files | Runs against | What it covers |
+| --- | --- | --- | --- |
+| Unit | `src/**/*.test.ts` | Node | Slot maths (incl. DST days), status machine, tokens, validation, rate limiter, wizard reducer |
+| Component | `src/**/*.test.tsx` | jsdom + Testing Library | Booking wizard steps, validation errors, "slot taken" recovery, a11y of form fields, cancel form |
+| Integration | `src/**/*.int.test.ts` | Real Postgres (`appointments_test`) | Availability, booking races (5 customers, 1 slot), tenant isolation, cancellation, emails |
+| End-to-end | `e2e/*.spec.ts` | Chromium, production build, `appointments_e2e` | Full booking + cancel on the slug URL **and** a custom domain, admin login, CSRF/tenant/rate-limit checks |
+
+Tests never touch your dev database: the test and e2e databases are created,
+migrated (and for e2e, seeded) automatically on the same Postgres server.
+
+First run of e2e locally: `pnpm exec playwright install chromium`.
 
 ## Project structure
 
@@ -58,22 +80,55 @@ src/
     sites/[host]/           Storefront by domain (custom domains, via proxy rewrite)
     login/                  Admin sign-in (React Hook Form + Zod + Better Auth)
     admin/                  Protected dashboard
+    manage/[token]/         "Manage my booking" (emailed link) – also under sites/[host]/
     api/auth/[...all]/      Better Auth handler
-    api/businesses/[businessId]/catalog/   Public services + staff (React Query)
+    api/businesses/[businessId]/
+      catalog/              GET services + staff
+      availability/         GET free times for a day
+      bookings/             POST create a guest booking
   components/
     providers.tsx           React Query provider
-    storefront/             Booking UI shared by both storefront routes
+    storefront/             Storefront shell shared by both storefront routes
+    booking/                Booking wizard (reducer + steps + API client)
+    manage/                 Manage page + cancel server action
   domain/                   Business logic – no React/Next imports
     business/               resolveBusiness (slug or hostname)
     catalog/                Services/staff queries + pure selection logic
-    booking/                Status state machine + domain events
+    availability/           computeSlots (pure, DST-safe) + DB loader
+    booking/                create / cancel / read, manage tokens, status machine
+    notifications/          Email templates + event handlers
   db/
     schema/                 Drizzle tables (auth, tenancy, catalog, scheduling, bookings)
     index.ts                DB client (postgres-js; works for Docker and Neon)
     seed.ts                 Demo data
-  lib/                      auth, session helpers, host detection, formatting
+  lib/                      auth, session, hosts, request guards, rate limit, email, formatting
   validation/               Zod schemas shared by client and server
+tests/support/              Test DB setup + fixtures
+e2e/                        Playwright specs
+docs/design-prompt.md       Brief for the visual design
 ```
+
+## How booking works
+
+1. **Availability** – `computeSlots()` takes working hours (wall-clock, shop timezone),
+   existing bookings and time off, and returns start times on the slot grid. Services must
+   fit inside working hours; cleanup buffers block the calendar but may run past closing.
+   Lead time and booking horizon come from the business settings.
+2. **Booking** – the API re-validates everything, then `createBooking()` checks the time
+   is genuinely offered and inserts it. If two people race for the same slot, the database
+   constraint lets exactly one win; with "any professional" the next free barber is used.
+3. **Manage link** – the customer gets a link with a 256-bit token (only its hash is stored)
+   to view or cancel. Online cancellation closes `cancellationWindowHours` before the start.
+4. **Emails** – confirmation to the customer, notification to the shop, both sent *after*
+   the response (`after()`), so a slow email provider never slows down booking.
+
+### Security measures
+
+Same-origin check on booking POSTs (CSRF) · per-IP rate limits (in-memory; swap for
+Redis/KV at scale) · Zod validation + body size cap + honeypot · tenant guard (a custom
+domain can only read/write its own shop) · hashed manage tokens, `noindex` + `no-referrer`
+on manage pages · security headers (HSTS, nosniff, frame-deny) · HTML-escaped emails ·
+public sign-up disabled for admins.
 
 ## How multi-tenancy works
 
@@ -124,7 +179,8 @@ professional with overlapping times (SQLSTATE `23P01`).
    `DATABASE_URL="<neon-url>" pnpm db:migrate` (and `pnpm db:seed` if you want the demo data/admin).
 3. Import the GitHub repo in Vercel and set env vars: `DATABASE_URL`,
    `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` (your production URL),
-   `PLATFORM_HOSTS` (your platform domain, if you add one).
+   `PLATFORM_HOSTS` (your platform domain, if you add one),
+   `RESEND_API_KEY` + `EMAIL_FROM` (a sender on a domain verified in Resend).
 4. Set the Functions region close to the database (e.g. `fra1`).
 
 > **Plan note:** Vercel's free Hobby plan is for non-commercial use only. A live
@@ -132,10 +188,10 @@ professional with overlapping times (SQLSTATE `23P01`).
 
 ## Roadmap
 
-- **Phase 0 – foundation ✅** (this commit): app, schema, migrations, seed, auth, tenancy, proxy.
-- **Phase 1 – booking flow:** `getAvailableSlots()` (working hours − time off − bookings,
-  in the business timezone), date/time picker, guest details, `createBooking` with
-  overlap handling, confirmation email (Resend), manage/cancel link.
+- **Phase 0 – foundation ✅** app, schema, migrations, seed, auth, tenancy, proxy.
+- **Phase 1 – booking flow ✅** availability engine, booking wizard, guest booking with
+  race-safe creation, confirmation + owner emails (Resend), manage/cancel link, test suite + CI.
+  Not yet: rescheduling (cancel + rebook for now), German translations.
 - **Phase 2 – admin:** day/week calendar, manual & walk-in bookings, CRUD for
   services/staff/hours/time off, mark completed / no-show.
 - **Phase 3 – launch polish:** reminder emails (daily cron), new-booking notifications,

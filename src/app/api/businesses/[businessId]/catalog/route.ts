@@ -1,22 +1,25 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getCatalog } from "@/domain/catalog/get-catalog";
-
-const params = z.object({ businessId: z.uuid() });
+import { businessForRequest, errorResponse, handleRouteError } from "@/lib/api";
 
 /**
- * Public catalog for a business (services + professionals).
- * Consumed by the booking UI via React Query. Works from the platform domain
- * and from custom domains, since /api is never rewritten by the proxy.
+ * GET /api/businesses/:id/catalog – public services + professionals.
+ * Consumed by the booking UI via React Query.
  */
-export async function GET(_req: Request, ctx: RouteContext<"/api/businesses/[businessId]/catalog">) {
-  const parsed = params.safeParse(await ctx.params);
-  if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid business id" }, { status: 400 });
-  }
+export async function GET(request: Request, ctx: RouteContext<"/api/businesses/[businessId]/catalog">) {
+  const { businessId } = await ctx.params;
+  if (!z.uuid().safeParse(businessId).success) return errorResponse("NOT_FOUND", "Business not found.", 404);
 
-  const catalog = await getCatalog(parsed.data.businessId);
-  return NextResponse.json(catalog, {
-    headers: { "Cache-Control": "public, max-age=0, s-maxage=60, stale-while-revalidate=300" },
-  });
+  try {
+    const business = await businessForRequest(request, businessId);
+    if (!business) return errorResponse("NOT_FOUND", "Business not found.", 404);
+
+    const catalog = await getCatalog(business.id);
+    return NextResponse.json(catalog, {
+      headers: { "Cache-Control": "public, max-age=0, s-maxage=60, stale-while-revalidate=300" },
+    });
+  } catch (err) {
+    return handleRouteError(err);
+  }
 }

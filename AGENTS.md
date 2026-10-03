@@ -18,3 +18,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Double booking** is prevented by the `bookings_no_overlap_per_staff` exclusion constraint (`drizzle/0001_booking_no_overlap.sql`). Catch SQLSTATE `23P01` and show "slot just taken".
 - **Booking status changes** go through `assertTransition` in `src/domain/booking/status.ts`.
 - **Schema changes:** edit `src/db/schema/*`, then `pnpm db:generate --name <change>` and `pnpm db:migrate`. Never edit an applied migration.
+- **Tests ship with every change.** Pure logic → `*.test.ts` (unit). Components → `*.test.tsx` (jsdom). Anything touching the DB → `*.int.test.ts` (real Postgres via `tests/support/fixtures.ts`). User journeys → `e2e/*.spec.ts`. Run `pnpm test` constantly, `pnpm test:all` before pushing.
+- **API routes** validate with Zod, check `isSameOrigin` on mutations, apply a rate limiter, resolve the business with `businessForRequest` (tenant guard), and map errors with `handleRouteError`.
+- **Side effects** (emails, future calendar/WhatsApp sync) run in `after()` via `src/domain/notifications/handlers.ts` and must never throw.
+- **Dates shown to people** use `UI_LOCALE` and the business timezone; money uses the business locale.
