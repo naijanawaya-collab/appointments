@@ -46,6 +46,7 @@ export default defineConfig({
       DATABASE_URL: E2E_DATABASE_URL,
       BETTER_AUTH_SECRET: "e2e-secret-e2e-secret-e2e-secret-123",
       BETTER_AUTH_URL: `http://localhost:${PORT}`,
+      NEXT_PUBLIC_PLATFORM_URL: `http://localhost:${PORT}`,
       PLATFORM_HOSTS: "localhost,127.0.0.1",
       EMAIL_DRIVER: "console",
       // The suite books many slots from one IP; production keeps the default (10).

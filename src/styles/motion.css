@@ -17,6 +17,21 @@
   transform: none;
 }
 
+/*
+ * Above-the-fold hero: rises into place but is never invisible. A fade from
+ * opacity 0 would hold back the Largest Contentful Paint (browsers don't
+ * count invisible text) and break the LCP < 2.5 s budget. CSS-only, so it
+ * starts on first paint without waiting for JavaScript.
+ */
+@keyframes sf-rise {
+  from {
+    transform: translateY(var(--motion-rise, 24px));
+  }
+}
+[data-rise] {
+  animation: sf-rise 700ms var(--ease-out) var(--reveal-delay, 0ms) both;
+}
+
 /* M-3 Announcement collapse */
 .sf-announcement {
   overflow: hidden;
@@ -70,10 +85,11 @@
   transform: scale(1);
   will-change: transform;
 }
+/* Tap target ≥ 24 px wide (WCAG 2.2 target size); the visible track is the inner bar. */
 .hc-dot {
-  width: 14px;
+  width: 24px;
   height: 44px;
-  padding: 0 3px;
+  padding: 0 8px;
   border: 0;
   background: transparent;
   cursor: pointer;
@@ -82,7 +98,7 @@
   transition: width 300ms var(--ease-out);
 }
 .hc-dot[aria-selected="true"] {
-  width: 34px;
+  width: 44px;
 }
 .hc-dot__track {
   display: block;

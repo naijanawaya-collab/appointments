@@ -4,9 +4,19 @@
  * (browsers fetch @font-face files lazily), so a storefront loads Geist plus
  * its one display font.
  */
-import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import localFont from "next/font/local";
+
+// Geist Mono only sets small labels (eyebrows), so it isn't preloaded: it
+// stays off the critical path and swaps in when needed.
+const geistMono = localFont({
+  src: "../fonts/geist-mono-variable.woff2",
+  weight: "100 900",
+  variable: "--font-geist-mono",
+  display: "swap",
+  preload: false,
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+});
 
 const cormorant = localFont({
   src: [
@@ -56,7 +66,7 @@ const anton = localFont({
 
 export const fontVariables = [
   GeistSans.variable,
-  GeistMono.variable,
+  geistMono.variable,
   cormorant.variable,
   barlowCondensed.variable,
   italiana.variable,

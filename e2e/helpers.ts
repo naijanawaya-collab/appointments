@@ -11,8 +11,12 @@ export async function selectService(page: Page, name: RegExp) {
 
 /** Selects the first open day at or after `minOffset` days from today that has a free slot, and picks that slot. */
 export async function pickFirstSlot(page: Page, minOffset = 2): Promise<string> {
-  const days = page.getByRole("radiogroup", { name: "Date" }).getByRole("radio");
+  const group = page.getByRole("radiogroup", { name: "Date" });
+  const days = group.getByRole("radio");
   await expect(days.first()).toBeVisible();
+  // Closed days are only known once the opening days have loaded; a day is
+  // auto-selected at that moment (B-10). Checking earlier would race.
+  await expect(group.locator('[aria-checked="true"]')).toHaveCount(1);
   const count = await days.count();
   for (let i = minOffset; i < count; i++) {
     const day = days.nth(i);

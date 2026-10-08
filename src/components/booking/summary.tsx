@@ -21,6 +21,12 @@ type ActionProps = {
   onClick?: () => void;
 };
 
+/**
+ * Rendered with a different `key` for "Continue" and "Confirm booking" (see
+ * callers): if React re-used one element, clicking Continue would re-render
+ * it into the details form's submit button *during* the click, and the
+ * browser would then submit the form (booking without showing the details).
+ */
 function PrimaryButton({ label, disabled, busy, formId, onClick }: ActionProps) {
   return (
     <button
@@ -78,7 +84,7 @@ export function SummaryAside({ data, action }: { data: SummaryData; action: Acti
         <span className="bk-meta">Total · {formatDuration(data.durationMin)}</span>
         <strong>{money(data.priceCents)}</strong>
       </div>
-      <PrimaryButton {...action} />
+      <PrimaryButton key={action.formId ? "submit" : "next"} {...action} />
     </aside>
   );
 }
@@ -100,7 +106,7 @@ export function SummaryBar({ data, action }: { data: SummaryData; action: Action
           </>
         )}
       </div>
-      <PrimaryButton {...action} />
+      <PrimaryButton key={action.formId ? "submit" : "next"} {...action} />
     </div>
   );
 }

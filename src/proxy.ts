@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { buildCsp, createNonce } from "@/lib/csp";
 import { isPlatformHost, normalizeHostname } from "@/lib/hosts";
 
 /**
@@ -14,6 +15,9 @@ import { isPlatformHost, normalizeHostname } from "@/lib/hosts";
  *     → everything else is rewritten to /brosbab.com/<path>; the browser
  *       still shows brosbab.com and src/app/[site] serves the shop.
  *
+ * Every page also gets a Content-Security-Policy with a fresh script nonce
+ * (src/lib/csp.ts); Next.js adds the nonce to its own scripts.
+ *
  * /api/* is excluded by the matcher so the same API works on every host.
  */
 const PLATFORM_ONLY = /^\/(admin|login|forgot-password|reset-password)(\/|$)/;
@@ -23,9 +27,20 @@ export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const firstSegment = pathname.split("/")[1] ?? "";
 
+  const nonce = createNonce();
+  const https = (request.headers.get("x-forwarded-proto") ?? request.nextUrl.protocol.replace(":", "")) === "https";
+  const csp = buildCsp(nonce, { dev: process.env.NODE_ENV === "development", https });
+  const headers = new Headers(request.headers);
+  headers.set("x-nonce", nonce);
+  headers.set("Content-Security-Policy", csp);
+  const withCsp = (res: NextResponse) => {
+    res.headers.set("Content-Security-Policy", csp);
+    return res;
+  };
+
   if (isPlatformHost(host)) {
     if (firstSegment.includes(".")) return new NextResponse(null, { status: 404 });
-    return NextResponse.next();
+    return withCsp(NextResponse.next({ request: { headers } }));
   }
 
   if (PLATFORM_ONLY.test(pathname)) return new NextResponse(null, { status: 404 });
@@ -33,10 +48,11 @@ export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   url.pathname = `/${normalizeHostname(host)}${pathname === "/" ? "" : pathname}`;
   url.search = search;
-  return NextResponse.rewrite(url);
+  return withCsp(NextResponse.rewrite(url, { request: { headers } }));
 }
 
 export const config = {
-  // Skip API routes, Next internals and static files (anything with a file extension).
+  // Skip API routes, Next internals and static files (anything with a file
+  // extension). Prefetches must still run: custom domains need the rewrite.
   matcher: ["/((?!api|_next/static|_next/image|.*\\.[a-zA-Z0-9]+$).*)"],
 };

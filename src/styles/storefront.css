@@ -376,7 +376,7 @@
 }
 .hc-dots {
   display: flex;
-  gap: 2px;
+  gap: 0;
 }
 .hc-pause {
   width: 44px;

@@ -91,3 +91,44 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 7
+
+  lighthouse:
+    name: Lighthouse (performance & accessibility budgets)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: appointments
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/appointments
+      BETTER_AUTH_SECRET: lighthouse-secret-lighthouse-secret-1234
+      BETTER_AUTH_URL: http://localhost:3100
+      NEXT_PUBLIC_PLATFORM_URL: http://localhost:3100
+      PLATFORM_HOSTS: localhost,127.0.0.1
+      EMAIL_DRIVER: console
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm db:migrate && pnpm db:seed
+      - run: pnpm build
+      # Budgets live in lighthouserc.json (accessibility and SEO are hard gates).
+      - run: npx --yes @lhci/cli@0.15.1 autorun
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-report
+          path: lighthouse-report/
+          retention-days: 7

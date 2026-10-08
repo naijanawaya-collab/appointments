@@ -20,6 +20,39 @@ test.describe("security", () => {
     expect(h["x-powered-by"]).toBeUndefined();
   });
 
+  test("sends a nonce-based Content-Security-Policy that changes per request", async ({ request }) => {
+    const a = (await request.get("/kaiser")).headers()["content-security-policy"];
+    const b = (await request.get("/kaiser")).headers()["content-security-policy"];
+    expect(a).toMatch(/script-src 'self' 'nonce-[A-Za-z0-9+/=]+' 'strict-dynamic'/);
+    expect(a).not.toMatch(/script-src[^;]*'unsafe-inline'/);
+    expect(a).toContain("frame-ancestors 'self'");
+    expect(a).toContain("object-src 'none'");
+    expect(a).not.toBe(b);
+  });
+
+  test("every script carries the nonce and pages run without CSP violations", async ({ page }) => {
+    const violations: string[] = [];
+    page.on("console", (m) => {
+      if (/Content Security Policy|Refused to (load|execute|apply|frame)/i.test(m.text())) violations.push(m.text());
+    });
+    const res = await page.goto("/kaiser");
+    const nonce = res!.headers()["content-security-policy"].match(/'nonce-([^']+)'/)![1];
+    const scripts = await page.locator("script:not([type='application/ld+json'])").evaluateAll((els) =>
+      els.map((el) => (el as HTMLScriptElement).nonce),
+    );
+    expect(scripts.length).toBeGreaterThan(0);
+    expect(scripts.every((n) => n === nonce)).toBe(true);
+
+    // Interactive bits still work under the policy: menu, booking flow, landing.
+    await page.goto("/kaiser/book");
+    await expect(page.getByRole("heading", { name: "Choose services" })).toBeVisible();
+    await page.getByRole("button", { name: /Classic cut/ }).first().click();
+    await expect(page.getByRole("button", { name: "Continue" })).toBeEnabled();
+    await page.goto("/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    expect(violations).toEqual([]);
+  });
+
   test("blocks cross-site booking requests (CSRF)", async ({ request }) => {
     const res = await request.post("/api/businesses/00000000-0000-4000-8000-000000000000/bookings", {
       headers: { origin: "https://evil.example", "content-type": "application/json" },

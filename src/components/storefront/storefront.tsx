@@ -42,7 +42,7 @@ export function Storefront({ view: v }: { view: StorefrontView }) {
 
 function OpenStatus({ status, address }: { status: StorefrontView["status"]; address: string | null }) {
   return (
-    <span className="sf-status" data-reveal style={delay(320)}>
+    <span className="sf-status" data-rise style={delay(320)}>
       <span className="sf-status-open">
         <span className="open-dot" data-open={status.open} aria-hidden />
         <span>
@@ -90,19 +90,19 @@ function Hero({ v }: { v: StorefrontView }) {
         <div className="sf-scrim" />
         <div className="sf-hero-full-copy">
           {v.eyebrow && (
-            <span className="eyebrow" data-reveal>
+            <span className="eyebrow" data-rise>
               {v.eyebrow}
             </span>
           )}
-          <h1 className="sf-h1 display" data-reveal style={delay(80)}>
+          <h1 className="sf-h1 display" data-rise style={delay(80)}>
             {v.name}
           </h1>
           {v.tagline && (
-            <p className="sf-tagline" data-reveal style={delay(160)}>
+            <p className="sf-tagline" data-rise style={delay(160)}>
               {v.tagline}
             </p>
           )}
-          <div className="sf-actions" data-reveal style={delay(240)}>
+          <div className="sf-actions" data-rise style={delay(240)}>
             <Link href={v.links.book} className="btn btn-primary btn-lg">
               Book now
             </Link>
@@ -123,19 +123,19 @@ function Hero({ v }: { v: StorefrontView }) {
         <HeroCarousel slides={slides} />
         <div className="sf-hero-centered">
           {v.eyebrow && (
-            <span className="eyebrow" data-reveal>
+            <span className="eyebrow" data-rise>
               {v.eyebrow}
             </span>
           )}
-          <h1 className="sf-h1 display" data-reveal style={delay(80)}>
+          <h1 className="sf-h1 display" data-rise style={delay(80)}>
             {v.name}
           </h1>
           {v.tagline && (
-            <p className="sf-tagline" style={{ ...delay(160), maxWidth: "40ch" }} data-reveal>
+            <p className="sf-tagline" style={{ ...delay(160), maxWidth: "40ch" }} data-rise>
               {v.tagline}
             </p>
           )}
-          <Link href={v.links.book} className="btn btn-primary btn-lg" data-reveal style={delay(240)}>
+          <Link href={v.links.book} className="btn btn-primary btn-lg" data-rise style={delay(240)}>
             Book an appointment
           </Link>
         </div>
@@ -146,19 +146,19 @@ function Hero({ v }: { v: StorefrontView }) {
   const copy = (
     <div className="sf-hero-copy">
       {v.eyebrow && (
-        <span className="eyebrow" data-reveal style={delay(80)}>
+        <span className="eyebrow" data-rise style={delay(80)}>
           {v.eyebrow}
         </span>
       )}
-      <h1 className="sf-h1 display" lang="de" data-reveal style={delay(140)}>
+      <h1 className="sf-h1 display" lang="de" data-rise style={delay(140)}>
         {v.name}
       </h1>
       {v.tagline && (
-        <p className="sf-tagline" data-reveal style={delay(200)}>
+        <p className="sf-tagline" data-rise style={delay(200)}>
           {v.tagline}
         </p>
       )}
-      <div className="sf-actions" data-reveal style={delay(260)}>
+      <div className="sf-actions" data-rise style={delay(260)}>
         <Link href={v.links.book} className="btn btn-primary btn-lg">
           Book an appointment
           <ArrowRight size={18} aria-hidden />
@@ -183,7 +183,7 @@ function Hero({ v }: { v: StorefrontView }) {
 
   return (
     <section id="top" className="sf-hero-split">
-      <div className="sf-hero-media" data-reveal>
+      <div className="sf-hero-media" data-rise>
         <HeroImage img={slides[0]} sizes="(min-width: 900px) 50vw, 100vw" />
       </div>
       {copy}

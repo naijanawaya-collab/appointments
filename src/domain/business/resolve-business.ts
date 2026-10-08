@@ -2,7 +2,7 @@
  * Tenant resolution.
  *
  * The rest of the app never cares HOW a business was found – by slug on the
- * platform (/book/demo-barber) or by custom domain (brosbab.com). It just
+ * platform (/kaiser) or by custom domain (brosbab.com). It just
  * receives a `Business`.
  *
  * Domain layer rule: no React / Next.js imports in src/domain/**, so this code

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { connection } from "next/server";
 import { fontVariables } from "@/lib/fonts";
 import { PLATFORM_NAME } from "@/lib/platform";
 import "./globals.css";
@@ -14,7 +15,10 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Every page renders per request so Next.js can put this request's CSP
+  // nonce on its scripts (src/proxy.ts, src/lib/csp.ts).
+  await connection();
   return (
     <html lang="en" className={`${fontVariables} h-full`}>
       <body className="min-h-full flex flex-col">{children}</body>

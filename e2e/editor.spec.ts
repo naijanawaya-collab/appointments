@@ -110,7 +110,7 @@ test.describe("storefront editor", () => {
     await visitorCtx.close();
   });
 
-  test("draft previews are for owners only", async ({ page, browser, isMobile }) => {
+  test("draft previews are for owners only", async ({ browser, isMobile }) => {
     test.skip(isMobile, "HTTP checks run once.");
     // Signed out → sent to sign in, no draft cookie.
     const anon = await browser.newContext();

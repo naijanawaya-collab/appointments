@@ -1,0 +1,291 @@
+/*
+ * Platform landing page (SCREENS §5, screens/ld-*.jpg). Platform tokens
+ * (editorial preset); light/dark follow the visitor's device.
+ */
+
+.ld {
+  container-type: inline-size;
+  background: var(--background);
+  color: var(--foreground);
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+
+/* ── header ─────────────────────────────────────────────────────────── */
+.ld-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 68px;
+  padding: 0 var(--gutter);
+  background: color-mix(in oklab, var(--background) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.ld-wordmark {
+  font: 400 26px/1 var(--font-instrument-serif), Georgia, serif;
+  text-decoration: none;
+}
+.ld-nav {
+  display: none;
+  gap: 4px;
+  font-size: 14px;
+}
+.ld-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  color: var(--muted);
+  text-decoration: none;
+}
+.ld-nav a:hover {
+  color: var(--foreground);
+}
+@container (min-width: 900px) {
+  .ld-nav {
+    display: flex;
+  }
+}
+
+/* ── buttons ────────────────────────────────────────────────────────── */
+.ld-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 26px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 150ms,
+    border-color 150ms,
+    transform 100ms;
+}
+.ld-btn:active {
+  transform: scale(0.97);
+}
+.ld-btn-sm {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+.ld-btn-primary {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+.ld-btn-primary:hover {
+  background: var(--accent-hover);
+}
+.ld-btn-secondary {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 0 22px;
+}
+.ld-btn-secondary:hover {
+  border-color: var(--foreground);
+}
+
+/* ── hero ───────────────────────────────────────────────────────────── */
+.ld-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(16px, 2.4cqi, 28px);
+  padding: clamp(40px, 8cqi, 112px) var(--gutter) 0;
+  text-align: center;
+}
+.ld-eyebrow {
+  font: 500 12px var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ld-anchor {
+  scroll-margin-top: 80px;
+}
+.ld-h1 {
+  margin: 0;
+  max-width: 14ch;
+  font: 400 clamp(48px, 8.4cqi, 120px) / 0.95 var(--font-instrument-serif), Georgia, serif;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.ld-lead {
+  margin: 0;
+  max-width: 46ch;
+  font-size: clamp(17px, 1.7cqi, 21px);
+  line-height: 1.5;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.ld-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* phones: real storefront renders */
+.ld-phones {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: clamp(12px, 2.4cqi, 32px);
+  width: 100%;
+  margin-top: clamp(16px, 3cqi, 40px);
+  padding: 8px 8px 4px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  scroll-margin-top: 80px;
+}
+.ld-phone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  margin: 48px 0 0;
+  scroll-snap-align: center;
+}
+.ld-phone[data-raised="true"] {
+  margin-top: 0;
+}
+/* Centred when the row fits, fully scrollable when it doesn't (L-5).
+   (justify-content: center would make the first phone unreachable.) */
+.ld-phone:first-child {
+  margin-left: auto;
+}
+.ld-phone:last-child {
+  margin-right: auto;
+}
+.ld-phone-frame {
+  display: block;
+  width: clamp(180px, 22cqi, 280px);
+  aspect-ratio: 390 / 760;
+  overflow: hidden;
+  border-radius: 22px;
+  box-shadow:
+    0 0 0 6px var(--foreground),
+    0 24px 48px color-mix(in oklab, var(--foreground) 18%, transparent);
+  background: var(--surface);
+}
+.ld-phone-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ld-phone figcaption {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── sections ───────────────────────────────────────────────────────── */
+.ld-section {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4cqi, 56px);
+  padding: clamp(64px, 10cqi, 140px) var(--gutter);
+}
+.ld-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+}
+.ld-h2 {
+  margin: 0;
+  font: 400 clamp(36px, 5cqi, 64px) / 1 var(--font-instrument-serif), Georgia, serif;
+}
+.ld-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: clamp(16px, 3cqi, 40px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ld-steps li {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--foreground);
+}
+.ld-step-num {
+  font: 400 48px/1 var(--font-instrument-serif), Georgia, serif;
+  color: var(--accent-text);
+}
+.ld-steps strong,
+.ld-features strong {
+  font-size: 19px;
+  font-weight: 600;
+}
+.ld-steps span:last-child,
+.ld-features span {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.ld-band {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+.ld-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.ld-features li {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  background: var(--background);
+}
+.ld-features strong {
+  font-size: 17px;
+}
+.ld-closing {
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+.ld-closing-title {
+  max-width: 16ch;
+  font-size: clamp(40px, 6cqi, 80px);
+  text-wrap: balance;
+}
+
+/* ── footer ─────────────────────────────────────────────────────────── */
+.ld-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 24px var(--gutter);
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+}
+.ld-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-underline-offset: 3px;
+}
