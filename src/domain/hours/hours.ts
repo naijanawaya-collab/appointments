@@ -2,7 +2,7 @@
  * Opening hours, closures and "Open now" status. Pure; everything is computed
  * in the shop's timezone regardless of the server's or visitor's clock.
  */
-import { isoWeekday, localDateString } from "@/domain/availability/compute-slots";
+import { addDays, isoWeekday, localDateString } from "@/domain/availability/compute-slots";
 
 export type OpeningRow = { weekday: number; startTime: string; endTime: string };
 export type Closure = { startsOn: string; endsOn: string; label?: string | null };
@@ -27,11 +27,6 @@ export function weeklyHours(rows: OpeningRow[]): DayHours[] {
 
 export function formatRanges(ranges: [string, string][]): string {
   return ranges.length ? ranges.map(([a, b]) => `${a}–${b}`).join(" · ") : "Closed";
-}
-
-function addDays(date: string, n: number): string {
-  const [y, m, d] = date.split("-").map(Number);
-  return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
 }
 
 export function isClosureDay(date: string, closures: Closure[]): boolean {

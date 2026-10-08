@@ -85,6 +85,12 @@ export function daysBetween(a: string, b: string): number {
   );
 }
 
+/** "2026-10-08" + 1 → "2026-10-09" (calendar days, no timezone involved). */
+export function addDays(date: string, n: number): string {
+  const p = parseLocalDate(date)!;
+  return new Date(Date.UTC(p.year, p.month - 1, p.day + n)).toISOString().slice(0, 10);
+}
+
 /** Converts a wall-clock time on a local date to a UTC instant (DST-aware). */
 export function zonedDateTime(date: string, time: string, timezone: string): Date {
   const p = parseLocalDate(date);

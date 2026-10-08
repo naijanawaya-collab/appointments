@@ -36,6 +36,8 @@ export type AvailabilityQuery = {
   /** A specific professional, or "any" */
   staffId: string | "any";
   now?: Date;
+  /** Shop staff booking a walk-in or phone call: the online lead time doesn't apply. */
+  ignoreLeadTime?: boolean;
 };
 
 export type SelectedService = typeof services.$inferSelect;
@@ -175,7 +177,7 @@ export async function getAvailability(query: AvailabilityQuery): Promise<Availab
       timezone: business.timezone,
       now,
       slotIntervalMin: business.slotIntervalMin,
-      minLeadTimeMin: business.minLeadTimeMin,
+      minLeadTimeMin: query.ignoreLeadTime ? 0 : business.minLeadTimeMin,
       maxAdvanceDays: business.maxAdvanceDays,
       serviceDurationMin,
       blockDurationMin,

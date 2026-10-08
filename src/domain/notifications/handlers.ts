@@ -17,12 +17,17 @@ async function safely(label: string, fn: () => Promise<void>) {
   }
 }
 
-export async function onBookingCreated(bookingId: string, manageUrl: string) {
+type Audience = { customer?: boolean; owner?: boolean };
+
+/** Bookings the shop makes itself (walk-ins) don't email the shop. */
+export async function onBookingCreated(bookingId: string, manageUrl: string, notify: Audience = {}) {
+  const { customer = true, owner = true } = notify;
   const details = await getBookingDetails(bookingId);
   if (!details) return;
 
   await Promise.all([
-    details.customer.email &&
+    customer &&
+      details.customer.email &&
       safely("customer confirmation", () =>
         sendEmail({
           to: details.customer.email!,
@@ -30,16 +35,20 @@ export async function onBookingCreated(bookingId: string, manageUrl: string) {
           ...bookingConfirmationEmail(details, manageUrl),
         }),
       ),
-    details.business.email &&
+    owner &&
+      details.business.email &&
       safely("owner notification", () =>
         sendEmail({ to: details.business.email!, replyTo: details.customer.email ?? undefined, ...ownerNewBookingEmail(details) }),
       ),
   ]);
 }
 
-export async function onBookingCancelled(details: BookingDetails) {
+/** Cancelled by the shop: the customer is told (if the owner chose to), the shop isn't. */
+export async function onBookingCancelled(details: BookingDetails, notify: Audience = {}) {
+  const { customer = true, owner = true } = notify;
   await Promise.all([
-    details.customer.email &&
+    customer &&
+      details.customer.email &&
       safely("customer cancellation", () =>
         sendEmail({
           to: details.customer.email!,
@@ -47,7 +56,8 @@ export async function onBookingCancelled(details: BookingDetails) {
           ...bookingCancelledEmail(details, "customer"),
         }),
       ),
-    details.business.email &&
+    owner &&
+      details.business.email &&
       safely("owner cancellation", () =>
         sendEmail({ to: details.business.email!, ...bookingCancelledEmail(details, "owner") }),
       ),

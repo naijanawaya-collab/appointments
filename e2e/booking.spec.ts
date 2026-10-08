@@ -132,9 +132,12 @@ test.describe("booking flow", () => {
   test("booking steps have no accessibility violations", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/lune/book");
+    // The flow renders client-side: audit the step, not the loading skeleton.
+    await expect(page.getByRole("heading", { name: "Choose services" })).toBeVisible();
     await expectNoA11yViolations(page, "services");
     await page.getByRole("button", { name: /manicure/i }).first().click();
     await continueBtn(page).click();
+    await expect(page.getByRole("heading", { name: "Choose a professional" })).toBeVisible();
     await expectNoA11yViolations(page, "staff");
     await continueBtn(page).click();
     await pickFirstSlot(page);

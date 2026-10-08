@@ -23,6 +23,7 @@ export const RESERVED_SLUGS = new Set([
   "robots.txt",
   "signup",
   "sitemap.xml",
+  "shops",
   "sites",
   "static",
   "terms",

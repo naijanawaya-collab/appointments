@@ -1,25 +1,11 @@
-import Link from "next/link";
-import { requireSession } from "@/lib/session";
-import { SignOutButton } from "./sign-out-button";
+import type { Metadata } from "next";
+import { requireUser } from "@/lib/authz";
+import "@/styles/admin.css";
 
-/** Everything under /admin requires a signed-in user. */
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
+/** Everything under /admin requires a signed-in user (per-shop checks happen in [shop]/layout). */
 export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
-  const session = await requireSession();
-
-  return (
-    <div className="flex flex-1 flex-col">
-      <header className="border-b border-line bg-surface">
-        <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-3">
-          <Link href="/admin" className="font-semibold">
-            Admin
-          </Link>
-          <div className="flex items-center gap-4 text-sm">
-            <span className="text-muted">{session.user.email}</span>
-            <SignOutButton />
-          </div>
-        </div>
-      </header>
-      <div className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</div>
-    </div>
-  );
+  await requireUser();
+  return <div className="ad-root">{children}</div>;
 }

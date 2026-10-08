@@ -210,7 +210,7 @@ describe("notifications", () => {
 
     expect(outbox.map((m) => m.to).sort()).toEqual(["owner@shop.test", "x@example.com"]);
     const customerMail = outbox.find((m) => m.to === "x@example.com")!;
-    expect(customerMail.subject).toContain("Booking confirmed");
+    expect(customerMail.subject).toBe("Booked: Haircut at Shop test-shop, Tue 6 Oct, 09:00");
     expect(customerMail.html).toContain("https://shop.test/manage/abc");
     expect(customerMail.html).not.toContain("<script>");
     expect(customerMail.html).toContain("&lt;script&gt;");
@@ -226,6 +226,6 @@ describe("notifications", () => {
     outbox.length = 0;
     await onBookingCancelled(await cancelBookingByToken(manageToken, { now: NOW }));
     expect(outbox).toHaveLength(1);
-    expect(outbox[0].subject).toContain("cancelled");
+    expect(outbox[0].subject).toMatch(/^Cancelled: Haircut/);
   });
 });

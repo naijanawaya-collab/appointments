@@ -7,7 +7,11 @@ export type DomainErrorCode =
   | "SLOT_UNAVAILABLE"
   | "BOOKING_NOT_FOUND"
   | "CANCELLATION_CLOSED"
-  | "INVALID_STATUS";
+  | "INVALID_STATUS"
+  | "INVALID_INPUT"
+  | "NOT_FOUND"
+  | "FORBIDDEN"
+  | "CONFLICT";
 
 export class DomainError extends Error {
   constructor(
@@ -34,3 +38,5 @@ export function pgErrorCode(error: unknown): string | undefined {
 
 /** SQLSTATE raised by the bookings_no_overlap_per_staff exclusion constraint. */
 export const PG_EXCLUSION_VIOLATION = "23P01";
+export const PG_UNIQUE_VIOLATION = "23505";
+export const PG_FOREIGN_KEY_VIOLATION = "23503";

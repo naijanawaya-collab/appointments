@@ -25,6 +25,10 @@ const STATUS: Record<DomainErrorCode, number> = {
   BOOKING_NOT_FOUND: 404,
   CANCELLATION_CLOSED: 409,
   INVALID_STATUS: 409,
+  INVALID_INPUT: 422,
+  NOT_FOUND: 404,
+  FORBIDDEN: 403,
+  CONFLICT: 409,
 };
 
 /** Consistent JSON error shape: { error: { code, message } } */

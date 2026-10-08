@@ -49,6 +49,9 @@ export default defineConfig({
       EMAIL_DRIVER: "console",
       // The suite books many slots from one IP; production keeps the default (10).
       RATE_LIMIT_BOOKINGS: "200",
+      AUTH_RATE_LIMIT: "off",
+      // The seeded admin is also a platform operator (creates shops in admin.spec.ts).
+      PLATFORM_ADMIN_EMAILS: "e2e-admin@example.com",
     },
   },
 });

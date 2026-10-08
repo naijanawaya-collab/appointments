@@ -42,3 +42,13 @@ export function shortDate(date: Date, timeZone: string): string {
   const p = parts(date, timeZone, { weekday: "short", day: "numeric", month: "short" });
   return `${p.weekday} ${p.day} ${p.month}`;
 }
+
+/** "Thursday" / "8 October" for a local "YYYY-MM-DD" (admin day header). */
+export function dayHeading(date: string): { weekday: string; dayMonth: string } {
+  const d = new Date(`${date}T12:00:00Z`);
+  const p = parts(d, "UTC", { weekday: "long", day: "numeric", month: "long" });
+  return { weekday: p.weekday, dayMonth: `${p.day} ${p.month}` };
+}
+
+/** "Europe/Vienna" → "Vienna time" */
+export const zoneLabel = (timeZone: string) => `${(timeZone.split("/").pop() ?? timeZone).replaceAll("_", " ")} time`;

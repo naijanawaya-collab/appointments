@@ -16,7 +16,7 @@ import { db } from "@/db";
 import { bookingServices, bookings, customers } from "@/db/schema";
 import { getAvailability } from "@/domain/availability/get-availability";
 import { localDateString, localDayRange } from "@/domain/availability/compute-slots";
-import { DomainError, PG_EXCLUSION_VIOLATION, pgErrorCode } from "@/domain/errors";
+import { DomainError, PG_EXCLUSION_VIOLATION, PG_UNIQUE_VIOLATION, pgErrorCode } from "@/domain/errors";
 import { ACTIVE_STATUSES } from "./status";
 import { manageTokenFor } from "./tokens";
 
@@ -27,11 +27,14 @@ export type CreateBookingInput = {
   staffId: string | "any";
   /** ISO instant of the chosen slot */
   startsAt: string;
-  customer: { name: string; email: string; phone?: string | null };
+  /** Email is optional for walk-ins and phone bookings made by the shop. */
+  customer: { name: string; email?: string | null; phone?: string | null };
   customerNote?: string | null;
   source?: "online" | "admin" | "walk_in";
   /** Client-generated key; a retried request with the same key returns the same booking (B-18). */
   idempotencyKey?: string;
+  /** Bookings made by the shop itself skip the online lead time. */
+  ignoreLeadTime?: boolean;
   now?: Date;
 };
 
@@ -44,8 +47,6 @@ export type CreateBookingResult = {
   /** True when this was a retry of an earlier identical request. */
   replayed?: boolean;
 };
-
-const PG_UNIQUE_VIOLATION = "23505";
 
 async function findByIdempotencyKey(businessId: string, key: string): Promise<CreateBookingResult | null> {
   const [row] = await db
@@ -96,6 +97,7 @@ export async function createBooking(input: CreateBookingInput): Promise<CreateBo
     serviceIds: input.serviceIds,
     staffId: input.staffId,
     now,
+    ignoreLeadTime: input.ignoreLeadTime,
   });
   const slot = availability.slots.find((s) => s.start === startsAt.toISOString());
   if (!slot) {
@@ -104,7 +106,7 @@ export async function createBooking(input: CreateBookingInput): Promise<CreateBo
 
   const endsAt = new Date(startsAt.getTime() + availability.blockDurationMin * 60_000);
   const totalPriceCents = availability.services.reduce((sum, s) => sum + s.priceCents, 0);
-  const email = input.customer.email.trim().toLowerCase();
+  const email = input.customer.email?.trim().toLowerCase() || null;
   const candidates =
     input.staffId === "any"
       ? await leastBookedFirst(input.businessId, slot.staffIds, localDayRange(localDateString(startsAt, input.timezone), input.timezone))

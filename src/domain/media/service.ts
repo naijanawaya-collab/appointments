@@ -75,3 +75,10 @@ export async function deleteMedia(businessId: string, mediaId: string): Promise<
   if (!row) throw new DomainError("INVALID_SELECTION", "Photo not found.");
   return row.provider === "cloudinary" ? row.publicId : null;
 }
+
+/** One photo as the UI renders it (null when missing or another shop's). */
+export async function getMediaView(businessId: string, mediaId: string | null) {
+  if (!mediaId) return null;
+  const [row] = await db.select().from(media).where(and(eq(media.id, mediaId), eq(media.businessId, businessId)));
+  return row ? toMediaView(row) : null;
+}
