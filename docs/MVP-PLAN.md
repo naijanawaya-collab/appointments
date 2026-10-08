@@ -539,14 +539,21 @@ boot by `src/lib/env.ts`.
 
 ---
 
-## 7. Decisions needed from you
+## 7. Decisions (answered 8 Oct 2026)
 
-1. **Sending domain for email.** Buy a platform domain now (recommended: needed for
-   Resend, and gives you `app.<domain>` for the admin), or send from your brother's
-   domain at first?
-2. **Admin location.** Is the `*.vercel.app` URL fine for the admin until you have a
-   platform domain?
-3. **Demo shops.** Keep Kaiser / FADE/LAB / Lune live on production as demos (the
-   landing page links to them), or only on staging?
-4. **Your brother's shop.** Name, slug, preferred preset, and whether his domain is
-   already bought. This lets M4 seed it for real.
+1. **Platform domain:** buying one (name TBD). Layout:
+   - `<domain>` = landing page.
+   - `app.<domain>` = admin + sign-in (Better Auth cookie scoped here).
+   - `mail.<domain>` = Resend sending subdomain (SPF/DKIM/DMARC records only).
+2. **Email sender:** platform domain by default, branded per shop:
+   `From: "<Shop short name>" <bookings@mail.<domain>>`, `Reply-To: <shop email>`.
+   Customers see the shop's name, and replies go to the shop. Optional per-shop sending
+   domain (e.g. `mail.mbacutzhairstudio.com`) is a later feature. Needs Resend Pro,
+   because the free plan allows 1 domain.
+3. **Demo shops:** Kaiser, FADE/LAB and Lune stay live in production as examples until
+   removed.
+4. **First real shop:** Mba Cutz Hair Studio, domain `mbacutzhairstudio.com` (already
+   owned, currently hosting an old booking site). At cutover, change only the
+   website records (A/CNAME for apex + `www`) to Vercel. **Keep MX/TXT email records
+   untouched** so his email keeps working. Import services/prices/photos from the old
+   site during M4.
