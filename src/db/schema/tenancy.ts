@@ -7,35 +7,59 @@
 import {
   boolean,
   char,
+  doublePrecision,
+  index,
   integer,
   pgEnum,
   pgTable,
+  real,
   text,
   timestamp,
   uniqueIndex,
   uuid,
-  index,
 } from "drizzle-orm/pg-core";
 import { user } from "./auth";
 
 const tz = { withTimezone: true } as const;
 
+export const businessCategory = pgEnum("business_category", ["barber", "beauty", "other"]);
+
 export const businesses = pgTable("businesses", {
   id: uuid().primaryKey().defaultRandom(),
+  /** Full name, e.g. "Kaiser & Co. Gentlemen's Barbers" */
   name: text().notNull(),
-  /** Used for the platform URL: /book/[slug] */
+  /** Header / email sender name, e.g. "Kaiser & Co." */
+  shortName: text(),
+  /** Monogram used when there is no logo */
+  mark: text(),
+  /** Used for the platform URL: /[slug] */
   slug: text().notNull().unique(),
+  category: businessCategory().notNull().default("barber"),
   /** IANA zone, e.g. "Europe/Vienna". All slot maths happens in this zone. */
   timezone: text().notNull().default("Europe/Vienna"),
   /** ISO 4217, e.g. "EUR" */
   currency: char({ length: 3 }).notNull().default("EUR"),
   locale: text().notNull().default("de-AT"),
 
+  // Contact & location
   email: text(),
   phone: text(),
   address: text(),
+  lat: doublePrecision(),
+  lon: doublePrecision(),
+  instagram: text(),
+  tiktok: text(),
+  /** Phone number used for wa.me links; falls back to `phone` */
+  whatsapp: text(),
+
+  // Storefront copy
   description: text(),
-  logoUrl: text(),
+  eyebrow: text(),
+  tagline: text(),
+  about: text(),
+  aboutTitle: text(),
+  ratingValue: real(),
+  ratingCount: integer(),
 
   // Booking rules (business-wide defaults)
   slotIntervalMin: integer().notNull().default(15),
@@ -54,7 +78,6 @@ export const businesses = pgTable("businesses", {
 /**
  * Custom domains. A separate table (not a column) so a business can have
  * both `brosbab.com` and `www.brosbab.com`, or move domains later.
- * Domains are added manually for now: insert a row + add the domain in Vercel.
  */
 export const businessDomains = pgTable(
   "business_domains",
@@ -66,6 +89,8 @@ export const businessDomains = pgTable(
     /** Lowercase hostname without port, e.g. "brosbab.com" */
     hostname: text().notNull(),
     isPrimary: boolean().notNull().default(false),
+    /** Set once DNS points at the platform and the hosting provider verified it */
+    verifiedAt: timestamp(tz),
     createdAt: timestamp(tz).notNull().defaultNow(),
   },
   (t) => [uniqueIndex().on(t.hostname), index().on(t.businessId)],

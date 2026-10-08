@@ -1,38 +1,38 @@
 /**
- * Public catalog for a business: active services, active staff, and which
- * staff member can perform which service. Everything the booking flow's
- * first two steps (pick services -> pick professional) needs.
+ * Public catalog for a business: ordered categories, active services and
+ * staff (with images), and which staff member performs which service.
  */
 import { and, asc, eq, inArray } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { db } from "@/db";
-import { services, staff, staffServices } from "@/db/schema";
+import { media, serviceCategories, services, staff, staffServices } from "@/db/schema";
+import { toMediaView, type MediaRow } from "@/domain/media/image";
 import type { Catalog } from "./selection";
 
-export type { Catalog, CatalogService, CatalogStaff } from "./selection";
+export type { Catalog, CatalogCategory, CatalogService, CatalogStaff } from "./selection";
+
+const serviceImage = alias(media, "service_image");
+const staffPhoto = alias(media, "staff_photo");
+
+const view = (row: MediaRow | null) => (row?.id ? toMediaView(row) : null);
 
 export async function getCatalog(businessId: string): Promise<Catalog> {
-  const [serviceRows, staffRows] = await Promise.all([
+  const [categoryRows, serviceRows, staffRows] = await Promise.all([
     db
-      .select({
-        id: services.id,
-        name: services.name,
-        description: services.description,
-        category: services.category,
-        durationMin: services.durationMin,
-        priceCents: services.priceCents,
-      })
+      .select({ id: serviceCategories.id, name: serviceCategories.name })
+      .from(serviceCategories)
+      .where(eq(serviceCategories.businessId, businessId))
+      .orderBy(asc(serviceCategories.position), asc(serviceCategories.name)),
+    db
+      .select({ service: services, image: serviceImage })
       .from(services)
+      .leftJoin(serviceImage, eq(serviceImage.id, services.imageMediaId))
       .where(and(eq(services.businessId, businessId), eq(services.isActive, true)))
       .orderBy(asc(services.sortOrder), asc(services.name)),
     db
-      .select({
-        id: staff.id,
-        displayName: staff.displayName,
-        title: staff.title,
-        bio: staff.bio,
-        photoUrl: staff.photoUrl,
-      })
+      .select({ staff, photo: staffPhoto })
       .from(staff)
+      .leftJoin(staffPhoto, eq(staffPhoto.id, staff.photoMediaId))
       .where(and(eq(staff.businessId, businessId), eq(staff.isActive, true)))
       .orderBy(asc(staff.sortOrder), asc(staff.displayName)),
   ]);
@@ -44,15 +44,28 @@ export async function getCatalog(businessId: string): Promise<Catalog> {
         .where(
           inArray(
             staffServices.staffId,
-            staffRows.map((s) => s.id),
+            staffRows.map((s) => s.staff.id),
           ),
         )
     : [];
 
   return {
-    services: serviceRows,
-    staff: staffRows.map((s) => ({
-      ...s,
+    categories: categoryRows,
+    services: serviceRows.map(({ service: s, image }) => ({
+      id: s.id,
+      name: s.name,
+      description: s.description,
+      categoryId: s.categoryId,
+      durationMin: s.durationMin,
+      priceCents: s.priceCents,
+      image: view(image),
+    })),
+    staff: staffRows.map(({ staff: s, photo }) => ({
+      id: s.id,
+      displayName: s.displayName,
+      title: s.title,
+      bio: s.bio,
+      photo: view(photo),
       serviceIds: links.filter((l) => l.staffId === s.id).map((l) => l.serviceId),
     })),
   };

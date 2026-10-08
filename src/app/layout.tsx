@@ -1,24 +1,23 @@
-import type { Metadata } from "next";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
-import { Providers } from "@/components/providers";
+import type { Metadata, Viewport } from "next";
+import { fontVariables } from "@/lib/fonts";
+import { PLATFORM_NAME } from "@/lib/platform";
 import "./globals.css";
 
-// Fonts are bundled from the `geist` package (no build-time call to Google Fonts).
 export const metadata: Metadata = {
-  title: { default: "Appointments", template: "%s · Appointments" },
+  title: { default: PLATFORM_NAME, template: `%s · ${PLATFORM_NAME}` },
   description: "Online booking for barbershops and appointment-based businesses.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <Providers>{children}</Providers>
-      </body>
+    <html lang="en" className={`${fontVariables} h-full`}>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

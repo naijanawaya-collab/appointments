@@ -1,0 +1,83 @@
+/*
+ * Design tokens that never change per shop (from docs/designs/tokens/tokens.css):
+ * type scale, space scale, layout, motion. Colours, fonts and radii are set
+ * per shop by the server (src/domain/theme/render.ts). The values below are
+ * the platform ("editorial") defaults used by the landing page and admin.
+ */
+:root {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --step--1: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-0: clamp(1rem, 0.98rem + 0.1vw, 1.0625rem);
+  --step-1: clamp(1.125rem, 1.08rem + 0.2vw, 1.25rem);
+  --step-2: clamp(1.375rem, 1.25rem + 0.55vw, 1.75rem);
+  --step-3: clamp(1.75rem, 1.45rem + 1.3vw, 2.75rem);
+  --step-4: clamp(2.25rem, 1.7rem + 2.4vw, 4rem);
+  --step-5: clamp(3rem, 2rem + 4.4vw, 6.5rem);
+
+  --page-max: 1280px;
+  --gutter: clamp(16px, 4cqi, 48px);
+  --section-y: clamp(48px, 8cqi, 120px);
+  --measure: 62ch;
+  --tap: 44px;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --open-dot: #2fa05a;
+
+  /* Platform defaults (editorial preset, light). */
+  --font-display: var(--font-instrument-serif), Georgia, serif;
+  --display-weight: 400;
+  --display-transform: none;
+  --display-tracking: -0.01em;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --btn-radius: 10px;
+  --btn-transform: none;
+  --background: #f6f3ee;
+  --foreground: #1d1a17;
+  --surface: #fffdfa;
+  --muted: #6b6259;
+  --line: #e3dcd1;
+  --accent: #a8431f;
+  --accent-foreground: #fffdfa;
+  --accent-hover: #923a1b;
+  --accent-pressed: #7c3117;
+  --accent-subtle: #f3e3da;
+  --accent-text: #a8431f;
+  --secondary: #1d1a17;
+  --danger: #b42318;
+  --success: #2f6b3a;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #14120f;
+    --foreground: #f1ece4;
+    --surface: #1d1a16;
+    --muted: #a59c90;
+    --line: #332d27;
+    --accent: #e2805a;
+    --accent-foreground: #14120f;
+    --accent-hover: #e9956f;
+    --accent-pressed: #d26d47;
+    --accent-subtle: #33231b;
+    --accent-text: #e2805a;
+    --secondary: #f1ece4;
+    --danger: #f97066;
+    --success: #7fc48c;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

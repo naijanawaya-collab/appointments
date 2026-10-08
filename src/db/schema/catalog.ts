@@ -14,6 +14,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { user } from "./auth";
+import { media } from "./media";
 import { businesses } from "./tenancy";
 
 const tz = { withTimezone: true } as const;
@@ -31,7 +32,7 @@ export const staff = pgTable(
     displayName: text().notNull(),
     title: text(),
     bio: text(),
-    photoUrl: text(),
+    photoMediaId: uuid().references(() => media.id, { onDelete: "set null" }),
     sortOrder: integer().notNull().default(0),
     isActive: boolean().notNull().default(true),
     createdAt: timestamp(tz).notNull().defaultNow(),
@@ -43,6 +44,20 @@ export const staff = pgTable(
   (t) => [index().on(t.businessId)],
 );
 
+/** Ordered service groups ("Haircuts", "Beard & shave"…). */
+export const serviceCategories = pgTable(
+  "service_categories",
+  {
+    id: uuid().primaryKey().defaultRandom(),
+    businessId: uuid()
+      .notNull()
+      .references(() => businesses.id, { onDelete: "cascade" }),
+    name: text().notNull(),
+    position: integer().notNull().default(0),
+  },
+  (t) => [index().on(t.businessId)],
+);
+
 export const services = pgTable(
   "services",
   {
@@ -50,14 +65,15 @@ export const services = pgTable(
     businessId: uuid()
       .notNull()
       .references(() => businesses.id, { onDelete: "cascade" }),
+    categoryId: uuid().references(() => serviceCategories.id, { onDelete: "set null" }),
     name: text().notNull(),
     description: text(),
-    category: text(),
     durationMin: integer().notNull(),
     /** Cleanup time blocked after the service; not shown to the customer. */
     bufferMin: integer().notNull().default(0),
     /** Money is always stored in minor units (cents). */
     priceCents: integer().notNull(),
+    imageMediaId: uuid().references(() => media.id, { onDelete: "set null" }),
     sortOrder: integer().notNull().default(0),
     isActive: boolean().notNull().default(true),
     createdAt: timestamp(tz).notNull().defaultNow(),

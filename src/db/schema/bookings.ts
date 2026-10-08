@@ -85,6 +85,8 @@ export const bookings = pgTable(
     internalNote: text(),
     /** SHA-256 of the "manage my booking" token sent by email (never store the raw token). */
     manageTokenHash: text().unique(),
+    /** Client-generated key so a double-submitted form creates only one booking. */
+    idempotencyKey: text(),
     cancelledAt: timestamp(tz),
     cancellationReason: text(),
     createdAt: timestamp(tz).notNull().defaultNow(),
@@ -97,6 +99,7 @@ export const bookings = pgTable(
     index().on(t.businessId, t.startsAt),
     index().on(t.staffId, t.startsAt),
     index().on(t.customerId),
+    uniqueIndex("bookings_idempotency_unique").on(t.businessId, t.idempotencyKey),
     check("bookings_end_after_start", sql`${t.endsAt} > ${t.startsAt}`),
   ],
 );

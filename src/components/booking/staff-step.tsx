@@ -19,7 +19,7 @@ export function StaffStep({ staff, selected, onSelect }: Props) {
   }
 
   const options = [
-    { id: "any" as const, displayName: "Any professional", title: "Most availability", photoUrl: null },
+    { id: "any" as const, displayName: "Any professional", title: "Most availability", photo: null },
     ...staff,
   ];
 
@@ -38,9 +38,9 @@ export function StaffStep({ staff, selected, onSelect }: Props) {
               isOn ? "border-accent ring-1 ring-accent" : "border-line hover:border-muted"
             }`}
           >
-            {p.photoUrl ? (
+            {p.photo ? (
               // eslint-disable-next-line @next/next/no-img-element -- remote staff photos; switch to next/image once a storage domain is configured
-              <img src={p.photoUrl} alt="" className="mb-3 size-12 rounded-full object-cover" loading="lazy" />
+              <img src={p.photo.src} alt="" className="mb-3 size-12 rounded-full object-cover" loading="lazy" />
             ) : (
               <span
                 aria-hidden

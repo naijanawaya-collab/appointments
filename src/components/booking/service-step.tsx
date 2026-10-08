@@ -1,6 +1,6 @@
 "use client";
 
-import type { Catalog } from "@/domain/catalog/selection";
+import { groupByCategory, type Catalog } from "@/domain/catalog/selection";
 import { formatDuration, formatMoney } from "@/lib/format";
 
 type Props = {
@@ -17,11 +17,7 @@ export function ServiceStep({ catalog, selected, currency, locale, onToggle }: P
     return <p className="text-muted">No services are bookable online yet.</p>;
   }
 
-  const groups = new Map<string, Catalog["services"]>();
-  for (const s of catalog.services) {
-    const key = s.category ?? "Services";
-    groups.set(key, [...(groups.get(key) ?? []), s]);
-  }
+  const groups = new Map(groupByCategory(catalog).map((g) => [g.category.name, g.services] as const));
 
   return (
     <div className="space-y-6">

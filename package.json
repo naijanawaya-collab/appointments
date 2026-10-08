@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint && node scripts/check-colors.mjs",
     "typecheck": "next typegen && tsc --noEmit",
     "db:up": "docker compose up -d --wait",
     "db:down": "docker compose down",
@@ -33,6 +33,7 @@
     "date-fns": "^4.4.0",
     "drizzle-orm": "^0.45.3",
     "geist": "^1.7.2",
+    "lucide-react": "^1.53.0",
     "next": "16.3.8",
     "postgres": "^3.4.9",
     "react": "19.2.8",
@@ -43,6 +44,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@next/env": "^16.3.8",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
@@ -62,7 +64,8 @@
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5",
-    "vitest": "^5.0.3"
+    "vitest": "^5.0.3",
+    "vitest-axe": "^0.1.0"
   },
   "packageManager": "pnpm@10.28.0",
   "engines": {

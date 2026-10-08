@@ -20,13 +20,14 @@ const ANNA = "44444444-4444-4444-8444-444444444444";
 const BEN = "55555555-5555-4555-8555-555555555555";
 
 const catalog: Catalog = {
+  categories: [],
   services: [
-    { id: HAIRCUT, name: "Haircut", description: null, category: null, durationMin: 30, priceCents: 2500 },
-    { id: BEARD, name: "Beard trim", description: null, category: null, durationMin: 20, priceCents: 1500 },
+    { id: HAIRCUT, name: "Haircut", description: null, categoryId: null, image: null, durationMin: 30, priceCents: 2500 },
+    { id: BEARD, name: "Beard trim", description: null, categoryId: null, image: null, durationMin: 20, priceCents: 1500 },
   ],
   staff: [
-    { id: ANNA, displayName: "Anna", title: "Owner", bio: null, photoUrl: null, serviceIds: [HAIRCUT, BEARD] },
-    { id: BEN, displayName: "Ben", title: null, bio: null, photoUrl: null, serviceIds: [HAIRCUT] },
+    { id: ANNA, displayName: "Anna", title: "Owner", bio: null, photo: null, serviceIds: [HAIRCUT, BEARD] },
+    { id: BEN, displayName: "Ben", title: null, bio: null, photo: null, serviceIds: [HAIRCUT] },
   ],
 };
 
