@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { E2E_CLOUDINARY_SECRET } from "./e2e/cloudinary-mock";
 
 const PORT = Number(process.env.E2E_PORT ?? 3100);
 const E2E_DATABASE_URL =
@@ -52,6 +53,11 @@ export default defineConfig({
       AUTH_RATE_LIMIT: "off",
       // The seeded admin is also a platform operator (creates shops in admin.spec.ts).
       PLATFORM_ADMIN_EMAILS: "e2e-admin@example.com",
+      // Uploads go to a fake Cloudinary that the editor spec intercepts and signs
+      // with this secret, exercising our real signature verification.
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "e2e-cloud",
+      CLOUDINARY_API_KEY: "e2e-key",
+      CLOUDINARY_API_SECRET: E2E_CLOUDINARY_SECRET,
     },
   },
 });

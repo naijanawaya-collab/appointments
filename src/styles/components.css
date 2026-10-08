@@ -245,3 +245,73 @@ textarea.field-input {
   background: var(--foreground);
   color: var(--background);
 }
+.preview-banner a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Inside the editor's preview frame the editor itself says "draft". */
+[data-embedded="true"] .preview-banner {
+  display: none;
+}
+
+/* Modal dialog (components/ui/dialog.tsx, native <dialog>) */
+.ui-dialog {
+  width: min(100vw - 24px, 560px);
+  max-height: min(100dvh - 24px, 900px);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--foreground);
+  box-shadow: 0 30px 80px color-mix(in oklab, var(--foreground) 30%, transparent);
+}
+.ui-dialog-sm {
+  width: min(100vw - 24px, 420px);
+}
+.ui-dialog-lg {
+  width: min(100vw - 24px, 920px);
+}
+.ui-dialog::backdrop {
+  background: color-mix(in oklab, var(--foreground) 45%, transparent);
+}
+.ui-dialog[open] .ui-dialog-panel {
+  animation: mb-in 200ms var(--ease-out);
+}
+.ui-dialog-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: inherit;
+}
+.ui-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 10px 10px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.ui-dialog-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+.ui-dialog-body {
+  padding: 18px 20px;
+  overflow-y: auto;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.ui-dialog-body > p {
+  margin: 0;
+}
+.ui-dialog-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}

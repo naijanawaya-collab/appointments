@@ -111,3 +111,14 @@ export function publishIssues(config: StorefrontConfig, altByMediaId: Map<string
   }
   return issues;
 }
+
+/** A config with every reference to `mediaId` removed. Pure. */
+export function withoutMedia(config: StorefrontConfig, mediaId: string): StorefrontConfig {
+  return {
+    ...config,
+    hero: { ...config.hero, mediaIds: config.hero.mediaIds.filter((m) => m !== mediaId) },
+    gallery: config.gallery.filter((m) => m !== mediaId),
+    aboutMediaId: config.aboutMediaId === mediaId ? null : config.aboutMediaId,
+    logoMediaId: config.logoMediaId === mediaId ? null : config.logoMediaId,
+  };
+}

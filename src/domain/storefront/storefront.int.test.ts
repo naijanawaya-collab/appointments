@@ -6,7 +6,7 @@ import * as s from "@/db/schema";
 import { createMediaFromUpload, deleteMedia, listMedia, updateMedia } from "@/domain/media/service";
 import { createShop, resetDb, type Shop } from "../../../tests/support/fixtures";
 import { defaultConfig } from "./config";
-import { discardDraft, getDraftConfig, getStorefront, publishDraft, saveDraft } from "./service";
+import { discardDraft, getDraftConfig, getStorefront, publishDraft, removeMediaReferences, saveDraft } from "./service";
 
 let shop: Shop;
 let userId: string;
@@ -102,6 +102,33 @@ describe("draft & publish", () => {
     await publishDraft(shop.business.id, userId);
     await deleteMedia(shop.business.id, m.id);
     expect((await getStorefront(shop.business.id))?.config.gallery).toEqual([]);
+  });
+
+  it("deleting a photo removes it from the draft and the live page, so later saves still work", async () => {
+    const keep = await createMediaFromUpload(shop.business.id, upload(shop.business.id, "keep"), "Chair");
+    const gone = await createMediaFromUpload(shop.business.id, upload(shop.business.id, "gone"), "Mirror");
+    const config = { ...defaultConfig(), hero: { layout: "split" as const, mediaIds: [gone.id, keep.id] }, gallery: [keep.id, gone.id], logoMediaId: gone.id, aboutMediaId: gone.id };
+    await saveDraft(shop.business.id, userId, config);
+    await publishDraft(shop.business.id, userId);
+
+    await deleteMedia(shop.business.id, gone.id);
+    await removeMediaReferences(shop.business.id, gone.id);
+
+    const { draft, published } = await getDraftConfig(shop.business.id);
+    for (const c of [draft, published]) {
+      expect(c.hero.mediaIds).toEqual([keep.id]);
+      expect(c.gallery).toEqual([keep.id]);
+      expect(c.logoMediaId).toBeNull();
+      expect(c.aboutMediaId).toBeNull();
+    }
+    // The stored draft is valid again: saving it (as the editor does next) succeeds.
+    await expect(saveDraft(shop.business.id, userId, { ...draft, accent: "#123456" })).resolves.toMatchObject({ accent: "#123456" });
+  });
+
+  it("refuses a draft that points at another shop's photo", async () => {
+    const other = await createShop({ slug: "other-shop" });
+    const foreign = await createMediaFromUpload(other.business.id, upload(other.business.id, "theirs"), "x");
+    await expect(saveDraft(shop.business.id, userId, { ...defaultConfig(), gallery: [foreign.id] })).rejects.toThrow(/don't belong/);
   });
 
   it("returns null for inactive shops", async () => {

@@ -27,3 +27,25 @@ afterEach(() => {
   localStorage.clear();
   window.history.replaceState(null, "", "/");
 });
+
+// jsdom gaps used by the storefront editor: <dialog>, ResizeObserver, scrollIntoView.
+if (typeof HTMLDialogElement !== "undefined" && !HTMLDialogElement.prototype.showModal) {
+  HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
+    this.setAttribute("open", "");
+  };
+  HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement) {
+    this.removeAttribute("open");
+    this.dispatchEvent(new Event("close"));
+  };
+}
+if (!("ResizeObserver" in window)) {
+  Object.defineProperty(window, "ResizeObserver", {
+    writable: true,
+    value: class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  });
+}
+if (!Element.prototype.scrollIntoView) Element.prototype.scrollIntoView = () => {};

@@ -16,7 +16,7 @@ import {
 } from "@/db/schema";
 import { getCatalog } from "@/domain/catalog/get-catalog";
 import { toMediaView, type MediaView } from "@/domain/media/image";
-import { defaultConfig, parseConfig, publishIssues, storefrontConfigSchema, type StorefrontConfig } from "./config";
+import { defaultConfig, parseConfig, publishIssues, storefrontConfigSchema, withoutMedia, type StorefrontConfig } from "./config";
 import { DomainError } from "@/domain/errors";
 
 export type StorefrontBusiness = Pick<
@@ -219,6 +219,19 @@ export async function publishDraft(businessId: string, userId: string): Promise<
     .set({ published: draft, publishedAt: new Date(), updatedBy: userId })
     .where(eq(storefrontConfigs.businessId, businessId));
   return { ok: true };
+}
+
+/**
+ * Called when a photo is deleted: drops it from the draft and the published
+ * storefront, so later saves never reference a photo that no longer exists.
+ */
+export async function removeMediaReferences(businessId: string, mediaId: string) {
+  const [row] = await db.select().from(storefrontConfigs).where(eq(storefrontConfigs.businessId, businessId));
+  if (!row) return;
+  await db
+    .update(storefrontConfigs)
+    .set({ draft: withoutMedia(parseConfig(row.draft), mediaId), published: withoutMedia(parseConfig(row.published), mediaId) })
+    .where(eq(storefrontConfigs.businessId, businessId));
 }
 
 export async function discardDraft(businessId: string, userId: string) {

@@ -1,4 +1,5 @@
 import type { Viewport } from "next";
+import { PreviewBridge } from "@/components/site/preview-bridge";
 import { ThemeStyle, themeViewport } from "@/components/site/theme-style";
 import { loadSite } from "@/lib/site";
 
@@ -21,9 +22,13 @@ export default async function SiteLayout(props: LayoutProps<"/[site]">) {
     <>
       <ThemeStyle config={storefront.config} />
       {preview && (
-        <div className="preview-banner" role="status">
-          Draft preview: only you can see this.
-        </div>
+        <>
+          <PreviewBridge />
+          <div className="preview-banner" role="status">
+            Draft preview: only you can see this.{" "}
+            <a href={`/api/preview?shop=${storefront.business.slug}&exit=1`}>Show the live page</a>
+          </div>
+        </>
       )}
       {props.children}
     </>
