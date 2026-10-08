@@ -60,6 +60,8 @@ export const businesses = pgTable("businesses", {
   aboutTitle: text(),
   ratingValue: real(),
   ratingCount: integer(),
+  /** Extra Impressum lines (company register no., UID, chamber…), shown on /legal */
+  legalNotice: text(),
 
   // Booking rules (business-wide defaults)
   slotIntervalMin: integer().notNull().default(15),

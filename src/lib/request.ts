@@ -1,7 +1,7 @@
 /**
  * Request helpers for route handlers. Framework-agnostic (plain `Request`).
  */
-import { normalizeHostname } from "./hosts";
+import { isPlatformHost, normalizeHostname } from "./hosts";
 
 /** Best-effort client IP (Vercel sets x-forwarded-for / x-real-ip). */
 export function clientIp(request: Request): string {
@@ -35,4 +35,14 @@ export function publicBaseUrl(request: Request): string {
     request.headers.get("x-forwarded-proto") ??
     (/^(localhost|127\.0\.0\.1|[^:]+\.localhost)(:\d+)?$/.test(host) ? "http" : "https");
   return `${proto}://${host}`;
+}
+
+/**
+ * Public URL of a page inside a shop, for the host the customer is on:
+ * custom domain → https://brosbab.com/b/<token>; platform → https://app.x/<slug>/b/<token>.
+ */
+export function shopUrl(request: Request, slug: string, path: string): string {
+  const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  const base = publicBaseUrl(request);
+  return isPlatformHost(host) ? `${base}/${slug}${path}` : `${base}${path}`;
 }

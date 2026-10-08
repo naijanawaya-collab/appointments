@@ -5,9 +5,10 @@
  * Tenant safety: services and staff are always filtered by businessId, so a
  * caller can never mix another shop's services or barbers into a request.
  */
-import { and, eq, gt, inArray, lt } from "drizzle-orm";
+import { and, eq, gt, gte, inArray, lt, lte } from "drizzle-orm";
 import { db } from "@/db";
 import {
+  closures,
   bookings,
   businesses,
   services,
@@ -120,6 +121,14 @@ export async function getAvailability(query: AvailabilityQuery): Promise<Availab
     timezone: business.timezone,
   };
   if (eligible.length === 0) return empty;
+
+  // Whole-day shop closures (holidays) block every professional.
+  const [closed] = await db
+    .select({ id: closures.id })
+    .from(closures)
+    .where(and(eq(closures.businessId, business.id), lte(closures.startsOn, query.date), gte(closures.endsOn, query.date)))
+    .limit(1);
+  if (closed) return empty;
 
   const staffIds = eligible.map((s) => s.id);
   const day = localDayRange(query.date, business.timezone);

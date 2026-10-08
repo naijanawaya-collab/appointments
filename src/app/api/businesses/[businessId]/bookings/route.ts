@@ -4,7 +4,7 @@ import { createBooking } from "@/domain/booking/create-booking";
 import { onBookingCreated } from "@/domain/notifications/handlers";
 import { businessForRequest, errorResponse, handleRouteError } from "@/lib/api";
 import { bookingLimiter } from "@/lib/rate-limit";
-import { clientIp, isSameOrigin, publicBaseUrl } from "@/lib/request";
+import { clientIp, isSameOrigin, shopUrl } from "@/lib/request";
 import { bookingRequestSchema } from "@/validation/booking";
 
 const MAX_BODY_BYTES = 10_000;
@@ -62,7 +62,7 @@ export async function POST(request: Request, ctx: RouteContext<"/api/businesses/
       customerNote: customer.note,
     });
 
-    const manageUrl = `${publicBaseUrl(request)}/manage/${result.manageToken}`;
+    const manageUrl = shopUrl(request, business.slug, `/b/${result.manageToken}`);
     // Emails go out after the response is sent – the customer doesn't wait for them.
     after(() => onBookingCreated(result.bookingId, manageUrl));
 

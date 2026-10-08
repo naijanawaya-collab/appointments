@@ -3,8 +3,8 @@ import { bookFirstAvailable } from "./helpers";
 
 test.describe("customer booking flow", () => {
   test("books an appointment, then cancels it from the manage link", async ({ page }) => {
-    await page.goto("/book/demo-barber");
-    await expect(page.getByRole("heading", { level: 1, name: "Demo Barbershop" })).toBeVisible();
+    await page.goto("/kaiser/book");
+    await expect(page.getByRole("heading", { level: 1, name: /Kaiser & Co\. Gentlemen.s Barbers/ })).toBeVisible();
 
     const manageUrl = await bookFirstAvailable(page, { name: "E2E Customer", email: "e2e@example.com" });
     expect(new URL(manageUrl).host).toBe(new URL(page.url()).host);
@@ -12,7 +12,7 @@ test.describe("customer booking flow", () => {
     await page.goto(manageUrl);
     await expect(page.getByRole("heading", { name: "Your booking" })).toBeVisible();
     await expect(page.getByText("Confirmed")).toBeVisible();
-    await expect(page.getByText("Haircut")).toBeVisible();
+    await expect(page.getByText("Classic cut")).toBeVisible();
 
     await page.getByRole("button", { name: "Cancel booking" }).click();
     await page.getByRole("button", { name: "Yes, cancel" }).click();
@@ -26,11 +26,11 @@ test.describe("customer booking flow", () => {
   });
 
   test("a booked time disappears for the next customer", async ({ page, browser }) => {
-    await page.goto("/book/demo-barber");
-    await page.getByRole("button", { name: /Haircut/ }).first().click();
+    await page.goto("/kaiser/book");
+    await page.getByRole("button", { name: /Classic cut/ }).first().click();
     await page.getByRole("button", { name: "Continue" }).click();
     // Pick a specific barber so the slot becomes unavailable after one booking.
-    await page.getByRole("radio", { name: /Barber One/ }).click();
+    await page.getByRole("radio", { name: /Anton Kaiser/ }).click();
     await page.getByRole("button", { name: "Continue" }).click();
 
     const days = page.getByRole("radiogroup", { name: "Date" }).getByRole("radio");
@@ -43,10 +43,10 @@ test.describe("customer booking flow", () => {
         time = (await first.textContent())!;
         // Second customer opens the same page and picks the same time…
         const other = await browser.newPage();
-        await other.goto("/book/demo-barber");
-        await other.getByRole("button", { name: /Haircut/ }).first().click();
+        await other.goto("/kaiser/book");
+        await other.getByRole("button", { name: /Classic cut/ }).first().click();
         await other.getByRole("button", { name: "Continue" }).click();
-        await other.getByRole("radio", { name: /Barber One/ }).click();
+        await other.getByRole("radio", { name: /Anton Kaiser/ }).click();
         await other.getByRole("button", { name: "Continue" }).click();
         await other.getByRole("radiogroup", { name: "Date" }).getByRole("radio").nth(i).click();
         await other.getByRole("radio", { name: time, exact: true }).click();
@@ -73,8 +73,8 @@ test.describe("customer booking flow", () => {
   });
 
   test("validates the details form before submitting", async ({ page }) => {
-    await page.goto("/book/demo-barber");
-    await page.getByRole("button", { name: /Haircut/ }).first().click();
+    await page.goto("/kaiser/book");
+    await page.getByRole("button", { name: /Classic cut/ }).first().click();
     await page.getByRole("button", { name: "Continue" }).click();
     await page.getByRole("button", { name: "Continue" }).click();
     const days = page.getByRole("radiogroup", { name: "Date" }).getByRole("radio");
@@ -96,7 +96,7 @@ test.describe("customer booking flow", () => {
   });
 
   test("unknown shops and bad manage links show 404", async ({ page }) => {
-    expect((await page.goto("/book/does-not-exist"))?.status()).toBe(404);
-    expect((await page.goto(`/manage/${"A".repeat(43)}`))?.status()).toBe(404);
+    expect((await page.goto("/does-not-exist"))?.status()).toBe(404);
+    expect((await page.goto(`/kaiser/b/${"A".repeat(43)}`))?.status()).toBe(404);
   });
 });

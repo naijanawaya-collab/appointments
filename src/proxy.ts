@@ -2,36 +2,36 @@ import { NextResponse, type NextRequest } from "next/server";
 import { isPlatformHost, normalizeHostname } from "@/lib/hosts";
 
 /**
- * Next.js 16 "proxy" (formerly middleware). Runs before every page request.
- *
- * It does ONE cheap thing and never touches the database:
+ * Next.js 16 "proxy" (formerly middleware). Runs before every page request
+ * and never touches the database.
  *
  *   platform host  (localhost, *.vercel.app, PLATFORM_HOSTS)
- *     -> request passes through: /, /login, /admin, /book/[slug] ...
+ *     → passes through: /, /login, /admin, /<slug>, /<slug>/book …
+ *     → a first path segment containing a dot is 404 (hostnames are internal)
  *
- *   any other host (a tenant's custom domain, e.g. brosbab.com)
- *     -> rewritten internally to /sites/brosbab.com/<path>
- *        The browser still shows brosbab.com; the page under
- *        src/app/sites/[host] looks the business up by hostname.
+ *   any other host (a shop's custom domain, e.g. brosbab.com)
+ *     → /admin and /login are 404 (the admin lives on the platform only)
+ *     → everything else is rewritten to /brosbab.com/<path>; the browser
+ *       still shows brosbab.com and src/app/[site] serves the shop.
  *
- * API routes (/api/*) are excluded by the matcher, so the same endpoints work
- * from both the platform and custom domains.
+ * /api/* is excluded by the matcher so the same API works on every host.
  */
+const PLATFORM_ONLY = /^\/(admin|login|forgot-password|reset-password)(\/|$)/;
+
 export function proxy(request: NextRequest) {
   const host = request.headers.get("host");
   const { pathname, search } = request.nextUrl;
+  const firstSegment = pathname.split("/")[1] ?? "";
 
   if (isPlatformHost(host)) {
-    // /sites/* is an internal route; don't expose it on the platform domain.
-    if (pathname === "/sites" || pathname.startsWith("/sites/")) {
-      return new NextResponse(null, { status: 404 });
-    }
+    if (firstSegment.includes(".")) return new NextResponse(null, { status: 404 });
     return NextResponse.next();
   }
 
-  const hostname = normalizeHostname(host);
+  if (PLATFORM_ONLY.test(pathname)) return new NextResponse(null, { status: 404 });
+
   const url = request.nextUrl.clone();
-  url.pathname = `/sites/${hostname}${pathname === "/" ? "" : pathname}`;
+  url.pathname = `/${normalizeHostname(host)}${pathname === "/" ? "" : pathname}`;
   url.search = search;
   return NextResponse.rewrite(url);
 }

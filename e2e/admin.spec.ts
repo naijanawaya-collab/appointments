@@ -17,7 +17,7 @@ test.describe("admin", () => {
     await page.getByLabel("Password").fill(E2E_ADMIN.password);
     await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page).toHaveURL(/\/admin$/);
-    await expect(page.getByRole("heading", { name: "Demo Barbershop" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Kaiser & Co\. Gentlemen.s Barbers/ })).toBeVisible();
 
     await page.getByRole("button", { name: "Sign out" }).click();
     await expect(page).toHaveURL(/\/login$/);

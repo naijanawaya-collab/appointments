@@ -5,9 +5,9 @@ const PORT = Number(process.env.E2E_PORT ?? 3100);
 const BASE = `http://localhost:${PORT}`;
 
 async function demoBusinessId(request: import("@playwright/test").APIRequestContext) {
-  const html = await (await request.get("/book/demo-barber")).text();
-  // The business id is part of the serialized props of the booking wizard.
-  return html.match(/\\?"id\\?":\\?"([0-9a-f-]{36})\\?",\\?"name\\?":\\?"Demo Barbershop/)?.[1];
+  const html = await (await request.get("/kaiser")).text();
+  // The storefront shell receives the business id as a serialized prop.
+  return html.match(/businessId\\?":\\?"([0-9a-f-]{36})/)?.[1];
 }
 
 test.describe("security", () => {
@@ -15,7 +15,7 @@ test.describe("security", () => {
     const res = await request.get("/");
     const h = res.headers();
     expect(h["x-content-type-options"]).toBe("nosniff");
-    expect(h["x-frame-options"]).toBe("DENY");
+    expect(h["x-frame-options"]).toBe("SAMEORIGIN"); // the editor previews the storefront in a same-origin iframe
     expect(h["referrer-policy"]).toBe("strict-origin-when-cross-origin");
     expect(h["x-powered-by"]).toBeUndefined();
   });
@@ -39,7 +39,7 @@ test.describe("security", () => {
   test("a custom domain can't reach another business's API", async ({ request }) => {
     // Node can't resolve *.localhost (browsers can), so set the Host header directly.
     const res = await request.get("/api/businesses/00000000-0000-4000-8000-000000000000/catalog", {
-      headers: { host: `demo-barber.localhost:${PORT}` },
+      headers: { host: `kaiser.localhost:${PORT}` },
     });
     expect(res.status()).toBe(404);
   });
@@ -47,7 +47,7 @@ test.describe("security", () => {
   test("a custom domain can't read another business's catalog via its real id", async ({ request }) => {
     const id = await demoBusinessId(request);
     const own = await request.get(`/api/businesses/${id}/catalog`, {
-      headers: { host: `demo-barber.localhost:${PORT}` },
+      headers: { host: `kaiser.localhost:${PORT}` },
     });
     expect(own.status()).toBe(200);
     const foreign = await request.get(`/api/businesses/${id}/catalog`, {

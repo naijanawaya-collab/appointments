@@ -1,19 +1,7 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { Storefront } from "@/components/storefront/storefront";
-import { getBusinessBySlug } from "@/lib/tenant";
+import { permanentRedirect } from "next/navigation";
 
-/** Platform URL for a business: /book/demo-barber */
-export async function generateMetadata(props: PageProps<"/book/[slug]">): Promise<Metadata> {
+/** Old URL (Phase 1): /book/<slug> → /<slug>/book. Kept so shared links keep working. */
+export default async function LegacyBookRedirect(props: PageProps<"/book/[slug]">) {
   const { slug } = await props.params;
-  const business = await getBusinessBySlug(slug);
-  return business ? { title: `Book at ${business.name}` } : {};
-}
-
-export default async function BookBySlugPage(props: PageProps<"/book/[slug]">) {
-  const { slug } = await props.params;
-  const business = await getBusinessBySlug(slug);
-  if (!business) notFound();
-
-  return <Storefront business={business} />;
+  permanentRedirect(`/${encodeURIComponent(slug)}/book`);
 }

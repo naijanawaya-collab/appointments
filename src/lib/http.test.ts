@@ -56,3 +56,13 @@ describe("request helpers", () => {
     expect(publicBaseUrl(req({ host: "localhost:3000" }))).toBe("http://localhost:3000");
   });
 });
+
+describe("shopUrl", () => {
+  it("prefixes the slug on the platform and not on custom domains", async () => {
+    const { shopUrl } = await import("./request");
+    expect(shopUrl(req({ host: "localhost:3000" }), "kaiser", "/b/tok")).toBe("http://localhost:3000/kaiser/b/tok");
+    expect(shopUrl(req({ host: "kaiser-barbers.at", "x-forwarded-proto": "https" }), "kaiser", "/b/tok")).toBe(
+      "https://kaiser-barbers.at/b/tok",
+    );
+  });
+});

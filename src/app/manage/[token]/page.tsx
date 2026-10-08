@@ -1,14 +1,10 @@
-import type { Metadata } from "next";
-import { ManageBooking } from "@/components/manage/manage-booking";
+import { notFound, permanentRedirect } from "next/navigation";
+import { getBookingByToken } from "@/domain/booking/get-booking";
 
-// The URL contains a secret token: keep it out of search engines and referrers.
-export const metadata: Metadata = {
-  title: "Manage booking",
-  robots: { index: false, follow: false },
-  referrer: "no-referrer",
-};
-
-export default async function ManagePage(props: PageProps<"/manage/[token]">) {
+/** Old manage links from Phase 1 emails: /manage/<token> → /<slug>/b/<token>. */
+export default async function LegacyManageRedirect(props: PageProps<"/manage/[token]">) {
   const { token } = await props.params;
-  return <ManageBooking token={token} />;
+  const booking = await getBookingByToken(token);
+  if (!booking) notFound();
+  permanentRedirect(`/${booking.business.slug}/b/${token}`);
 }

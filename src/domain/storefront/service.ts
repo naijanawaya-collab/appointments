@@ -45,6 +45,7 @@ export type StorefrontBusiness = Pick<
   | "aboutTitle"
   | "ratingValue"
   | "ratingCount"
+  | "legalNotice"
   | "maxAdvanceDays"
   | "cancellationWindowHours"
 >;
@@ -87,6 +88,7 @@ const BUSINESS_COLUMNS = {
   aboutTitle: businesses.aboutTitle,
   ratingValue: businesses.ratingValue,
   ratingCount: businesses.ratingCount,
+  legalNotice: businesses.legalNotice,
   maxAdvanceDays: businesses.maxAdvanceDays,
   cancellationWindowHours: businesses.cancellationWindowHours,
 };

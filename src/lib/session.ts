@@ -40,3 +40,12 @@ export async function assertMember(userId: string, businessId: string) {
   if (!row) throw new Error("Forbidden: not a member of this business");
   return row;
 }
+
+/** Non-throwing membership check (used for draft previews). */
+export async function isMemberOf(userId: string, businessId: string): Promise<boolean> {
+  const [row] = await db
+    .select({ id: members.id })
+    .from(members)
+    .where(and(eq(members.userId, userId), eq(members.businessId, businessId)));
+  return Boolean(row);
+}

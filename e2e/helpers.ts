@@ -5,7 +5,7 @@ import { expect, type Page } from "@playwright/test";
  * (searching forward day by day) → details → confirm. Returns the manage URL.
  */
 export async function bookFirstAvailable(page: Page, customer: { name: string; email: string }) {
-  await page.getByRole("button", { name: /Haircut/ }).first().click();
+  await page.getByRole("button", { name: /Classic cut/ }).first().click();
   await page.getByRole("button", { name: "Continue" }).click();
   await expect(page.getByRole("heading", { name: "Choose a professional" })).toBeVisible();
   await page.getByRole("button", { name: "Continue" }).click();
@@ -14,7 +14,8 @@ export async function bookFirstAvailable(page: Page, customer: { name: string; e
   const days = page.getByRole("radiogroup", { name: "Date" }).getByRole("radio");
   const dayCount = await days.count();
   let picked = false;
-  for (let i = 0; i < dayCount && !picked; i++) {
+  // Start two days out so the booking is still inside every shop's free-cancellation window.
+  for (let i = 2; i < dayCount && !picked; i++) {
     await days.nth(i).click();
     const firstTime = page.getByRole("radiogroup", { name: /times$/ }).getByRole("radio").first();
     const empty = page.getByText("No free times on this day");
@@ -33,6 +34,6 @@ export async function bookFirstAvailable(page: Page, customer: { name: string; e
 
   await expect(page.getByRole("heading", { name: "Booking confirmed" })).toBeVisible();
   const href = await page.getByRole("link", { name: "Manage or cancel" }).getAttribute("href");
-  expect(href).toMatch(/\/manage\/[A-Za-z0-9_-]{43}$/);
+  expect(href).toMatch(/\/b\/[A-Za-z0-9_-]{43}$/);
   return href!;
 }
