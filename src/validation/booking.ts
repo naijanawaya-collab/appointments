@@ -5,17 +5,24 @@ import { z } from "zod";
  * and the API route. The server always re-validates – never trust the client.
  */
 
-const trimmed = (min: number, max: number, message: string) =>
-  z.string().trim().min(min, message).max(max, `Must be at most ${max} characters`);
+/** Exact copy and rules from docs/designs/BEHAVIOUR.md §4. */
+export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+export const PHONE_PREFIX = "+43";
+
+/** A phone field that only holds the prefilled country code counts as empty. */
+export const normalisePhone = (v: string) => {
+  const t = v.trim();
+  return t === "" || t === "+" || t === PHONE_PREFIX ? "" : t;
+};
 
 export const customerDetailsSchema = z.object({
-  name: trimmed(2, 100, "Please enter your name"),
-  email: z.string().trim().max(254).pipe(z.email("Enter a valid email address")),
+  name: z.string().trim().min(1, "Please enter your name").max(80, "Keep your name under 80 characters"),
+  email: z.string().trim().max(254).regex(EMAIL_RE, "Enter a full email address, e.g. name@example.com"),
   phone: z
     .string()
-    .trim()
-    .max(25)
-    .refine((v) => v === "" || /^\+?[0-9 ()\-/]{6,24}$/.test(v), "Enter a valid phone number")
+    .max(30)
+    .transform(normalisePhone)
+    .refine((v) => v === "" || (/^\+?[0-9 ()\-/]+$/.test(v) && /^\d{6,20}$/.test(v.replace(/\D/g, ""))), "Enter a phone number or leave it empty")
     .optional()
     .default(""),
   note: z.string().trim().max(500, "Keep the note under 500 characters").optional().default(""),
@@ -34,6 +41,9 @@ export const bookingRequestSchema = z.object({
   startsAt: z.iso.datetime({ offset: true }),
   customer: customerDetailsSchema,
 });
+
+/** Header sent with every booking POST so a retried request can't book twice (B-18). */
+export const idempotencyKeySchema = z.string().regex(/^[A-Za-z0-9_-]{16,64}$/);
 
 export type BookingRequest = z.input<typeof bookingRequestSchema>;
 

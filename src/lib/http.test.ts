@@ -66,3 +66,13 @@ describe("shopUrl", () => {
     );
   });
 });
+
+describe("date formatting (design copy)", () => {
+  it("formats in the shop timezone without commas", async () => {
+    const { clockTime, longDate, shortDate } = await import("./format");
+    const d = new Date("2026-10-09T08:30:00Z");
+    expect(clockTime(d, "Europe/Vienna")).toBe("10:30");
+    expect(longDate(d, "Europe/Vienna")).toBe("Friday 9 October 2026");
+    expect(shortDate(d, "Europe/Vienna")).toBe("Fri 9 Oct");
+  });
+});

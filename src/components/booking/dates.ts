@@ -75,3 +75,14 @@ export function groupSlotsByPart(slots: Slot[], timezone: string): SlotGroup[] {
   }
   return groups.filter((g) => g.slots.length > 0);
 }
+
+/** Labels for a calendar date ("YYYY-MM-DD"), independent of any timezone. */
+const onDate = (date: string, opts: Intl.DateTimeFormatOptions) =>
+  new Intl.DateTimeFormat("en-GB", { ...opts, timeZone: "UTC" }).format(new Date(`${date}T12:00:00Z`));
+
+/** "October 2026" */
+export const monthLabel = (date: string) => onDate(date, { month: "long", year: "numeric" });
+
+/** "Sat 10 Oct" */
+export const dayLabel = (date: string) =>
+  `${onDate(date, { weekday: "short" })} ${onDate(date, { day: "numeric" })} ${onDate(date, { month: "short" })}`;

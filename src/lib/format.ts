@@ -18,3 +18,27 @@ export function formatDuration(minutes: number) {
   if (h === 0) return `${m} min`;
   return m === 0 ? `${h} h` : `${h} h ${m} min`;
 }
+
+function parts(date: Date, timeZone: string, opts: Intl.DateTimeFormatOptions) {
+  return Object.fromEntries(
+    new Intl.DateTimeFormat(UI_LOCALE, { timeZone, ...opts }).formatToParts(date).map((p) => [p.type, p.value]),
+  ) as Record<Intl.DateTimeFormatPartTypes, string>;
+}
+
+/** "10:30" in the shop's timezone. */
+export function clockTime(date: Date, timeZone: string): string {
+  const p = parts(date, timeZone, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+  return `${p.hour}:${p.minute}`;
+}
+
+/** "Friday 9 October 2026" (design copy: no comma). */
+export function longDate(date: Date, timeZone: string): string {
+  const p = parts(date, timeZone, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  return `${p.weekday} ${p.day} ${p.month} ${p.year}`;
+}
+
+/** "Fri 9 Oct" */
+export function shortDate(date: Date, timeZone: string): string {
+  const p = parts(date, timeZone, { weekday: "short", day: "numeric", month: "short" });
+  return `${p.weekday} ${p.day} ${p.month}`;
+}

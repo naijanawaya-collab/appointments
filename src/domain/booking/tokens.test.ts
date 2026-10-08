@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { generateManageToken, hashManageToken, isPlausibleToken } from "./tokens";
+import { hashManageToken, isPlausibleToken, manageTokenFor } from "./tokens";
 import { assertTransition, canTransition } from "./status";
 
 describe("manage tokens", () => {
-  it("generates unique, url-safe tokens and stores only the hash", () => {
-    const a = generateManageToken();
-    const b = generateManageToken();
+  it("derives a stable, url-safe token per booking and stores only the hash", () => {
+    const a = manageTokenFor("11111111-1111-4111-8111-111111111111");
+    const b = manageTokenFor("22222222-2222-4222-8222-222222222222");
     expect(a.token).not.toBe(b.token);
+    expect(manageTokenFor("11111111-1111-4111-8111-111111111111")).toEqual(a); // same booking → same link
     expect(isPlausibleToken(a.token)).toBe(true);
     expect(a.hash).toBe(hashManageToken(a.token));
-    expect(a.hash).not.toContain(a.token);
     expect(a.hash).toMatch(/^[0-9a-f]{64}$/);
   });
 

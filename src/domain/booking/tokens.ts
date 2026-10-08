@@ -1,14 +1,25 @@
 /**
  * "Manage my booking" tokens.
  *
- * The raw token goes into the customer's email link; only its SHA-256 hash is
- * stored. A database leak therefore doesn't leak working cancel links.
- * 32 random bytes = 256 bits of entropy, so tokens can't be guessed.
+ * token = base64url(HMAC-SHA256(secret, "manage:" + bookingId)) → 43 chars,
+ * 256 bits, unguessable without the server secret. Only its SHA-256 hash is
+ * stored, so a database leak doesn't leak working links. Because the token
+ * is derived from the booking id, a retried (idempotent) request can return
+ * the same link without the raw token ever being stored.
  */
-import { createHash, randomBytes } from "node:crypto";
+import { createHash, createHmac } from "node:crypto";
 
-export function generateManageToken(): { token: string; hash: string } {
-  const token = randomBytes(32).toString("base64url");
+const DEV_SECRET = "dev-only-manage-token-secret-change-me";
+
+function secret(): string {
+  const s = process.env.MANAGE_TOKEN_SECRET || process.env.BETTER_AUTH_SECRET;
+  if (s) return s;
+  if (process.env.NODE_ENV === "production") throw new Error("MANAGE_TOKEN_SECRET (or BETTER_AUTH_SECRET) must be set");
+  return DEV_SECRET;
+}
+
+export function manageTokenFor(bookingId: string): { token: string; hash: string } {
+  const token = createHmac("sha256", secret()).update(`manage:${bookingId}`).digest("base64url");
   return { token, hash: hashManageToken(token) };
 }
 

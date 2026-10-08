@@ -135,6 +135,33 @@ describe("createBooking", () => {
   });
 });
 
+describe("idempotency and assignment", () => {
+  it("returns the same booking and link when a request is retried with the same key (B-18)", async () => {
+    const first = await createBooking(input({ idempotencyKey: "key-aaaaaaaaaaaaaaaa" }));
+    const again = await createBooking(input({ idempotencyKey: "key-aaaaaaaaaaaaaaaa" }));
+    expect(again).toMatchObject({ bookingId: first.bookingId, manageToken: first.manageToken, replayed: true });
+    const rows = await db.select().from(bookings).where(eq(bookings.businessId, shop.business.id));
+    expect(rows).toHaveLength(1);
+  });
+
+  it("creates exactly one booking when the same key races in parallel", async () => {
+    const results = await Promise.allSettled(
+      Array.from({ length: 4 }, () => createBooking(input({ staffId: shop.anna.id, idempotencyKey: "key-bbbbbbbbbbbbbbbb" }))),
+    );
+    const ok = results.filter((r) => r.status === "fulfilled") as PromiseFulfilledResult<{ bookingId: string }>[];
+    expect(ok.length).toBeGreaterThan(0);
+    expect(new Set(ok.map((r) => r.value.bookingId)).size).toBe(1);
+    const rows = await db.select().from(bookings).where(eq(bookings.businessId, shop.business.id));
+    expect(rows).toHaveLength(1);
+  });
+
+  it("gives 'any professional' to whoever has the fewest bookings that day", async () => {
+    await createBooking(input({ staffId: shop.anna.id, startsAt: at("09:00") }));
+    const any = await createBooking(input({ startsAt: at("10:00"), customer: { name: "B", email: "b@x.test" } }));
+    expect(any.staffId).toBe(shop.ben.id);
+  });
+});
+
 describe("manage link & cancellation", () => {
   it("finds the booking by raw token only", async () => {
     const { manageToken } = await createBooking(input());

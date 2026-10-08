@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getAvailability } from "@/domain/availability/get-availability";
+import { findNextAvailable } from "@/domain/availability/next-available";
+import { addLocalDays } from "@/domain/hours/hours";
 import { businessForRequest, errorResponse, handleRouteError } from "@/lib/api";
 import { availabilityLimiter } from "@/lib/rate-limit";
 import { clientIp } from "@/lib/request";
@@ -37,12 +39,25 @@ export async function GET(request: Request, ctx: RouteContext<"/api/businesses/[
       staffId: query.data.staff,
     });
 
+    // Empty day → tell the customer when the next free time is (B-12).
+    const nextAvailable = result.slots.length
+      ? null
+      : await findNextAvailable({
+          businessId: business.id,
+          timezone: business.timezone,
+          serviceIds: query.data.services,
+          staffId: query.data.staff,
+          fromDate: addLocalDays(query.data.date, 1),
+          days: 30,
+        });
+
     return NextResponse.json(
       {
         date: query.data.date,
         timezone: result.timezone,
         durationMin: result.serviceDurationMin,
         slots: result.slots,
+        nextAvailable,
       },
       // Availability changes with every booking: never cache it.
       { headers: { "Cache-Control": "no-store" } },

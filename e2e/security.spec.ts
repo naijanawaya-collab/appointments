@@ -33,7 +33,7 @@ test.describe("security", () => {
       headers: { origin: BASE, "content-type": "application/json" },
       data: "{not json",
     });
-    expect([400, 404]).toContain(res.status());
+    expect([400, 404, 422]).toContain(res.status());
   });
 
   test("a custom domain can't reach another business's API", async ({ request }) => {

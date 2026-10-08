@@ -5,7 +5,7 @@ import { onBookingCreated } from "@/domain/notifications/handlers";
 import { businessForRequest, errorResponse, handleRouteError } from "@/lib/api";
 import { bookingLimiter } from "@/lib/rate-limit";
 import { clientIp, isSameOrigin, shopUrl } from "@/lib/request";
-import { bookingRequestSchema } from "@/validation/booking";
+import { bookingRequestSchema, idempotencyKeySchema } from "@/validation/booking";
 
 const MAX_BODY_BYTES = 10_000;
 
@@ -42,10 +42,20 @@ export async function POST(request: Request, ctx: RouteContext<"/api/businesses/
   const parsed = bookingRequestSchema.safeParse(json);
   if (!parsed.success) {
     const issue = parsed.error.issues[0];
-    // Honeypot filled: pretend success-ish failure without hints.
+    // Honeypot filled: fail without hints.
     if (issue?.path.join(".") === "customer.website") return errorResponse("INVALID_BODY", "Invalid request.", 400);
-    return errorResponse("INVALID_BODY", issue?.message ?? "Invalid request.", 400);
+    // 422 with per-field messages for the details form (BEHAVIOUR §3).
+    const fieldErrors = Object.fromEntries(
+      parsed.error.issues.filter((i) => i.path[0] === "customer").map((i) => [String(i.path[1]), i.message]),
+    );
+    return NextResponse.json(
+      { error: { code: "INVALID_BODY", message: issue?.message ?? "Invalid request.", fieldErrors } },
+      { status: 422 },
+    );
   }
+
+  const keyHeader = request.headers.get("idempotency-key");
+  const idempotencyKey = keyHeader && idempotencyKeySchema.safeParse(keyHeader).success ? keyHeader : undefined;
 
   try {
     const business = await businessForRequest(request, businessId);
@@ -60,15 +70,17 @@ export async function POST(request: Request, ctx: RouteContext<"/api/businesses/
       startsAt,
       customer: { name: customer.name, email: customer.email, phone: customer.phone },
       customerNote: customer.note,
+      idempotencyKey,
     });
 
     const manageUrl = shopUrl(request, business.slug, `/b/${result.manageToken}`);
     // Emails go out after the response is sent – the customer doesn't wait for them.
-    after(() => onBookingCreated(result.bookingId, manageUrl));
+    // A replayed (retried) request doesn't send them twice.
+    if (!result.replayed) after(() => onBookingCreated(result.bookingId, manageUrl));
 
     return NextResponse.json(
       { bookingId: result.bookingId, staffId: result.staffId, startsAt: result.startsAt.toISOString(), manageUrl },
-      { status: 201, headers: { "Cache-Control": "no-store" } },
+      { status: result.replayed ? 200 : 201, headers: { "Cache-Control": "no-store" } },
     );
   } catch (err) {
     return handleRouteError(err);

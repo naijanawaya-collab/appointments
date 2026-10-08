@@ -1,8 +1,10 @@
+import { eq } from "drizzle-orm";
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { db } from "@/db";
-import { bookings, customers, timeOff } from "@/db/schema";
+import { bookings, closures, customers, timeOff } from "@/db/schema";
 import { zonedDateTime } from "./compute-slots";
 import { getAvailability } from "./get-availability";
+import { findNextAvailable, nextAvailableLabel } from "./next-available";
 import { createShop, DATE, NOW, resetDb, type Shop } from "../../../tests/support/fixtures";
 
 const TZ = "Europe/Vienna";
@@ -164,5 +166,40 @@ describe("getAvailability", () => {
       now: NOW,
     });
     expect(slots).toEqual([]);
+  });
+
+  it("returns nothing on a shop closure day (holiday)", async () => {
+    await db.insert(closures).values({ businessId: shop.business.id, startsOn: DATE, endsOn: DATE, label: "Holiday" });
+    const { slots } = await getAvailability({
+      businessId: shop.business.id,
+      date: DATE,
+      serviceIds: [shop.haircut.id],
+      staffId: "any",
+      now: NOW,
+    });
+    expect(slots).toEqual([]);
+  });
+});
+
+describe("findNextAvailable", () => {
+  it("finds the first free time, skipping closures", async () => {
+    await db.insert(closures).values({ businessId: shop.business.id, startsOn: "2026-10-05", endsOn: "2026-10-06" });
+    const next = await findNextAvailable({ businessId: shop.business.id, timezone: TZ, now: NOW });
+    expect(next).toMatchObject({ date: "2026-10-07", time: "09:00" });
+    expect(next?.label).toBe("Wed 7 Oct 09:00");
+  });
+
+  it("labels today and tomorrow", () => {
+    expect(nextAvailableLabel("2026-10-05T13:30:00.000Z", TZ, NOW)).toBe("today 15:30");
+    expect(nextAvailableLabel("2026-10-06T07:00:00.000Z", TZ, NOW)).toBe("tomorrow 09:00");
+  });
+
+  it("returns null when the shop has no services", async () => {
+    await resetDb();
+    const other = await createShop({ slug: "empty" });
+    await db.delete(bookings);
+    const { services } = await import("@/db/schema");
+    await db.delete(services).where(eq(services.businessId, other.business.id));
+    expect(await findNextAvailable({ businessId: other.business.id, timezone: TZ, now: NOW })).toBeNull();
   });
 });

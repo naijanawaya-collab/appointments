@@ -30,8 +30,8 @@ test.describe("custom domain", () => {
     await expect(page.getByRole("status")).toContainText("This booking has been cancelled");
     await page.reload();
     await page.getByRole("link", { name: "Book a new time" }).click();
-    await expect(page).toHaveURL(`${CUSTOM}/book`);
-    await expect(page.getByRole("heading", { level: 1, name: /Kaiser & Co\. Gentlemen.s Barbers/ })).toBeVisible();
+    await expect(page).toHaveURL(new RegExp(`^${CUSTOM}/book(\\?step=services)?$`));
+    await expect(page.getByRole("heading", { name: "Choose services" })).toBeVisible();
   });
 
   test("a custom domain can't open another shop's manage links", async ({ page }) => {

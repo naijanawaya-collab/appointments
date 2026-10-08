@@ -1,99 +1,165 @@
+import { CalendarPlus, Check, MessageCircle, Phone, X } from "lucide-react";
 import { notFound } from "next/navigation";
+import { ShopMark } from "@/components/site/shop-mark";
 import { canCustomerCancel, getBookingByToken } from "@/domain/booking/get-booking";
-import { formatDuration, formatMoney, UI_LOCALE } from "@/lib/format";
+import { clockTime, formatDuration, formatMoney, longDate, shortDate } from "@/lib/format";
+import { directionsHref, telHref, waHref } from "@/lib/links";
 import { CancelForm } from "./cancel-form";
+import "@/styles/booking.css";
 
-const STATUS_LABEL = {
-  pending: "Pending",
-  confirmed: "Confirmed",
-  cancelled: "Cancelled",
-  completed: "Completed",
-  no_show: "Missed",
-} as const;
-
-/**
- * "Manage my booking" view, used by /manage/[token] (platform) and
- * /sites/[host]/manage/[token] (custom domain). `businessId` restricts a
- * custom domain to its own bookings.
- */
-export async function ManageBooking({
-  token,
-  businessId,
-  bookHref,
-}: {
+type Props = {
   token: string;
-  businessId?: string;
-  /** Where "book again" links to: "/" on a custom domain, /book/[slug] on the platform. */
-  bookHref?: string;
-}) {
-  const booking = await getBookingByToken(token);
-  if (!booking || (businessId && booking.business.id !== businessId)) notFound();
+  /** Only bookings of this shop are shown (custom domains can't open other shops' links). */
+  businessId: string;
+  homeHref: string;
+  bookHref: string;
+  logo?: import("@/domain/media/image").MediaView | null;
+  now?: Date;
+};
 
-  const { business } = booking;
-  const when = new Intl.DateTimeFormat(UI_LOCALE, {
-    timeZone: business.timezone,
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(booking.startsAt);
-  const cancel = canCustomerCancel(booking);
+type View = "confirmed" | "cancelled" | "too_late" | "completed" | "missed";
+
+/** Manage booking (SCREENS.md §3, G-1…G-7). Server-rendered; only the cancel panel is client code. */
+export async function ManageBooking({ token, businessId, homeHref, bookHref, logo, now = new Date() }: Props) {
+  const booking = await getBookingByToken(token);
+  if (!booking || booking.business.id !== businessId) notFound(); // G-6
+
+  const b = booking.business;
+  const tz = b.timezone;
+  const isPast = booking.startsAt.getTime() < now.getTime();
+  const view: View =
+    booking.status === "cancelled"
+      ? "cancelled"
+      : booking.status === "no_show"
+        ? "missed"
+        : booking.status === "completed" || isPast
+          ? "completed"
+          : canCustomerCancel(booking, now).allowed
+            ? "confirmed"
+            : "too_late";
+
+  const deadline = new Date(booking.startsAt.getTime() - b.cancellationWindowHours * 3_600_000);
+  const pill = {
+    confirmed: { cls: "pill-success", icon: <Check size={14} aria-hidden />, label: "Confirmed" },
+    too_late: { cls: "pill-success", icon: <Check size={14} aria-hidden />, label: "Confirmed" },
+    cancelled: { cls: "pill-danger", icon: <X size={14} aria-hidden />, label: "Cancelled" },
+    completed: { cls: "pill-neutral", icon: null, label: "Completed" },
+    missed: { cls: "pill-neutral", icon: null, label: "Missed" },
+  }[view];
+  const calendarHref = `${bookHref.replace(/\/book$/, "")}/b/${token}/calendar.ics`;
 
   return (
-    <main className="mx-auto w-full max-w-xl flex-1 px-4 py-10 sm:py-14">
-      <p className="text-sm uppercase tracking-widest text-muted">{business.name}</p>
-      <h1 className="mt-1 text-3xl font-semibold tracking-tight">Your booking</h1>
+    <div className="mb">
+      <header className="bk-header">
+        <a href={homeHref} className="bk-brand">
+          <ShopMark logo={logo} mark={b.mark} name={b.shortName} size={32} />
+          <span className="bk-brand-name display">{b.shortName}</span>
+        </a>
+      </header>
 
-      <div className="mt-6 rounded-xl border border-line bg-surface p-6">
-        <div className="flex items-start justify-between gap-4">
-          <p className="text-xl font-semibold">{when}</p>
-          <span className="rounded-full border border-line px-2.5 py-0.5 text-xs">{STATUS_LABEL[booking.status]}</span>
+      <main className="mb-main" id="main">
+        <div className="mb-title-row">
+          <h1 className="bk-title">Your booking</h1>
+          <span className={`pill ${pill.cls}`}>
+            {pill.icon}
+            {pill.label}
+          </span>
         </div>
-        <dl className="mt-4 grid gap-2 text-sm">
-          <div className="flex justify-between gap-4">
-            <dt className="text-muted">With</dt>
-            <dd>{booking.staffName}</dd>
-          </div>
-          <div className="flex justify-between gap-4">
-            <dt className="text-muted">Services</dt>
-            <dd className="text-right">{booking.services.map((s) => s.name).join(", ")}</dd>
-          </div>
-          <div className="flex justify-between gap-4">
-            <dt className="text-muted">Duration</dt>
-            <dd>{formatDuration(booking.durationMin)}</dd>
-          </div>
-          <div className="flex justify-between gap-4">
-            <dt className="text-muted">Price</dt>
-            <dd>{formatMoney(booking.totalPriceCents, business.currency, business.locale)}</dd>
-          </div>
-          {business.address && (
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted">Where</dt>
-              <dd className="text-right">{business.address}</dd>
-            </div>
-          )}
-        </dl>
-      </div>
 
-      <div className="mt-6">
-        {booking.status === "cancelled" ? (
-          <p role="status" className="rounded-lg border border-line bg-surface p-4 text-sm">
-            This booking has been cancelled.{" "}
-            <a href={bookHref ?? `/book/${business.slug}`} className="underline">
+        <section className="bk-done mb-card" data-cancelled={view === "cancelled"} aria-label="Appointment">
+          <div className="px-[22px] pt-6 pb-4">
+            <p className="display mb-time m-0">{clockTime(booking.startsAt, tz)}</p>
+            <p className="bk-done-date m-0">{longDate(booking.startsAt, tz)}</p>
+            <p className="bk-meta m-0 mt-1">Vienna time</p>
+          </div>
+          <dl className="bk-dl border-t border-line">
+            <div>
+              <dt>With</dt>
+              <dd>{booking.staffName}</dd>
+            </div>
+            <div>
+              <dt>Services</dt>
+              <dd>{booking.services.map((s) => s.name).join(", ")}</dd>
+            </div>
+            <div>
+              <dt>Duration</dt>
+              <dd>{formatDuration(booking.durationMin)}</dd>
+            </div>
+            <div>
+              <dt>Price</dt>
+              <dd className="font-semibold">{formatMoney(booking.totalPriceCents, b.currency, b.locale)}</dd>
+            </div>
+            {b.address && (
+              <div>
+                <dt>Where</dt>
+                <dd>{b.address}</dd>
+              </div>
+            )}
+          </dl>
+        </section>
+
+        {view === "confirmed" && (
+          <>
+            <div className="mb-actions">
+              <a href={calendarHref} className="btn btn-secondary btn-md" download="booking.ics">
+                <CalendarPlus size={16} aria-hidden />
+                Add to calendar
+              </a>
+              {b.address && (
+                <a href={directionsHref(b.address)} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-md">
+                  Directions ↗
+                </a>
+              )}
+            </div>
+            <CancelForm token={token} />
+            <p className="bk-meta m-0">
+              Free online cancellation until {shortDate(deadline, tz)}, {clockTime(deadline, tz)} ({b.cancellationWindowHours} h before).
+            </p>
+          </>
+        )}
+
+        {view === "too_late" && (
+          <div className="mb-panel" role="status">
+            <strong>Too late to cancel online</strong>
+            <span className="text-muted">
+              Online cancellation closes {b.cancellationWindowHours} hours before your appointment. Please call the shop, they’ll sort it out.
+            </span>
+            <div className="mb-actions">
+              {b.phone && (
+                <a href={telHref(b.phone)} className="btn btn-primary btn-md">
+                  <Phone size={16} aria-hidden />
+                  Call {b.phone}
+                </a>
+              )}
+              {b.whatsapp && (
+                <a href={waHref(b.whatsapp)} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-md">
+                  <MessageCircle size={16} aria-hidden />
+                  WhatsApp
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+
+        {view === "cancelled" && (
+          <div className="mb-panel panel-in" role="status">
+            <strong>This booking has been cancelled.</strong>
+            <span className="text-muted">A confirmation email is on its way. Nothing to pay.</span>
+            <a href={bookHref} className="btn btn-primary btn-md self-start">
               Book a new time
             </a>
-          </p>
-        ) : cancel.allowed ? (
-          <CancelForm token={token} />
-        ) : cancel.reason === "too_late" ? (
-          <p className="text-sm text-muted">
-            Online cancellation closes {business.cancellationWindowHours} hours before your appointment.
-            {business.phone ? ` Please call ${business.phone}.` : " Please contact the shop."}
-          </p>
-        ) : null}
-      </div>
-    </main>
+          </div>
+        )}
+
+        {(view === "completed" || view === "missed") && (
+          <div className="mb-panel" role="status">
+            <span className="text-muted">{view === "completed" ? `Thanks for visiting ${b.shortName}.` : "We missed you this time."}</span>
+            <a href={bookHref} className="btn btn-primary btn-md self-start">
+              Book again
+            </a>
+          </div>
+        )}
+      </main>
+    </div>
   );
 }

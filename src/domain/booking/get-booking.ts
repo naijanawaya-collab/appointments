@@ -4,7 +4,9 @@
  */
 import { asc, eq } from "drizzle-orm";
 import { db } from "@/db";
-import { bookingServices, bookings, businesses, customers, staff } from "@/db/schema";
+import { bookingServices, bookings, businesses, customers, staff, storefrontConfigs } from "@/db/schema";
+import { parseConfig } from "@/domain/storefront/config";
+import { emailBrandColor } from "@/domain/theme/email-brand";
 import { ACTIVE_STATUSES, type BookingStatus } from "./status";
 import { hashManageToken, isPlausibleToken } from "./tokens";
 
@@ -22,7 +24,13 @@ export type BookingDetails = {
   business: {
     id: string;
     name: string;
+    shortName: string;
+    /** Monogram letter for the logo tile */
+    mark: string;
     slug: string;
+    whatsapp: string | null;
+    /** AA-safe accent for emails (hex) */
+    brandColor: string;
     timezone: string;
     currency: string;
     locale: string;
@@ -35,9 +43,10 @@ export type BookingDetails = {
 
 async function load(where: ReturnType<typeof eq>): Promise<BookingDetails | null> {
   const [row] = await db
-    .select({ booking: bookings, business: businesses, staff, customer: customers })
+    .select({ booking: bookings, business: businesses, staff, customer: customers, published: storefrontConfigs.published })
     .from(bookings)
     .innerJoin(businesses, eq(businesses.id, bookings.businessId))
+    .leftJoin(storefrontConfigs, eq(storefrontConfigs.businessId, bookings.businessId))
     .innerJoin(staff, eq(staff.id, bookings.staffId))
     .innerJoin(customers, eq(customers.id, bookings.customerId))
     .where(where)
@@ -64,7 +73,11 @@ async function load(where: ReturnType<typeof eq>): Promise<BookingDetails | null
     business: {
       id: business.id,
       name: business.name,
+      shortName: business.shortName || business.name,
+      mark: (business.mark || business.name).slice(0, 1).toUpperCase(),
       slug: business.slug,
+      whatsapp: business.whatsapp || business.phone,
+      brandColor: emailBrandColor(parseConfig(row.published)),
       timezone: business.timezone,
       currency: business.currency,
       locale: business.locale,

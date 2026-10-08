@@ -10,18 +10,25 @@ describe("customerDetailsSchema", () => {
   });
 
   it.each([
-    [{ name: "M", email: "m@x.com" }, "name"],
-    [{ name: "Maria", email: "not-an-email" }, "email"],
-    [{ name: "Maria", email: "m@x.com", phone: "call me maybe" }, "phone"],
-    [{ name: "Maria", email: "m@x.com", note: "x".repeat(501) }, "note"],
-    [{ name: "Maria", email: "m@x.com", website: "http://spam" }, "website"],
-  ])("rejects %o (%s)", (input, field) => {
+    [{ name: " ", email: "m@x.com" }, "name", "Please enter your name"],
+    [{ name: "Maria", email: "not-an-email" }, "email", "Enter a full email address, e.g. name@example.com"],
+    [{ name: "Maria", email: "name@example.c" }, "email", "Enter a full email address, e.g. name@example.com"],
+    [{ name: "Maria", email: "m@x.com", phone: "call me maybe" }, "phone", "Enter a phone number or leave it empty"],
+    [{ name: "Maria", email: "m@x.com", phone: "+43 12" }, "phone", "Enter a phone number or leave it empty"],
+    [{ name: "Maria", email: "m@x.com", note: "x".repeat(501) }, "note", "Keep the note under 500 characters"],
+    [{ name: "Maria", email: "m@x.com", website: "http://spam" }, "website", undefined],
+  ])("rejects %o (%s) with the designed copy", (input, field, message) => {
     const result = customerDetailsSchema.safeParse(input);
     expect(result.success).toBe(false);
     expect(result.error?.issues[0].path).toEqual([field]);
+    if (message) expect(result.error?.issues[0].message).toBe(message);
   });
 
-  it("accepts common phone formats", () => {
+  it("treats the prefilled +43 as an empty phone", () => {
+    expect(customerDetailsSchema.parse({ name: "Maria", email: "m@x.com", phone: "+43" }).phone).toBe("");
+  });
+
+  it("accepts common phone formats (6–20 digits)", () => {
     for (const phone of ["+43 660 1234567", "0660/1234567", "(01) 234-5678"]) {
       expect(customerDetailsSchema.safeParse({ name: "Maria", email: "m@x.com", phone }).success).toBe(true);
     }

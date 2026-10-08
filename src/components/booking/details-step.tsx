@@ -1,26 +1,25 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useId } from "react";
+import { useEffect, useId } from "react";
 import { useForm, type FieldError, type UseFormRegisterReturn } from "react-hook-form";
-import {
-  customerDetailsSchema,
-  type CustomerDetails,
-  type CustomerDetailsInput,
-} from "@/validation/booking";
+import { customerDetailsSchema, type CustomerDetails, type CustomerDetailsInput } from "@/validation/booking";
+import type { Details } from "./wizard-state";
+
+export const DETAILS_FORM_ID = "booking-details";
 
 type Props = {
+  defaults: Details;
+  shopName: string;
+  noteLabel: string;
+  /** Inline error from the server (network / 5xx). */
   error: string | null;
+  /** Per-field errors from a 422 response. */
+  fieldErrors: Record<string, string>;
+  onChange: (details: Details) => void;
   onSubmit: (values: CustomerDetails) => void;
 };
 
-const inputClass =
-  "mt-1 w-full rounded-lg border border-line bg-surface px-3 py-2.5 outline-none transition focus:border-accent aria-[invalid=true]:border-danger";
-
-/**
- * Accessible form field: the label stays short, hint and error are linked via
- * aria-describedby, so screen readers announce "Email, invalid, Enter a valid…".
- */
 function Field({
   label,
   optional,
@@ -41,68 +40,77 @@ function Field({
   const hintId = `${id}-hint`;
   const errorId = `${id}-error`;
   const describedBy = [hint && hintId, error && errorId].filter(Boolean).join(" ") || undefined;
-  const common = {
-    id,
-    className: inputClass,
-    "aria-invalid": !!error,
-    "aria-describedby": describedBy,
-    ...registration,
-  };
-
+  const common = { id, className: "field-input", "aria-invalid": !!error, "aria-describedby": describedBy, ...registration };
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium">
+      <label htmlFor={id} className="field-label">
         {label}
         {optional && <span className="font-normal text-muted"> (optional)</span>}
       </label>
       {multiline ? <textarea rows={3} {...common} /> : <input {...inputProps} {...common} />}
       {hint && (
-        <p id={hintId} className="mt-1 text-sm text-muted">
+        <p id={hintId} className="field-hint">
           {hint}
         </p>
       )}
       {error && (
-        <p id={errorId} className="mt-1 text-sm text-danger">
-          {error.message}
+        <p id={errorId} className="field-error">
+          ! {error.message}
         </p>
       )}
     </div>
   );
 }
 
-/** Step 4: guest details. No account needed – the confirmation email has a manage link. */
-export function DetailsStep({ error, onSubmit }: Props) {
+/** Step 4 (B-16…B-19). Validates on blur and on submit; focuses the first invalid field. */
+export function DetailsStep({ defaults, shopName, noteLabel, error, fieldErrors, onChange, onSubmit }: Props) {
   const {
     register,
     handleSubmit,
+    setError,
+    subscribe,
     formState: { errors },
   } = useForm<CustomerDetailsInput, unknown, CustomerDetails>({
     resolver: zodResolver(customerDetailsSchema),
-    defaultValues: { name: "", email: "", phone: "", note: "", website: "" },
+    defaultValues: { ...defaults, website: "" },
+    mode: "onBlur",
+    reValidateMode: "onChange",
+    shouldFocusError: true,
   });
 
+  // Keep the flow's copy of the details in sync (B-19: values survive Back/forward and reloads).
+  useEffect(
+    () =>
+      subscribe({
+        formState: { values: true },
+        callback: ({ values: v }) => onChange({ name: v.name ?? "", email: v.email ?? "", phone: v.phone ?? "", note: v.note ?? "" }),
+      }),
+    [subscribe, onChange],
+  );
+
+  // 422 from the server → show its messages on the fields.
+  useEffect(() => {
+    for (const [field, message] of Object.entries(fieldErrors)) {
+      if (field === "name" || field === "email" || field === "phone" || field === "note") {
+        setError(field, { type: "server", message }, { shouldFocus: true });
+      }
+    }
+  }, [fieldErrors, setError]);
+
   return (
-    <form id="booking-details" onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+    <form id={DETAILS_FORM_ID} onSubmit={handleSubmit(onSubmit)} noValidate className="bk-form">
       <Field label="Name" autoComplete="name" error={errors.name} registration={register("name")} />
       <Field
         label="Email"
         type="email"
         autoComplete="email"
         inputMode="email"
-        hint="We'll send your confirmation here."
+        hint="We’ll send your confirmation here."
         error={errors.email}
         registration={register("email")}
       />
-      <Field
-        label="Phone"
-        optional
-        type="tel"
-        autoComplete="tel"
-        inputMode="tel"
-        error={errors.phone}
-        registration={register("phone")}
-      />
-      <Field label="Note for the barber" optional multiline error={errors.note} registration={register("note")} />
+      <Field label="Phone" optional type="tel" autoComplete="tel" inputMode="tel" error={errors.phone} registration={register("phone")} />
+      <Field label={noteLabel} optional multiline error={errors.note} registration={register("note")} />
 
       {/* Honeypot: invisible to people and screen readers; bots fill it in. */}
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -113,14 +121,11 @@ export function DetailsStep({ error, onSubmit }: Props) {
       </div>
 
       {error && (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="field-error m-0 text-[15px]">
           {error}
         </p>
       )}
-
-      <p className="text-xs text-muted">
-        By booking you agree that the shop stores your details to manage this appointment.
-      </p>
+      <p className="bk-consent m-0">By booking you agree that {shopName} stores your details to manage this appointment.</p>
     </form>
   );
 }

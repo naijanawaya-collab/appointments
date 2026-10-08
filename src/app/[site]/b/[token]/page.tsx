@@ -13,6 +13,15 @@ export const metadata: Metadata = {
 /** Manage booking (SCREENS.md §3). Only shows bookings of this shop. */
 export default async function ManagePage(props: PageProps<"/[site]/b/[token]">) {
   const { site, token } = await props.params;
-  const { business, basePath } = await loadSite(site);
-  return <ManageBooking token={token} businessId={business.id} bookHref={siteHref(basePath, "/book")} />;
+  const { business, basePath, storefront } = await loadSite(site);
+  const logoId = storefront.config.logoMediaId;
+  return (
+    <ManageBooking
+      token={token}
+      businessId={business.id}
+      homeHref={siteHref(basePath, "/")}
+      bookHref={siteHref(basePath, "/book")}
+      logo={logoId ? storefront.media[logoId] : null}
+    />
+  );
 }

@@ -32,7 +32,7 @@ export async function onBookingCreated(bookingId: string, manageUrl: string) {
       ),
     details.business.email &&
       safely("owner notification", () =>
-        sendEmail({ to: details.business.email!, ...ownerNewBookingEmail(details) }),
+        sendEmail({ to: details.business.email!, replyTo: details.customer.email ?? undefined, ...ownerNewBookingEmail(details) }),
       ),
   ]);
 }
@@ -41,7 +41,11 @@ export async function onBookingCancelled(details: BookingDetails) {
   await Promise.all([
     details.customer.email &&
       safely("customer cancellation", () =>
-        sendEmail({ to: details.customer.email!, ...bookingCancelledEmail(details, "customer") }),
+        sendEmail({
+          to: details.customer.email!,
+          replyTo: details.business.email ?? undefined,
+          ...bookingCancelledEmail(details, "customer"),
+        }),
       ),
     details.business.email &&
       safely("owner cancellation", () =>
