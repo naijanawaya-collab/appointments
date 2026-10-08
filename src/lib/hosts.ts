@@ -29,3 +29,24 @@ export function isPlatformHost(host: string | null | undefined): boolean {
   if (hostname.endsWith(".vercel.app")) return true;
   return platformHosts().includes(hostname);
 }
+
+const AUTH_PATHS = /^\/(admin|login|forgot-password|reset-password)(\/|$)/;
+
+/**
+ * The admin and sign-in live on one host (BETTER_AUTH_URL, e.g.
+ * app.yourdomain.com) so there's one session cookie. On the other platform
+ * hosts (yourdomain.com) those paths redirect there. Vercel preview URLs are
+ * left alone so previews stay self-contained.
+ */
+export function authHostRedirect(host: string | null | undefined, pathname: string, appUrl: string | undefined): string | null {
+  if (!appUrl || !AUTH_PATHS.test(pathname)) return null;
+  const hostname = normalizeHostname(host);
+  if (!hostname || hostname.endsWith(".vercel.app") || !platformHosts().includes(hostname)) return null;
+  let app: URL;
+  try {
+    app = new URL(appUrl);
+  } catch {
+    return null;
+  }
+  return normalizeHostname(app.host) === hostname ? null : app.origin;
+}

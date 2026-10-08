@@ -14,33 +14,25 @@
 
 ---
 
-## 0. Where we are
+## 0. Where we are (updated 8 Oct 2026)
 
-| Area | Status | Notes |
+**All milestones M0–M6 are built and tested. The MVP is ready to deploy** as soon as
+the accounts in `docs/SETUP.md` exist (domain, Vercel, Neon, Resend, Cloudinary).
+
+| Milestone | Status | Delivered |
 | --- | --- | --- |
-| Multi-tenancy (slug + custom-domain resolution, proxy, tenant guards) | ✅ Done | Routing reshaped in M2 (§3.1), logic reused |
-| Data model: shops, domains, members, staff, services, working hours, time off, customers, bookings | ✅ Done | Extended in M1 (§3.2) |
-| Availability engine (DST-safe, buffers, lead time, horizon) | ✅ Done | Gains shop closures + "next available" + per-day open/closed in M3 |
-| Booking creation (race-safe, "any professional"), cancellation, manage tokens | ✅ Done | Gains idempotency key + "least booked" assignment in M3 |
-| Booking wizard, manage page, emails | 🟡 Working, unstyled | Rebuilt to the design in M3 |
-| Admin sign-in, protected `/admin` | 🟡 Basic | Redesigned + forgot password in M4 |
-| Tests (113) + CI (unit, component, integration, e2e) | ✅ Done | Extended every milestone |
-| Theming engine, storefront page, motion, landing | ❌ Not started | M1, M2, M6 |
-| Image uploads (Cloudinary) | ❌ Not started | M1 |
-| Storefront editor | ❌ Not started | M5 |
-| Admin: create shop, services, team, hours, bookings, domains | ❌ Not started | M4 |
-| Production infrastructure (Vercel, Neon, Resend, Cloudinary) | ❌ Not started | M0, can start today |
+| M0 Staging infrastructure | ✅ Code done, accounts pending | Env check at boot, `vercel.json`, migrations in `vercel-build`, `/api/health`, production seed, `docs/SETUP.md` |
+| M1 Foundations | ✅ Done | Theme engine (AA-safe accents), storefront config, Cloudinary signed uploads, tokens |
+| M2 Storefront | ✅ Done | 6 presets, hero layouts, sections, gallery, motion, open status, closures |
+| M3 Booking, manage, email | ✅ Done | Redesigned wizard, manage/cancel page, branded emails, `.ics` |
+| M4 Admin + operator + domains | ✅ Done | Services, team, hours, bookings, settings, people, operator console, custom domains |
+| M5 Storefront editor | ✅ Done | Live preview, contrast fix, drag-and-drop sections, photo library, draft → publish |
+| M6 Landing, hardening | ✅ Done | Landing, Impressum/privacy, nonce CSP, robots/sitemap per host, Lighthouse CI gates |
 
-**Rough progress to MVP: ~30%.** The hard back-end parts (tenancy, availability,
-race-safe booking, tests and CI) are done. Most of what's left is UI built to the design,
-the admin and editor, and the media pipeline.
+Tests: ~250 unit/component, ~85 integration, e2e on desktop + phone (booking, custom
+domains, admin, editor, landing, security, axe on every screen), Lighthouse in CI.
 
-**When you can deploy:**
-- **Staging: now (M0).** Phase 1 already works end to end. Deploying it now means we find
-  any infrastructure problems (env vars, migrations, email sending, domain, DNS) early.
-- **Production with your brother's shop live on his domain: after M5.** That's when the
-  owner can set the shop up and customise it without touching the database.
-- **MVP sign-off: after M6** (hardening, landing page, full test plan).
+**Next:** follow `docs/SETUP.md`, then set up Mba Cutz Hair Studio and cut over the domain.
 
 ---
 
@@ -510,13 +502,13 @@ layer. Flaky tests are fixed, never retried away.
 | --- | --- | --- |
 | Vercel | Pro (~$20/month) | Commercial use, custom domains, Domains API |
 | Neon | Free to start (Frankfurt) | Postgres; upgrade when storage or compute grows |
-| Resend | Free (3,000 emails/month, 100/day) | Needs one verified sending domain |
+| Resend | Free (3,000 emails/month, 100/day, 3 domains) | Needs one verified sending domain |
 | Cloudinary | Free tier | Image storage + delivery |
 | Domains | Your brother's domain (he owns it); optional platform domain | Storefront and email sending |
 
 ### 6.2 Environment variables
 `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `PLATFORM_HOSTS`,
-`PLATFORM_ADMIN_EMAILS`, `RESEND_API_KEY`, `EMAIL_FROM`, `CLOUDINARY_CLOUD_NAME`,
+`PLATFORM_ADMIN_EMAILS`, `RESEND_API_KEY`, `EMAIL_FROM`, `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`, `NEXT_PUBLIC_PLATFORM_URL`,
 `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `VERCEL_TOKEN` + `VERCEL_PROJECT_ID`
 (+ `VERCEL_TEAM_ID`) for domain automation, optional `RATE_LIMIT_*`. All validated at
 boot by `src/lib/env.ts`.
@@ -525,7 +517,7 @@ boot by `src/lib/env.ts`.
 1. Operator admin → Create shop (slug, preset, owner email) → owner gets the invite.
 2. Owner (or you) adds services, team, hours, closures, photos; customises the storefront
    in the editor; publishes.
-3. Admin → Domain → add `brosbab.com` + `www.brosbab.com` → set the DNS records shown at
+3. Admin → Domain → add `mbacutzhairstudio.com` + `www.mbacutzhairstudio.com` → set the DNS records shown at
    his registrar → wait for "Live" (SSL is automatic).
 4. Test booking on the real domain from a phone; check the email arrives and the cancel
    link works.
@@ -548,8 +540,8 @@ boot by `src/lib/env.ts`.
 2. **Email sender:** platform domain by default, branded per shop:
    `From: "<Shop short name>" <bookings@mail.<domain>>`, `Reply-To: <shop email>`.
    Customers see the shop's name, and replies go to the shop. Optional per-shop sending
-   domain (e.g. `mail.mbacutzhairstudio.com`) is a later feature. Needs Resend Pro,
-   because the free plan allows 1 domain.
+   domain (e.g. `mail.mbacutzhairstudio.com`) is a later feature. The free plan allows
+   3 domains, so this fits before upgrading.
 3. **Demo shops:** Kaiser, FADE/LAB and Lune stay live in production as examples until
    removed.
 4. **First real shop:** Mba Cutz Hair Studio, domain `mbacutzhairstudio.com` (already

@@ -10,12 +10,15 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # Project conventions (appointments platform)
 
-- **Multi-tenant from day one.** Every tenant-owned table has `business_id`; every query filters by it. Admin mutations call `assertMember(userId, businessId)` first (`src/lib/session.ts`).
-- **Tenant resolution** happens in one place: `src/domain/business/resolve-business.ts`. Pages receive a `Business` and never care whether it came from `/book/[slug]` or a custom domain.
-- **`src/proxy.ts`** (Next 16's renamed middleware) only rewrites custom-domain requests to `/sites/[host]`. It must never query the database.
+- **Multi-tenant from day one.** Every tenant-owned table has `business_id`; every query filters by it. Admin actions call `authorize(businessId, role)` first (`src/lib/authz.ts`); operator-only actions call `authorizeOperator()`.
+- **Tenant resolution** happens in one place: `resolveSite()` in `src/lib/tenant.ts` (slug or hostname → shop). `[site]` pages never care whether the visitor came via `/kaiser` or a custom domain; build links with `siteHref(basePath, …)`.
+- **`src/proxy.ts`** (Next 16's renamed middleware) sets the per-request CSP nonce, rewrites custom-domain requests to `/<hostname>/…` and redirects sign-in paths to the app host. It must never query the database. New third-party origins (scripts, images, frames) must be added to `src/lib/csp.ts`.
 - **`src/domain/**`** holds business logic. No React or Next.js imports there. Files that touch the DB must not be imported from client components; pure logic lives in separate files (e.g. `catalog/selection.ts`).
 - **Times:** store `timestamptz` (UTC). Working hours are wall-clock times in the business timezone. Money is integer cents.
 - **Double booking** is prevented by the `bookings_no_overlap_per_staff` exclusion constraint (`drizzle/0001_booking_no_overlap.sql`). Catch SQLSTATE `23P01` and show "slot just taken".
+- **Storefront look** lives in `storefront_configs` (draft/published JSON, schema in `src/domain/storefront/config.ts`). Owner edits save the draft; only publishing changes the public page. Editor ↔ preview messages are defined in `preview-protocol.ts`.
+- **Colours** in themed UI come from CSS variables only (`pnpm lint` fails on hex values); new accent logic goes through `src/domain/theme/derive.ts`.
+- **Environment variables**: add new required ones to `src/lib/env.ts`, `.env.example` and `docs/SETUP.md`.
 - **Booking status changes** go through `assertTransition` in `src/domain/booking/status.ts`.
 - **Schema changes:** edit `src/db/schema/*`, then `pnpm db:generate --name <change>` and `pnpm db:migrate`. Never edit an applied migration.
 - **Tests ship with every change.** Pure logic → `*.test.ts` (unit). Components → `*.test.tsx` (jsdom). Anything touching the DB → `*.int.test.ts` (real Postgres via `tests/support/fixtures.ts`). User journeys → `e2e/*.spec.ts`. Run `pnpm test` constantly, `pnpm test:all` before pushing.

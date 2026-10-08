@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { buildCsp, createNonce } from "@/lib/csp";
-import { isPlatformHost, normalizeHostname } from "@/lib/hosts";
+import { authHostRedirect, isPlatformHost, normalizeHostname } from "@/lib/hosts";
 
 /**
  * Next.js 16 "proxy" (formerly middleware). Runs before every page request
@@ -8,6 +8,8 @@ import { isPlatformHost, normalizeHostname } from "@/lib/hosts";
  *
  *   platform host  (localhost, *.vercel.app, PLATFORM_HOSTS)
  *     → passes through: /, /login, /admin, /<slug>, /<slug>/book …
+ *     → /admin, /login … on a platform host other than the app host
+ *       (BETTER_AUTH_URL) redirect there, so there's one sign-in place
  *     → a first path segment containing a dot is 404 (hostnames are internal)
  *
  *   any other host (a shop's custom domain, e.g. brosbab.com)
@@ -40,6 +42,8 @@ export function proxy(request: NextRequest) {
 
   if (isPlatformHost(host)) {
     if (firstSegment.includes(".")) return new NextResponse(null, { status: 404 });
+    const appOrigin = authHostRedirect(host, pathname, process.env.BETTER_AUTH_URL);
+    if (appOrigin) return NextResponse.redirect(new URL(`${pathname}${search}`, appOrigin), 308);
     return withCsp(NextResponse.next({ request: { headers } }));
   }
 

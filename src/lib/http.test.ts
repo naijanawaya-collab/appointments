@@ -76,3 +76,25 @@ describe("date formatting (design copy)", () => {
     expect(shortDate(d, "Europe/Vienna")).toBe("Fri 9 Oct");
   });
 });
+
+describe("authHostRedirect", () => {
+  const app = "https://app.example.com";
+  it("sends sign-in and admin paths on other platform hosts to the app host", async () => {
+    const { authHostRedirect } = await import("./hosts");
+    const prev = process.env.PLATFORM_HOSTS;
+    process.env.PLATFORM_HOSTS = "example.com,www.example.com,app.example.com";
+    try {
+      expect(authHostRedirect("example.com", "/login", app)).toBe("https://app.example.com");
+      expect(authHostRedirect("www.example.com", "/admin/kaiser/storefront", app)).toBe("https://app.example.com");
+      expect(authHostRedirect("app.example.com", "/login", app)).toBeNull();
+      expect(authHostRedirect("example.com", "/", app)).toBeNull();
+      expect(authHostRedirect("example.com", "/kaiser", app)).toBeNull();
+      expect(authHostRedirect("example.com", "/administrator", app)).toBeNull();
+      expect(authHostRedirect("my-app-git-x.vercel.app", "/login", app)).toBeNull();
+      expect(authHostRedirect("mbacutz.com", "/login", app)).toBeNull();
+      expect(authHostRedirect("example.com", "/login", undefined)).toBeNull();
+    } finally {
+      process.env.PLATFORM_HOSTS = prev;
+    }
+  });
+});
