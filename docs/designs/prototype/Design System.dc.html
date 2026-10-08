@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Cormorant+Garamond:wght@500;600&family=Barlow+Condensed:wght@600;700&family=Anton&family=Italiana&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ebe6de;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 0}
+a{color:#a8431f;text-underline-offset:3px}a:hover{color:#813216}
+@keyframes skel{0%,100%{opacity:.55}50%{opacity:1}}
+</style>
+</helmet>
+<section data-screen-label="Design system" style="padding:64px;display:flex;flex-direction:column;gap:72px;max-width:1520px;--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;--accent-hover:#953a1a;--accent-pressed:#813216;--accent-subtle:#f3e3da;--danger:#b42318;--success:#2f6b3a;color:var(--foreground)">
+
+  <header style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:32px 48px;align-items:end;padding-bottom:40px;border-bottom:1px solid var(--line)">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Appointments · design system v1</span>
+      <h1 style="margin:0;font:400 88px/0.95 'Instrument Serif',serif;letter-spacing:-.02em">Tokens, presets &amp; components</h1>
+    </div>
+    <p style="margin:0;font-size:17px;line-height:1.55;color:var(--muted);text-wrap:pretty">One set of CSS variables, set per shop on the server in a single <code style="font:14px 'Geist Mono'">&lt;style&gt;</code> tag inside <code style="font:14px 'Geist Mono'">&lt;head&gt;</code>. No JS to theme, no flash. Existing names (<code style="font:14px 'Geist Mono'">--background … --danger</code>) are kept; everything else derives from them.</p>
+  </header>
+
+  <!-- 1 PLATFORM TOKENS -->
+  <section style="display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:baseline;gap:16px"><span style="font:500 13px 'Geist Mono';color:var(--accent)">01</span><h2 style="margin:0;font:400 44px/1 'Instrument Serif',serif">Platform defaults — light &amp; dark</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:24px">
+      <div style="background:#f6f3ee;border:1px solid #e3dcd1;border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:14px;color:#1d1a17">
+        <div style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:15px">Light</strong><code style="font:12px 'Geist Mono';color:#6b6259">:root</code></div>
+        <div style="display:grid;grid-template-columns:44px 1fr auto auto;gap:10px 14px;align-items:center;font-size:14px">
+          <span style="width:44px;height:32px;border-radius:6px;background:#f6f3ee;border:1px solid #e3dcd1"></span><code style="font:13px 'Geist Mono'">--background</code><span style="font:13px 'Geist Mono';color:#6b6259">#F6F3EE</span><span style="font:12px 'Geist Mono';color:#6b6259">bone</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#1d1a17"></span><code style="font:13px 'Geist Mono'">--foreground</code><span style="font:13px 'Geist Mono';color:#6b6259">#1D1A17</span><span style="font:12px 'Geist Mono';color:#2f6b3a">16.1 : 1</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#fffdfa;border:1px solid #e3dcd1"></span><code style="font:13px 'Geist Mono'">--surface</code><span style="font:13px 'Geist Mono';color:#6b6259">#FFFDFA</span><span style="font:12px 'Geist Mono';color:#6b6259">cards</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#6b6259"></span><code style="font:13px 'Geist Mono'">--muted</code><span style="font:13px 'Geist Mono';color:#6b6259">#6B6259</span><span style="font:12px 'Geist Mono';color:#2f6b3a">5.4 : 1</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#e3dcd1"></span><code style="font:13px 'Geist Mono'">--line</code><span style="font:13px 'Geist Mono';color:#6b6259">#E3DCD1</span><span style="font:12px 'Geist Mono';color:#6b6259">stone</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#a8431f"></span><code style="font:13px 'Geist Mono'">--accent</code><span style="font:13px 'Geist Mono';color:#6b6259">#A8431F</span><span style="font:12px 'Geist Mono';color:#2f6b3a">5.5 : 1</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#a8431f;display:flex;align-items:center;justify-content:center;color:#fffdfa;font-weight:600">Aa</span><code style="font:13px 'Geist Mono'">--accent-foreground</code><span style="font:13px 'Geist Mono';color:#6b6259">#FFFDFA</span><span style="font:12px 'Geist Mono';color:#2f6b3a">6.0 : 1</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#b42318"></span><code style="font:13px 'Geist Mono'">--danger</code><span style="font:13px 'Geist Mono';color:#6b6259">#B42318</span><span style="font:12px 'Geist Mono';color:#2f6b3a">5.9 : 1</span>
+        </div>
+      </div>
+      <div style="background:#14120f;border:1px solid #332d27;border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:14px;color:#f1ece4">
+        <div style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:15px">Dark</strong><code style="font:12px 'Geist Mono';color:#a59c90">[data-mode="dark"] · or prefers-color-scheme when mode = auto</code></div>
+        <div style="display:grid;grid-template-columns:44px 1fr auto auto;gap:10px 14px;align-items:center;font-size:14px">
+          <span style="width:44px;height:32px;border-radius:6px;background:#14120f;border:1px solid #332d27"></span><code style="font:13px 'Geist Mono'">--background</code><span style="font:13px 'Geist Mono';color:#a59c90">#14120F</span><span style="font:12px 'Geist Mono';color:#a59c90">charcoal</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#f1ece4"></span><code style="font:13px 'Geist Mono'">--foreground</code><span style="font:13px 'Geist Mono';color:#a59c90">#F1ECE4</span><span style="font:12px 'Geist Mono';color:#7fc48c">16.4 : 1</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#1d1a16;border:1px solid #332d27"></span><code style="font:13px 'Geist Mono'">--surface</code><span style="font:13px 'Geist Mono';color:#a59c90">#1D1A16</span><span style="font:12px 'Geist Mono';color:#a59c90">cards</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#a59c90"></span><code style="font:13px 'Geist Mono'">--muted</code><span style="font:13px 'Geist Mono';color:#a59c90">#A59C90</span><span style="font:12px 'Geist Mono';color:#7fc48c">7.2 : 1</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#332d27"></span><code style="font:13px 'Geist Mono'">--line</code><span style="font:13px 'Geist Mono';color:#a59c90">#332D27</span><span style="font:12px 'Geist Mono';color:#a59c90">—</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#e2805a"></span><code style="font:13px 'Geist Mono'">--accent</code><span style="font:13px 'Geist Mono';color:#a59c90">#E2805A</span><span style="font:12px 'Geist Mono';color:#7fc48c">6.6 : 1</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#e2805a;display:flex;align-items:center;justify-content:center;color:#14120f;font-weight:600">Aa</span><code style="font:13px 'Geist Mono'">--accent-foreground</code><span style="font:13px 'Geist Mono';color:#a59c90">#14120F</span><span style="font:12px 'Geist Mono';color:#7fc48c">6.6 : 1</span>
+          <span style="width:44px;height:32px;border-radius:6px;background:#f97066"></span><code style="font:13px 'Geist Mono'">--danger</code><span style="font:13px 'Geist Mono';color:#a59c90">#F97066</span><span style="font:12px 'Geist Mono';color:#7fc48c">6.9 : 1</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:24px">
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:12px">
+        <strong style="font-size:15px">Derived tokens (new — computed, never set by hand)</strong>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:13px;line-height:1.45">
+          <code style="font:13px 'Geist Mono'">--accent-hover</code><span style="color:var(--muted)">oklch(from var(--accent) calc(l − .06) c h) · dark: + .06</span>
+          <code style="font:13px 'Geist Mono'">--accent-pressed</code><span style="color:var(--muted)">l − .12 · dark: + .10</span>
+          <code style="font:13px 'Geist Mono'">--accent-subtle</code><span style="color:var(--muted)">color-mix(in oklab, var(--accent) 12%, var(--background))</span>
+          <code style="font:13px 'Geist Mono'">--accent-text</code><span style="color:var(--muted)">accent used as text/links — server-corrected to ≥ 4.5:1 on --background</span>
+          <code style="font:13px 'Geist Mono'">--secondary</code><span style="color:var(--muted)">optional; falls back to --foreground. Used for tags, dividers, pattern ink</span>
+          <code style="font:13px 'Geist Mono'">--ring</code><span style="color:var(--muted)">focus ring = --accent-text, 2px + 2px offset (≥ 3:1)</span>
+          <code style="font:13px 'Geist Mono'">--scrim</code><span style="color:var(--muted)">linear-gradient(to top, rgb(0 0 0 / .72), rgb(0 0 0 / .2) 60%, transparent)</span>
+          <code style="font:13px 'Geist Mono'">--success</code><span style="color:var(--muted)">#2F6B3A / dark #7FC48C — status “Confirmed”</span>
+          <code style="font:13px 'Geist Mono'">--font-display</code><span style="color:var(--muted)">one of 6 curated families; --font-sans is always Geist</span>
+          <code style="font:13px 'Geist Mono'">--radius / --radius-lg</code><span style="color:var(--muted)">per preset: 0 · 2 · 6 · 10 · 20 · pill</span>
+          <code style="font:13px 'Geist Mono'">--motion-rise / -parallax</code><span style="color:var(--muted)">per preset intensity (see §07)</span>
+        </div>
+      </div>
+      <pre style="margin:0;background:#1d1a17;color:#e9e3d9;border-radius:14px;padding:24px;font:12.5px/1.6 'Geist Mono',monospace;overflow:auto;white-space:pre">/* rendered by the server into &lt;head&gt;, per shop */
+&lt;html data-mode="auto"&gt;  &lt;!-- light | dark | auto --&gt;
+&lt;style&gt;
+:root {
+  --background:#F4ECDF; --foreground:#2A2118;
+  --surface:#FBF6EE;    --muted:#6E604E;
+  --line:#E2D6C3;       --accent:#8A6A2F;
+  --accent-foreground:#FFFFFF; --danger:#B42318;
+  --accent-text:#7A5C25;   /* AA-corrected */
+  --font-display:"Cormorant Garamond", serif;
+  --radius:2px; --motion-rise:12px;
+}
+@media (prefers-color-scheme: dark) {
+  [data-mode="auto"] { /* dark set */ }
+}
+[data-mode="dark"] { /* dark set */ }
+&lt;/style&gt;
+&lt;link rel="preload" as="font" type="font/woff2" crossorigin
+  href="/fonts/cormorant-600-latin.woff2"&gt;</pre>
+    </div>
+  </section>
+
+  <!-- 2 FLUID SCALE -->
+  <section style="display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:baseline;gap:16px"><span style="font:500 13px 'Geist Mono';color:var(--accent)">02</span><h2 style="margin:0;font:400 44px/1 'Instrument Serif',serif">Fluid type, space &amp; layout</h2></div>
+    <p style="margin:0;max-width:760px;font-size:15px;line-height:1.55;color:var(--muted)">Every size is a <code style="font:13px 'Geist Mono'">clamp()</code> between the 360px and 1440px viewports, so there are no breakpoint jumps for type. Layout switches with container queries on the section, not the page, so blocks work at any column width (editor preview, embeds, phones in landscape).</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:24px">
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 24px">
+        <div style="display:grid;grid-template-columns:80px minmax(0,1fr) minmax(0,250px);gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)"><code style="font:12px 'Geist Mono';color:var(--muted)">--step-5</code><span style="font:400 64px/1 'Instrument Serif',serif">Hero</span><code style="font:12px 'Geist Mono';color:var(--muted)">clamp(3rem, 2rem + 4.4vw, 6.5rem)</code></div>
+        <div style="display:grid;grid-template-columns:80px minmax(0,1fr) minmax(0,250px);gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)"><code style="font:12px 'Geist Mono';color:var(--muted)">--step-4</code><span style="font:400 44px/1 'Instrument Serif',serif">Section title</span><code style="font:12px 'Geist Mono';color:var(--muted)">clamp(2.25rem, 1.7rem + 2.4vw, 4rem)</code></div>
+        <div style="display:grid;grid-template-columns:80px minmax(0,1fr) minmax(0,250px);gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)"><code style="font:12px 'Geist Mono';color:var(--muted)">--step-3</code><span style="font:400 32px/1.1 'Instrument Serif',serif">Confirmation time</span><code style="font:12px 'Geist Mono';color:var(--muted)">clamp(1.75rem, 1.45rem + 1.3vw, 2.75rem)</code></div>
+        <div style="display:grid;grid-template-columns:80px minmax(0,1fr) minmax(0,250px);gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)"><code style="font:12px 'Geist Mono';color:var(--muted)">--step-2</code><span style="font:600 24px/1.2 Geist;letter-spacing:-.02em">Step heading</span><code style="font:12px 'Geist Mono';color:var(--muted)">clamp(1.375rem, 1.25rem + .55vw, 1.75rem)</code></div>
+        <div style="display:grid;grid-template-columns:80px minmax(0,1fr) minmax(0,250px);gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)"><code style="font:12px 'Geist Mono';color:var(--muted)">--step-1</code><span style="font:500 19px/1.35 Geist">Lead / service name</span><code style="font:12px 'Geist Mono';color:var(--muted)">clamp(1.125rem, 1.08rem + .2vw, 1.25rem)</code></div>
+        <div style="display:grid;grid-template-columns:80px minmax(0,1fr) minmax(0,250px);gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)"><code style="font:12px 'Geist Mono';color:var(--muted)">--step-0</code><span style="font:400 16px/1.55 Geist">Body text — never below 16px on inputs (no iOS zoom)</span><code style="font:12px 'Geist Mono';color:var(--muted)">clamp(1rem, .98rem + .1vw, 1.0625rem)</code></div>
+        <div style="display:grid;grid-template-columns:80px minmax(0,1fr) minmax(0,250px);gap:16px;align-items:baseline;padding:16px 0"><code style="font:12px 'Geist Mono';color:var(--muted)">--step--1</code><span style="font:400 14px/1.45 Geist;color:var(--muted)">Meta · <span style="font-variant-numeric:tabular-nums;color:var(--foreground);font-weight:500">€ 25,00 · 45 min · 09:30</span></span><code style="font:12px 'Geist Mono';color:var(--muted)">clamp(.8125rem, .79rem + .1vw, .875rem)</code></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:15px">Space</strong>
+          <div style="display:grid;grid-template-columns:70px 1fr 120px;gap:8px 12px;align-items:center;font:12px 'Geist Mono';color:var(--muted)">
+            <span>--space-2xs</span><span style="height:10px;width:6px;background:var(--accent)"></span><span>4 → 6</span>
+            <span>--space-xs</span><span style="height:10px;width:10px;background:var(--accent)"></span><span>8 → 12</span>
+            <span>--space-s</span><span style="height:10px;width:20px;background:var(--accent)"></span><span>12 → 20</span>
+            <span>--space-m</span><span style="height:10px;width:32px;background:var(--accent)"></span><span>16 → 32</span>
+            <span>--space-l</span><span style="height:10px;width:56px;background:var(--accent)"></span><span>24 → 56</span>
+            <span>--space-xl</span><span style="height:10px;width:96px;background:var(--accent)"></span><span>40 → 96</span>
+            <span>--space-2xl</span><span style="height:10px;width:160px;background:var(--accent)"></span><span>64 → 160</span>
+          </div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:8px;font-size:13px;line-height:1.5">
+          <strong style="font-size:15px">Layout rules</strong>
+          <span><code style="font:12px 'Geist Mono'">--page-max: 1280px</code> · <code style="font:12px 'Geist Mono'">--gutter: clamp(16px, 4vw, 48px)</code></span>
+          <span><code style="font:12px 'Geist Mono'">--measure: 62ch</code> for about / bios</span>
+          <span>Containers: <strong>&lt; 560</strong> stacked · <strong>560–900</strong> 2-col · <strong>&gt; 900</strong> split / 3-col</span>
+          <span>Booking column: <code style="font:12px 'Geist Mono'">min(100%, 720px)</code>; desktop adds a 360px sticky summary aside</span>
+          <span>Touch targets: <strong>min 44 × 44</strong>, slots 48 tall</span>
+          <span>Media: fixed <code style="font:12px 'Geist Mono'">aspect-ratio</code> on every image box → CLS 0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 PRESETS -->
+  <section style="display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:baseline;gap:16px"><span style="font:500 13px 'Geist Mono';color:var(--accent)">03</span><h2 style="margin:0;font:400 44px/1 'Instrument Serif',serif">Theme presets</h2></div>
+    <p style="margin:0;max-width:760px;font-size:15px;line-height:1.55;color:var(--muted)">The owner starts from one of six. A preset is just a token set + hero default + motion intensity; every value can then be adjusted.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+
+      <article style="--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;background:var(--background);color:var(--foreground);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:24px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <div style="display:flex;justify-content:space-between;font:12px 'Geist Mono';color:var(--muted)"><span>EDITORIAL · platform default</span><span>light</span></div>
+          <span style="font:400 48px/1 'Instrument Serif',serif">The Chair</span>
+          <span style="font-size:14px;color:var(--muted)">Instrument Serif + Geist · radius 10 · standard motion</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:var(--accent);color:var(--accent-foreground);padding:12px 18px;border-radius:10px;font-weight:500;font-size:14px">Book now</span><span style="border:1px solid var(--line);background:var(--surface);padding:12px 18px;border-radius:10px;font-size:14px">Services</span></div>
+        </div>
+        <div style="display:flex;height:28px"><span style="flex:1;background:#f6f3ee"></span><span style="flex:1;background:#fffdfa"></span><span style="flex:1;background:#e3dcd1"></span><span style="flex:1;background:#6b6259"></span><span style="flex:1;background:#1d1a17"></span><span style="flex:2;background:#a8431f"></span></div>
+      </article>
+
+      <article style="--background:#f4ecdf;--foreground:#2a2118;--surface:#fbf6ee;--muted:#6e604e;--line:#e2d6c3;--accent:#8a6a2f;--accent-foreground:#ffffff;background:var(--background);color:var(--foreground);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:24px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <div style="display:flex;justify-content:space-between;font:12px 'Geist Mono';color:var(--muted)"><span>CLASSIC</span><span>light</span></div>
+          <span style="font:600 48px/1 'Cormorant Garamond',serif">Gentlemen’s Barbers</span>
+          <span style="font-size:14px;color:var(--muted)">Cormorant Garamond · brass accent · radius 2 · standard motion · hero: split</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:var(--accent);color:var(--accent-foreground);padding:12px 18px;border-radius:2px;font-weight:500;font-size:14px;letter-spacing:.04em">Book now</span><span style="border:1px solid var(--foreground);padding:12px 18px;border-radius:2px;font-size:14px">Services</span></div>
+        </div>
+        <div style="display:flex;height:28px"><span style="flex:1;background:#f4ecdf"></span><span style="flex:1;background:#fbf6ee"></span><span style="flex:1;background:#e2d6c3"></span><span style="flex:1;background:#6e604e"></span><span style="flex:1;background:#2a2118"></span><span style="flex:2;background:#8a6a2f"></span></div>
+      </article>
+
+      <article style="--background:#16171a;--foreground:#f3f3f1;--surface:#1f2024;--muted:#a3a4a8;--line:#303136;--accent:#ff5a1f;--accent-foreground:#111111;background:var(--background);color:var(--foreground);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:24px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <div style="display:flex;justify-content:space-between;font:12px 'Geist Mono';color:var(--muted)"><span>MODERN</span><span>dark</span></div>
+          <span style="font:700 52px/0.95 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.01em">Fade Studio</span>
+          <span style="font-size:14px;color:var(--muted)">Barlow Condensed · signal accent · radius 0 · lively motion · hero: full-bleed</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:var(--accent);color:var(--accent-foreground);padding:12px 18px;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.06em">Book now</span><span style="border:1px solid var(--line);padding:12px 18px;font-size:14px;text-transform:uppercase;letter-spacing:.06em">Services</span></div>
+        </div>
+        <div style="display:flex;height:28px"><span style="flex:1;background:#16171a"></span><span style="flex:1;background:#1f2024"></span><span style="flex:1;background:#303136"></span><span style="flex:1;background:#a3a4a8"></span><span style="flex:1;background:#f3f3f1"></span><span style="flex:2;background:#ff5a1f"></span></div>
+      </article>
+
+      <article style="--background:#ffffff;--foreground:#111111;--surface:#ffffff;--muted:#666666;--line:#ebebeb;--accent:#111111;--accent-foreground:#ffffff;background:var(--background);color:var(--foreground);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:24px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <div style="display:flex;justify-content:space-between;font:12px 'Geist Mono';color:var(--muted)"><span>MINIMAL</span><span>light</span></div>
+          <span style="font:500 44px/1 Geist;letter-spacing:-.04em">studio nord</span>
+          <span style="font-size:14px;color:var(--muted)">Geist only (zero extra font bytes) · monochrome · radius 6 · calm motion · hero: text-only</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:var(--accent);color:var(--accent-foreground);padding:12px 18px;border-radius:6px;font-weight:500;font-size:14px">Book now</span><span style="padding:12px 18px;font-size:14px;text-decoration:underline;text-underline-offset:4px">Services</span></div>
+        </div>
+        <div style="display:flex;height:28px"><span style="flex:1;background:#ffffff"></span><span style="flex:1;background:#f5f5f5"></span><span style="flex:1;background:#ebebeb"></span><span style="flex:1;background:#666666"></span><span style="flex:3;background:#111111"></span></div>
+      </article>
+
+      <article style="--background:#0b0b0b;--foreground:#ffffff;--surface:#161616;--muted:#a6a6a6;--line:#2a2a2a;--accent:#e4ff3a;--accent-foreground:#0b0b0b;background:var(--background);color:var(--foreground);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:24px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <div style="display:flex;justify-content:space-between;font:12px 'Geist Mono';color:var(--muted)"><span>BOLD</span><span>dark</span></div>
+          <span style="font:400 56px/0.9 Anton,sans-serif;text-transform:uppercase">Razor Club</span>
+          <span style="font-size:14px;color:var(--muted)">Anton · high-contrast acid accent · radius 0 · lively motion · hero: carousel, big photos</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:var(--accent);color:var(--accent-foreground);padding:12px 18px;font-weight:700;font-size:14px;text-transform:uppercase">Book now</span><span style="border:2px solid var(--foreground);padding:10px 18px;font-weight:600;font-size:14px;text-transform:uppercase">Services</span></div>
+        </div>
+        <div style="display:flex;height:28px"><span style="flex:1;background:#0b0b0b"></span><span style="flex:1;background:#161616"></span><span style="flex:1;background:#2a2a2a"></span><span style="flex:1;background:#a6a6a6"></span><span style="flex:1;background:#ffffff"></span><span style="flex:2;background:#e4ff3a"></span></div>
+      </article>
+
+      <article style="--background:#faf3f1;--foreground:#3b2430;--surface:#fffaf8;--muted:#7a5d69;--line:#eedcd8;--accent:#a3456b;--accent-foreground:#ffffff;background:var(--background);color:var(--foreground);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:24px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <div style="display:flex;justify-content:space-between;font:12px 'Geist Mono';color:var(--muted)"><span>SOFT</span><span>light</span></div>
+          <span style="font:400 48px/1 Italiana,serif;letter-spacing:.02em">Lune Studio</span>
+          <span style="font-size:14px;color:var(--muted)">Italiana · rose accent · radius 20 / pill buttons · standard motion · hero: split</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:var(--accent);color:var(--accent-foreground);padding:12px 20px;border-radius:999px;font-weight:500;font-size:14px">Book now</span><span style="border:1px solid var(--line);background:var(--surface);padding:12px 20px;border-radius:999px;font-size:14px">Services</span></div>
+        </div>
+        <div style="display:flex;height:28px"><span style="flex:1;background:#faf3f1"></span><span style="flex:1;background:#fffaf8"></span><span style="flex:1;background:#eedcd8"></span><span style="flex:1;background:#7a5d69"></span><span style="flex:1;background:#3b2430"></span><span style="flex:2;background:#a3456b"></span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 4 DERIVATION -->
+  <section style="display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:baseline;gap:16px"><span style="font:500 13px 'Geist Mono';color:var(--accent)">04</span><h2 style="margin:0;font:400 44px/1 'Instrument Serif',serif">From one owner colour to a full, AA-safe palette</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:24px">
+      <ol style="margin:0;padding:24px 24px 24px 44px;background:var(--surface);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;gap:14px;font-size:14.5px;line-height:1.55">
+        <li><strong>Button text.</strong> Compute contrast of the accent against pure black and white; <code style="font:13px 'Geist Mono'">--accent-foreground</code> = whichever is higher. Because the two curves cross at ≈ 4.58 : 1, one of them <em>always</em> passes AA — the button is never broken.</li>
+        <li><strong>Accent as text, links, outlines, focus ring.</strong> Check accent against <code style="font:13px 'Geist Mono'">--background</code>. Below 4.5 : 1 → step OKLCH lightness by 0.02 (darker on light themes, lighter on dark) until it passes; store as <code style="font:13px 'Geist Mono'">--accent-text</code>. Hue and chroma stay, so it still reads as “their” colour.</li>
+        <li><strong>States.</strong> hover = L ∓ 0.06, pressed = L ∓ 0.12, subtle tint = 12 % mix into background. All pure CSS relative colour.</li>
+        <li><strong>Dark mode.</strong> Same accent, re-checked against the dark background; usually lightened.</li>
+        <li><strong>Secondary.</strong> Only used decoratively (patterns, dividers, tag fill with foreground text) so it can never fail contrast.</li>
+        <li><strong>Editor warning.</strong> If step 2 had to move L by more than 0.15, the editor flags it and offers the corrected colour as a one-click fix.</li>
+      </ol>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><strong style="font-size:15px">Live: try any colour</strong><span style="font:12px 'Geist Mono';color:var(--muted)">Tweaks → “Owner accent”</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ samples }}" as="s" hint-placeholder-count="6"><button onClick="{{ s.pick }}" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);background:{{ s.hex }};cursor:pointer" aria-label="{{ s.hex }}"></button></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+          <div style="background:#f6f3ee;border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px;border:1px solid #e3dcd1">
+            <span style="font:12px 'Geist Mono';color:#6b6259">on light background</span>
+            <span style="background:{{ d.accent }};color:{{ d.fg }};padding:12px 18px;border-radius:10px;font-weight:500;align-self:flex-start">Book now</span>
+            <span style="color:{{ d.textL }};font-weight:500;text-decoration:underline;text-underline-offset:3px">View all services →</span>
+            <span style="font:12px 'Geist Mono';color:#6b6259">btn {{ d.btnRatio }} · text {{ d.textLRatio }} {{ d.fixL }}</span>
+          </div>
+          <div style="background:#14120f;border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px">
+            <span style="font:12px 'Geist Mono';color:#a59c90">on dark background</span>
+            <span style="background:{{ d.accentD }};color:{{ d.fgD }};padding:12px 18px;border-radius:10px;font-weight:500;align-self:flex-start">Book now</span>
+            <span style="color:{{ d.textD }};font-weight:500;text-decoration:underline;text-underline-offset:3px">View all services →</span>
+            <span style="font:12px 'Geist Mono';color:#a59c90">text {{ d.textDRatio }} {{ d.fixD }}</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;font:11px 'Geist Mono';color:var(--muted)">
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="height:40px;border-radius:6px;background:{{ d.accent }}"></span>accent<br>{{ d.accent }}</div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="height:40px;border-radius:6px;background:{{ d.hover }}"></span>hover<br>{{ d.hover }}</div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="height:40px;border-radius:6px;background:{{ d.pressed }}"></span>pressed<br>{{ d.pressed }}</div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="height:40px;border-radius:6px;background:{{ d.subtle }};border:1px solid var(--line)"></span>subtle<br>{{ d.subtle }}</div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="height:40px;border-radius:6px;background:{{ d.textL }}"></span>text<br>{{ d.textL }}</div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="height:40px;border-radius:6px;background:{{ d.fg }};border:1px solid var(--line)"></span>on-accent<br>{{ d.fg }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 FONTS -->
+  <section style="display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:baseline;gap:16px"><span style="font:500 13px 'Geist Mono';color:var(--accent)">05</span><h2 style="margin:0;font:400 44px/1 'Instrument Serif',serif">Curated display fonts (body is always Geist)</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden">
+      <div style="background:var(--surface);padding:24px;display:flex;flex-direction:column;gap:10px"><span style="font:400 40px/1 'Instrument Serif',serif">Instrument Serif</span><span style="font-size:15px;line-height:1.5;color:var(--muted)">Fresh cuts, honest prices and a chair that’s waiting for you.</span><code style="font:11px 'Geist Mono';color:var(--muted)">400 + italic · 24 KB latin · Editorial</code></div>
+      <div style="background:var(--surface);padding:24px;display:flex;flex-direction:column;gap:10px"><span style="font:600 40px/1 'Cormorant Garamond',serif">Cormorant Garamond</span><span style="font-size:15px;line-height:1.5;color:var(--muted)">Fresh cuts, honest prices and a chair that’s waiting for you.</span><code style="font:11px 'Geist Mono';color:var(--muted)">600 · 31 KB · Classic</code></div>
+      <div style="background:var(--surface);padding:24px;display:flex;flex-direction:column;gap:10px"><span style="font:700 42px/1 'Barlow Condensed',sans-serif;text-transform:uppercase">Barlow Condensed</span><span style="font-size:15px;line-height:1.5;color:var(--muted)">Fresh cuts, honest prices and a chair that’s waiting for you.</span><code style="font:11px 'Geist Mono';color:var(--muted)">700 · 22 KB · Modern</code></div>
+      <div style="background:var(--surface);padding:24px;display:flex;flex-direction:column;gap:10px"><span style="font:500 40px/1 Geist;letter-spacing:-.04em">Geist Display</span><span style="font-size:15px;line-height:1.5;color:var(--muted)">Fresh cuts, honest prices and a chair that’s waiting for you.</span><code style="font:11px 'Geist Mono';color:var(--muted)">already loaded · 0 KB · Minimal</code></div>
+      <div style="background:var(--surface);padding:24px;display:flex;flex-direction:column;gap:10px"><span style="font:400 42px/1 Anton,sans-serif;text-transform:uppercase">Anton</span><span style="font-size:15px;line-height:1.5;color:var(--muted)">Fresh cuts, honest prices and a chair that’s waiting for you.</span><code style="font:11px 'Geist Mono';color:var(--muted)">400 · 19 KB · Bold</code></div>
+      <div style="background:var(--surface);padding:24px;display:flex;flex-direction:column;gap:10px"><span style="font:400 40px/1 Italiana,serif">Italiana</span><span style="font-size:15px;line-height:1.5;color:var(--muted)">Fresh cuts, honest prices and a chair that’s waiting for you.</span><code style="font:11px 'Geist Mono';color:var(--muted)">400 · 17 KB · Soft</code></div>
+    </div>
+    <p style="margin:0;font-size:13px;color:var(--muted);max-width:820px;line-height:1.5">Self-hosted WOFF2, subset to Latin + Latin-Ext (ä ö ü ß é), <code style="font:12px 'Geist Mono'">font-display: swap</code>, metric-matched fallback via <code style="font:12px 'Geist Mono'">size-adjust</code> / <code style="font:12px 'Geist Mono'">ascent-override</code> so the swap causes no layout shift. Only the chosen family is preloaded.</p>
+  </section>
+
+  <!-- 6 COMPONENTS -->
+  <section style="display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:baseline;gap:16px"><span style="font:500 13px 'Geist Mono';color:var(--accent)">06</span><h2 style="margin:0;font:400 44px/1 'Instrument Serif',serif">Components</h2></div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:24px">
+      <!-- buttons -->
+      <div style="grid-column:1/-1;min-width:0;overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Buttons · 48px tall · 44 min</span>
+        <div style="display:grid;grid-template-columns:90px repeat(5,max-content);gap:10px 12px;align-items:center;justify-content:start;font:11px 'Geist Mono';color:var(--muted)">
+          <span></span><span>default</span><span>hover</span><span>pressed</span><span>focus</span><span>disabled</span>
+          <span>primary</span>
+          <span style="background:var(--accent);color:var(--accent-foreground);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist">Book now</span>
+          <span style="background:var(--accent-hover);color:var(--accent-foreground);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist">Book now</span>
+          <span style="background:var(--accent-pressed);color:var(--accent-foreground);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist;transform:scale(.98)">Book now</span>
+          <span style="background:var(--accent);color:var(--accent-foreground);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist;outline:2px solid var(--accent);outline-offset:2px">Book now</span>
+          <span style="background:var(--line);color:var(--muted);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist">Book now</span>
+          <span>secondary</span>
+          <span style="border:1px solid var(--line);background:var(--surface);color:var(--foreground);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist;box-sizing:border-box">Manage</span>
+          <span style="border:1px solid var(--muted);background:var(--background);color:var(--foreground);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist;box-sizing:border-box">Manage</span>
+          <span style="border:1px solid var(--foreground);background:var(--line);color:var(--foreground);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist;box-sizing:border-box">Manage</span>
+          <span style="border:1px solid var(--line);background:var(--surface);color:var(--foreground);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist;box-sizing:border-box;outline:2px solid var(--accent);outline-offset:2px">Manage</span>
+          <span style="border:1px dashed var(--line);color:var(--muted);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist;box-sizing:border-box">Manage</span>
+          <span>danger</span>
+          <span style="background:var(--danger);color:#fff;height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;font:500 14px Geist">Yes, cancel</span>
+          <span style="color:var(--foreground);height:44px;padding:0 12px;display:flex;align-items:center;font:500 14px Geist;text-decoration:underline;text-underline-offset:3px">Keep it</span>
+          <span style="background:var(--accent);color:var(--accent-foreground);height:44px;padding:0 16px;border-radius:10px;display:flex;align-items:center;gap:8px;font:500 14px Geist"><span style="width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;box-sizing:border-box"></span>Booking…</span>
+          <span style="grid-column:span 2;font:11px 'Geist Mono'">loading keeps width; aria-busy</span>
+        </div>
+      </div>
+      <!-- banner + pills -->
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:12px">
+          <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Announcement banner</span>
+          <div style="background:var(--foreground);color:var(--background);display:flex;align-items:center;justify-content:center;gap:12px;min-height:44px;padding:8px 12px 8px 16px;font-size:14px;border-radius:8px"><span style="flex:1;text-align:center"><strong style="font-weight:600">Closed 24–26 Dec.</strong> Back on the 27th from 09:00.</span><span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center" aria-label="Dismiss">×</span></div>
+          <div style="background:var(--accent-subtle);color:var(--foreground);display:flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:8px 16px;font-size:14px;border-radius:8px"><span style="background:var(--accent);color:var(--accent-foreground);font:600 11px Geist;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:4px">New</span>Beard packages from <strong style="font-variant-numeric:tabular-nums">€ 32,00</strong> <span style="text-decoration:underline">See →</span></div>
+          <span style="font-size:12px;color:var(--muted)">Max 90 chars, wraps to 2 lines on mobile; dismiss stored per message hash. Holiday notices auto-expire.</span>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:12px">
+          <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Status pill — icon + label, never colour alone</span>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:#e5efe5;color:#1f5129;font:500 13px Geist"><span>✓</span>Confirmed</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:#f8e3df;color:#8f1d13;font:500 13px Geist"><span>×</span>Cancelled</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--line);color:var(--foreground);font:500 13px Geist"><span>●</span>Completed</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;border:1px dashed var(--muted);color:var(--foreground);font:500 13px Geist"><span>◷</span>Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px">
+      <!-- service row -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Service row</span>
+        <div style="border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)">
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;min-height:44px"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-weight:500">Skin fade</span><span style="font-size:13px;color:var(--muted)">45 min · Clipper work, blended by hand</span></span><span style="font-weight:500;font-variant-numeric:tabular-nums">€ 30,00</span><span style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;box-sizing:border-box;color:var(--muted)">+</span></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--accent-subtle);border-top:1px solid var(--line);box-shadow:inset 3px 0 0 var(--accent)"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Haircut + beard</span><span style="font-size:13px;color:var(--muted)">50 min</span></span><span style="font-weight:600;font-variant-numeric:tabular-nums">€ 38,00</span><span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;font-size:14px">✓</span></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;border-top:1px solid var(--line)"><span style="width:56px;height:56px;border-radius:8px;flex:none;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 7px),var(--background)"></span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-weight:500">Hot towel shave</span><span style="font-size:13px;color:var(--muted)">40 min</span></span><span style="font-weight:500;font-variant-numeric:tabular-nums">€ 34,00</span><span style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;box-sizing:border-box;color:var(--muted)">+</span></div>
+        </div>
+        <span style="font-size:12px;color:var(--muted)">Selected = check + weight 600 + inset bar. Image optional (1:1, 56px). 30+ services: categories become sticky chips + search.</span>
+      </div>
+      <!-- staff card -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Staff card</span>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <div style="border:2px solid var(--accent);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;position:relative"><span style="position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-foreground);font-size:12px;display:flex;align-items:center;justify-content:center">✓</span><span style="width:44px;height:44px;border-radius:50%;background:var(--accent-subtle);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--accent)">✦</span><span style="font-weight:600;font-size:14px;line-height:1.2">Any professional</span><span style="font-size:12px;color:var(--muted)">Earliest time</span></div>
+          <div style="border:1px solid var(--line);border-radius:10px;padding:13px;display:flex;flex-direction:column;gap:8px"><span style="width:44px;height:44px;border-radius:50%;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 6px),var(--background)"></span><span style="font-weight:500;font-size:14px">Marko</span><span style="font-size:12px;color:var(--muted)">Owner · Barber</span></div>
+          <div style="border:1px solid var(--line);border-radius:10px;padding:13px;display:flex;flex-direction:column;gap:8px"><span style="width:44px;height:44px;border-radius:50%;background:var(--foreground);color:var(--background);display:flex;align-items:center;justify-content:center;font:400 20px 'Instrument Serif',serif">J</span><span style="font-weight:500;font-size:14px">Jonas</span><span style="font-size:12px;color:var(--muted)">Barber</span></div>
+        </div>
+        <span style="font-size:12px;color:var(--muted)">No photo → initial in display font on foreground. Names truncate at 2 lines. 1 barber: step is skipped automatically. 8 barbers: 2-col grid mobile, 4-col desktop.</span>
+      </div>
+      <!-- date + slot -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:12px">
+        <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Date chip · time slot</span>
+        <div style="display:flex;gap:6px">
+          <span style="width:56px;height:68px;border-radius:10px;background:var(--accent);color:var(--accent-foreground);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px"><span style="font-size:11px;font-weight:600">Today</span><span style="font:600 20px Geist;font-variant-numeric:tabular-nums">8</span><span style="font-size:11px">Oct</span></span>
+          <span style="width:56px;height:68px;border-radius:10px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-sizing:border-box"><span style="font-size:11px;color:var(--muted)">Fri</span><span style="font:600 20px Geist">9</span><span style="font-size:11px;color:var(--muted)">Oct</span></span>
+          <span style="width:56px;height:68px;border-radius:10px;border:1px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:var(--muted);box-sizing:border-box"><span style="font-size:11px">Sun</span><span style="font:400 20px Geist;text-decoration:line-through">11</span><span style="font-size:11px">Closed</span></span>
+          <span style="width:56px;height:68px;border-radius:10px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-sizing:border-box;position:relative"><span style="font-size:11px;color:var(--muted)">Tue</span><span style="font:600 20px Geist">13</span><span style="width:4px;height:4px;border-radius:50%;background:var(--danger);position:absolute;bottom:6px"></span><span style="font-size:11px;color:var(--muted)">Few</span></span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;font-variant-numeric:tabular-nums">
+          <span style="height:48px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:500;box-sizing:border-box">09:00</span>
+          <span style="height:48px;border-radius:8px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;gap:4px;font-weight:600"><span style="font-size:12px">✓</span>09:30</span>
+          <span style="height:48px;border-radius:8px;border:1px solid var(--muted);background:var(--background);display:flex;align-items:center;justify-content:center;font-weight:500;box-sizing:border-box">10:00</span>
+          <span style="height:48px;border-radius:8px;border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:line-through;box-sizing:border-box">10:30</span>
+        </div>
+        <span style="font-size:12px;color:var(--muted)">default · selected (✓ + 600) · hover · just taken. 60 chips, scroll-snap, month label sticks at the strip start.</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px">
+      <!-- form field -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:16px">
+        <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Form field</span>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Name<span style="height:48px;border:1px solid var(--accent);box-shadow:0 0 0 3px var(--accent-subtle);border-radius:10px;padding:0 14px;display:flex;align-items:center;font:400 16px Geist;box-sizing:border-box;background:var(--surface)">Lukas Berger<span style="width:1px;height:20px;background:var(--foreground);margin-left:1px"></span></span></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Email<span style="height:48px;border:1.5px solid var(--danger);border-radius:10px;padding:0 14px;display:flex;align-items:center;font:400 16px Geist;box-sizing:border-box;background:var(--surface)">lukas@gmail</span><span style="display:flex;gap:6px;align-items:flex-start;font-weight:400;font-size:13px;color:var(--danger)"><span aria-hidden="true">!</span>Enter a full email, e.g. name@example.com</span></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500"><span>Phone <span style="font-weight:400;color:var(--muted)">(optional)</span></span><span style="height:48px;border:1px solid var(--line);border-radius:10px;padding:0 14px;display:flex;align-items:center;font:400 16px Geist;color:var(--muted);box-sizing:border-box;background:var(--surface)">+43 …</span></label>
+      </div>
+      <!-- summary bar -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Sticky summary bar</span>
+        <div style="background:var(--background);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 10px 10px 16px;box-shadow:0 8px 24px rgba(29,26,23,.08)"><span style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="font:600 17px Geist;font-variant-numeric:tabular-nums">€ 38,00</span><span style="font-size:13px;color:var(--muted)">50 min · 2 services</span></span><span style="background:var(--accent);color:var(--accent-foreground);height:48px;padding:0 22px;border-radius:10px;display:flex;align-items:center;font-weight:500">Continue</span></div>
+          <div style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 10px 10px 16px"><span style="flex:1;font-size:14px;color:var(--muted)">Select at least one service</span><span style="background:var(--line);color:var(--muted);height:48px;padding:0 22px;border-radius:10px;display:flex;align-items:center;font-weight:500">Continue</span></div>
+        </div>
+        <span style="font-size:12px;color:var(--muted)">Fixed to bottom + safe-area inset on mobile; becomes a sticky aside on desktop. Price animates on change; aria-live="polite".</span>
+      </div>
+      <!-- skeleton + empty -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Skeletons · empty · error</span>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px">
+          <span style="height:48px;border-radius:8px;background:var(--line);animation:skel 1.2s ease-in-out infinite"></span><span style="height:48px;border-radius:8px;background:var(--line);animation:skel 1.2s ease-in-out .1s infinite"></span><span style="height:48px;border-radius:8px;background:var(--line);animation:skel 1.2s ease-in-out .2s infinite"></span><span style="height:48px;border-radius:8px;background:var(--line);animation:skel 1.2s ease-in-out .3s infinite"></span>
+        </div>
+        <div style="border:1px dashed var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:6px;align-items:flex-start"><strong style="font-size:15px">No free times on Sat 10 Oct</strong><span style="font-size:13px;color:var(--muted)">Next free: Tue 13 Oct, 09:30</span><span style="font-size:14px;font-weight:500;color:var(--accent);text-decoration:underline">Jump to Tue 13 →</span></div>
+        <div style="border:1px solid var(--line);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px"><span style="flex:1;font-size:14px"><strong style="color:var(--danger)">Couldn’t load times.</strong> Check your connection.</span><span style="border:1px solid var(--line);height:44px;padding:0 14px;border-radius:8px;display:flex;align-items:center;font-size:14px;font-weight:500;box-sizing:border-box">Retry</span></div>
+      </div>
+    </div>
+
+    <!-- hero variants -->
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:16px">
+      <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Hero variants · focal point drives object-position on every crop</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="aspect-ratio:4/3;border-radius:10px;overflow:hidden;position:relative;background:repeating-linear-gradient(135deg,#3b342d 0 1px,#2a2420 1px 9px)"><span style="position:absolute;top:30%;left:62%;width:16px;height:16px;border-radius:50%;border:2px solid #fff;transform:translate(-50%,-50%)"></span><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,.2) 60%,transparent)"></div><div style="position:absolute;left:14px;right:14px;bottom:14px;color:#fff;display:flex;flex-direction:column;gap:6px"><span style="font:400 24px/1 'Instrument Serif',serif">Shop name</span><span style="background:#fff;color:#111;font-size:11px;font-weight:600;padding:6px 10px;border-radius:6px;align-self:flex-start">Book now</span></div></div><strong style="font-size:14px">A · Full-bleed + scrim</strong><span style="font-size:12px;color:var(--muted)">Text always white on 72 % scrim — passes on any photo.</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="aspect-ratio:4/3;border-radius:10px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)"><div style="padding:14px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;background:var(--background)"><span style="font:400 22px/1 'Instrument Serif',serif">Shop name</span><span style="background:var(--accent);color:var(--accent-foreground);font-size:11px;font-weight:600;padding:6px 10px;border-radius:6px;align-self:flex-start">Book now</span></div><div style="background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 9px),var(--surface)"></div></div><strong style="font-size:14px">B · Split</strong><span style="font-size:12px;color:var(--muted)">Mobile: photo 4:5 on top, text below.</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="aspect-ratio:4/3;border-radius:10px;overflow:hidden;position:relative;background:repeating-linear-gradient(135deg,#3b342d 0 1px,#2a2420 1px 9px)"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 70%)"></div><div style="position:absolute;bottom:12px;left:14px;display:flex;gap:5px"><span style="width:18px;height:4px;border-radius:2px;background:#fff"></span><span style="width:6px;height:4px;border-radius:2px;background:rgba(255,255,255,.6)"></span><span style="width:6px;height:4px;border-radius:2px;background:rgba(255,255,255,.6)"></span></div><span style="position:absolute;bottom:6px;right:8px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center">❚❚</span></div><strong style="font-size:14px">C · Carousel (≤ 5)</strong><span style="font-size:12px;color:var(--muted)">Crossfade 7 s, pause button, stops on hover/focus.</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px"><div style="aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0) 0 0/12px 12px,var(--background);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px"><span style="font:400 28px/1 'Instrument Serif',serif">Shop name</span><span style="font-size:11px;color:var(--muted)">Tagline here</span></div><strong style="font-size:14px">D · Text + pattern</strong><span style="font-size:12px;color:var(--muted)">Default for 0 photos. Pattern in --secondary at 1 px, never under text weight &lt; 600.</span></div>
+      </div>
+    </div>
+
+    <!-- gallery / lightbox / sections -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:24px">
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Gallery — adapts to photo count</span>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;font:11px 'Geist Mono';color:var(--muted)">
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:1;border-radius:8px;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 7px),var(--background)"></div>1 photo → single 4:3 + “More soon”</div>
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:1;display:grid;grid-template-columns:1fr 1fr;gap:4px"><span style="border-radius:8px;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 7px),var(--background)"></span><span style="border-radius:8px;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 7px),var(--background)"></span></div>2 → side-by-side 4:5</div>
+          <div style="display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:1;display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:4px"><span style="grid-row:span 2;border-radius:8px;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 7px),var(--background)"></span><span style="border-radius:8px;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 7px),var(--background)"></span><span style="border-radius:8px;background:var(--foreground);color:var(--background);display:flex;align-items:center;justify-content:center;font:500 13px Geist">+9</span></div>3+ → mosaic, “+N” opens lightbox</div>
+        </div>
+        <div style="background:#0d0c0b;border-radius:10px;padding:16px;display:grid;grid-template-columns:44px 1fr 44px;gap:12px;align-items:center;color:#fff">
+          <span style="width:44px;height:44px;border-radius:50%;border:1px solid #444;display:flex;align-items:center;justify-content:center;box-sizing:border-box">←</span>
+          <div style="display:flex;flex-direction:column;gap:8px"><div style="aspect-ratio:16/8;border-radius:6px;background:repeating-linear-gradient(135deg,#2a2622 0 1px,#171513 1px 9px);display:flex;align-items:center;justify-content:center;font:11px 'Geist Mono';color:#9b948b">lightbox image · alt text shown as caption</div><div style="display:flex;justify-content:space-between;font-size:12px;color:#c9c2b8"><span>Skin fade, mid taper — by Jonas</span><span style="font-variant-numeric:tabular-nums">3 / 12 · Esc to close</span></div></div>
+          <span style="width:44px;height:44px;border-radius:50%;border:1px solid #444;display:flex;align-items:center;justify-content:center;box-sizing:border-box">→</span>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:14px">
+        <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Section blocks · logo fallback</span>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:6px 16px;font-size:14px;font-variant-numeric:tabular-nums;border-bottom:1px solid var(--line);padding-bottom:12px"><strong style="grid-column:span 2;font-size:13px;color:var(--muted);font-weight:500">Opening hours · Europe/Vienna</strong><span style="font-weight:600">Thu · today</span><span style="font-weight:600">09:00–13:00, 14:00–19:00</span><span>Fri</span><span>09:00–19:00</span><span>Sat</span><span>09:00–16:00</span><span style="color:var(--muted)">Sun–Mon</span><span style="color:var(--muted)">Closed</span></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><span style="height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;font-size:14px;box-sizing:border-box">Instagram</span><span style="height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;font-size:14px;box-sizing:border-box">TikTok</span><span style="height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;font-size:14px;box-sizing:border-box">WhatsApp</span><span style="height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;font-size:14px;box-sizing:border-box">Directions ↗</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="border:1px dashed var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:4px"><span style="font:600 22px/1.05 'Cormorant Garamond',serif">Kaiser &amp; Co.</span><span style="font-size:11px;color:var(--muted)">No logo → name in display font, max 2 lines, then shrink-to-fit</span></div>
+          <div style="border:1px dashed var(--line);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px"><span style="width:32px;height:32px;border-radius:7px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;font:400 20px 'Instrument Serif',serif">K</span><span style="font-size:11px;color:var(--muted)">Favicon fallback: initial on accent</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- dark atoms -->
+    <div style="--background:#14120f;--foreground:#f1ece4;--surface:#1d1a16;--muted:#a59c90;--line:#332d27;--accent:#e2805a;--accent-foreground:#14120f;--accent-hover:#e8977a;--accent-pressed:#d46c45;--accent-subtle:#33231b;--danger:#f97066;background:var(--background);color:var(--foreground);border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:18px">
+      <span style="font:500 12px 'Geist Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Same components · dark tokens</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:20px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:10px"><span style="background:var(--accent);color:var(--accent-foreground);height:48px;padding:0 18px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:500">Book now</span><span style="border:1px solid var(--line);background:var(--surface);height:48px;padding:0 18px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:500;box-sizing:border-box">Manage or cancel</span><span style="display:inline-flex;align-self:flex-start;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:#1f3523;color:#a6dcae;font:500 13px Geist">✓ Confirmed</span></div>
+        <div style="border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)"><div style="display:flex;align-items:center;gap:12px;padding:14px"><span style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="font-weight:500">Haircut</span><span style="font-size:13px;color:var(--muted)">30 min</span></span><span style="font-variant-numeric:tabular-nums">€ 25,00</span><span style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;box-sizing:border-box;color:var(--muted)">+</span></div><div style="display:flex;align-items:center;gap:12px;padding:14px;border-top:1px solid var(--line);background:var(--accent-subtle);box-shadow:inset 3px 0 0 var(--accent)"><span style="flex:1;font-weight:600">Skin fade</span><span style="font-weight:600;font-variant-numeric:tabular-nums">€ 30,00</span><span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center">✓</span></div></div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;font-variant-numeric:tabular-nums"><span style="height:48px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;box-sizing:border-box">14:00</span><span style="height:48px;border-radius:8px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;font-weight:600">✓ 14:30</span><span style="height:48px;border-radius:8px;border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:line-through;box-sizing:border-box">15:00</span><span style="height:48px;border-radius:8px;background:var(--line);animation:skel 1.2s infinite"></span><span style="height:48px;border-radius:8px;background:var(--line);animation:skel 1.2s .15s infinite"></span><span style="height:48px;border-radius:8px;background:var(--line);animation:skel 1.2s .3s infinite"></span></div>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Email<span style="height:48px;border:1.5px solid var(--danger);border-radius:10px;padding:0 14px;display:flex;align-items:center;font:400 16px Geist;box-sizing:border-box;background:var(--surface)">lukas@</span><span style="font-weight:400;font-size:13px;color:var(--danger)">! Enter a full email address</span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 MOTION -->
+  <section style="display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:baseline;gap:16px"><span style="font:500 13px 'Geist Mono';color:var(--accent)">07</span><h2 style="margin:0;font:400 44px/1 'Instrument Serif',serif">Motion spec</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:4px"><strong>Calm · Minimal</strong><span style="font:12px 'Geist Mono';color:var(--muted)">--motion-rise: 0 · parallax: off · ×0.8 durations</span></div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:4px"><strong>Standard · Editorial, Classic, Soft</strong><span style="font:12px 'Geist Mono';color:var(--muted)">--motion-rise: 12px · parallax: 6 % · ×1</span></div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:4px"><strong>Lively · Modern, Bold</strong><span style="font:12px 'Geist Mono';color:var(--muted)">--motion-rise: 16px · parallax: 10 % · ×1 (never longer)</span></div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:auto">
+      <div style="display:grid;grid-template-columns:1.1fr 1.1fr 1.5fr .7fr 1fr 1.3fr 1.4fr;min-width:1100px;font-size:13px;line-height:1.45">
+        <span style="padding:12px 14px;font:500 11px 'Geist Mono';text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)">Element</span><span style="padding:12px 14px;font:500 11px 'Geist Mono';text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)">Trigger</span><span style="padding:12px 14px;font:500 11px 'Geist Mono';text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)">Property</span><span style="padding:12px 14px;font:500 11px 'Geist Mono';text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)">Duration</span><span style="padding:12px 14px;font:500 11px 'Geist Mono';text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)">Easing</span><span style="padding:12px 14px;font:500 11px 'Geist Mono';text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)">Implementation</span><span style="padding:12px 14px;font:500 11px 'Geist Mono';text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)">Reduced motion</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Section reveal</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Enters viewport</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">opacity 0→1, translateY var(--motion-rise)→0</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">entry 0–35 %</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">cubic-bezier(.2,.7,.2,1)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">CSS <code style="font:12px 'Geist Mono'">animation-timeline: view()</code>; @supports fallback: visible (no JS)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">No animation, fully visible</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Hero parallax</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Page scroll, hero in view</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">translateY 0→var(--motion-parallax) on image only; scale 1.08 to hide edges</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">scroll-linked</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">linear</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">CSS <code style="font:12px 'Geist Mono'">animation-timeline: scroll()</code>; off where unsupported</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Static image</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Hero carousel</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Every 7 s / dots / swipe</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">opacity crossfade (next under current)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">600 ms</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">ease-in-out</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Motion AnimatePresence; pauses on hover, focus-within, hidden tab; pause button</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">No auto-advance; instant swap on dots</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Booking step</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Continue / Back</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">out: opacity→0, x −16px · in: opacity 0→1, x 24px→0 (reversed for Back)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">220 ms</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">cubic-bezier(.2,.8,.2,1)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Motion <code style="font:12px 'Geist Mono'">LazyMotion features={domAnimation}</code>, <code style="font:12px 'Geist Mono'">m.div</code>, mode="wait"; focus → heading</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Opacity only, 120 ms</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Progress bar</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Step change</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">transform: scaleX on fill</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">220 ms</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">ease-out</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">CSS transition</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Instant</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Service / slot select</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Tap / Enter / Space</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">row scale .98→1; check icon scale .6→1 + opacity</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">160 ms</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">spring 500 / 32</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Motion whileTap + animate on check</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Instant state change (icon + weight still show it)</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Summary price</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Total changes</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">old: y 0→−8, opacity→0 · new: y 8→0, opacity 0→1</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">180 ms</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">ease-out</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">AnimatePresence keyed by cents; tabular nums = no width jitter</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Instant swap; aria-live announces</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Summary bar enter</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">First service picked</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">translateY 100%→0 (space reserved, no CLS)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">240 ms</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">cubic-bezier(.2,.8,.2,1)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Motion m.div</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Opacity only</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Lightbox</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Thumbnail click / Esc</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">backdrop opacity; image scale .94→1 + opacity (no layoutId — not in domAnimation)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">240 ms</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">cubic-bezier(.2,.8,.2,1)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Motion + native &lt;dialog&gt; (focus trap, Esc, inert page)</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Opacity 120 ms</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">“Just taken” notice</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">409 on submit</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">opacity 0→1, y −4→0; taken slot cross-fades to struck state</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">200 ms</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">ease-out</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">CSS transition; role="alert"</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Instant</span>
+
+        <strong style="padding:12px 14px;border-bottom:1px solid var(--line)">Skeleton</strong><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Loading &gt; 150 ms</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">opacity .55↔1</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">1.2 s loop</span><span style="padding:12px 14px;border-bottom:1px solid var(--line);font:12px 'Geist Mono'">ease-in-out</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">CSS keyframes; same box size as content</span><span style="padding:12px 14px;border-bottom:1px solid var(--line)">Static at .75</span>
+
+        <strong style="padding:12px 14px">Button press</strong><span style="padding:12px 14px">:active</span><span style="padding:12px 14px">transform scale(.98)</span><span style="padding:12px 14px;font-variant-numeric:tabular-nums">100 ms</span><span style="padding:12px 14px;font:12px 'Geist Mono'">ease-out</span><span style="padding:12px 14px">CSS</span><span style="padding:12px 14px">None (colour change only)</span>
+      </div>
+    </div>
+    <p style="margin:0;font-size:13px;color:var(--muted);max-width:900px;line-height:1.5">Only transform + opacity animate. No scroll-jacking, no smooth-scroll library, no hero video. <code style="font:12px 'Geist Mono'">@media (prefers-reduced-motion: reduce)</code> sets <code style="font:12px 'Geist Mono'">--motion-rise:0; --motion-parallax:0</code> and Motion’s <code style="font:12px 'Geist Mono'">MotionConfig reducedMotion="user"</code>.</p>
+  </section>
+
+  <!-- 8 PERF + A11Y -->
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5"><strong style="font-size:15px">Performance budget</strong><span>LCP &lt; 2.5 s · CLS &lt; 0.1 · INP &lt; 200 ms</span><span>Hero ≤ 150 KB AVIF/WebP, <code style="font:12px 'Geist Mono'">srcset</code> 480/828/1280/1920, <code style="font:12px 'Geist Mono'">fetchpriority="high"</code></span><span>Gallery &amp; staff: <code style="font:12px 'Geist Mono'">loading="lazy"</code>, fixed aspect-ratio, blurred 16px LQIP</span><span>Motion lib only loaded in booking + lightbox chunks</span></div>
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5"><strong style="font-size:15px">Accessibility</strong><span>AA in both modes, every owner colour (rule §04)</span><span>Focus: 2px --ring + 2px offset, never removed</span><span>Selected = icon / weight / border, not colour alone</span><span>Alt fallback: “{Service} at {Shop}”, “{Name}, {Title} at {Shop}”, “Inside {Shop}”</span></div>
+    <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5"><strong style="font-size:15px">Robustness</strong><span>Long names: display font shrinks via <code style="font:12px 'Geist Mono'">clamp()</code>, wraps max 3 lines, <code style="font:12px 'Geist Mono'">hyphens:auto</code> (DE)</span><span>German +30 %: buttons hug content, no fixed widths</span><span>Times always Europe/Vienna, labelled once per page</span><span>Prices <code style="font:12px 'Geist Mono'">de-AT</code>: € 25,00</span></div>
+  </section>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#a8431f&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#a8431f&quot;,&quot;#f2a7c3&quot;,&quot;#e4ff3a&quot;,&quot;#2b59ff&quot;]}}">
+const hex2rgb=h=>{h=(h||'#a8431f').replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16)||0)};
+const rgb2hex=a=>'#'+a.map(v=>Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,'0')).join('').toUpperCase();
+const lum=rgb=>{const c=rgb.map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]};
+const cr=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+const mix=(a,b,t)=>a.map((v,i)=>v+(b[i]-v)*t);
+const fit=(c,bg,target,toward)=>{for(let t=0;t<=1;t+=.02){const m=mix(c,toward,t);if(cr(m,bg)>=target)return {c:m,t}}return {c:toward,t:1}};
+class Component extends DCLogic {
+  state={pick:null};
+  renderVals(){
+    const hex=this.state.pick||this.props.accent||'#a8431f';
+    const a=hex2rgb(hex),W=[255,255,255],B=[0,0,0],bgL=hex2rgb('#f6f3ee'),bgD=hex2rgb('#14120f');
+    const fg=cr(a,W)>=cr(a,B)?W:B;
+    const tL=fit(a,bgL,4.5,B),tD=fit(a,bgD,4.5,W);
+    const dark=lum(a)<.18;const accD=dark?tD.c:a;const fgD=cr(accD,W)>=cr(accD,B)?W:B;
+    const f=n=>n.toFixed(2)+':1';
+    const d={accent:rgb2hex(a),fg:rgb2hex(fg),hover:rgb2hex(mix(a,fg===W?B:W,.12)),pressed:rgb2hex(mix(a,fg===W?B:W,.24)),subtle:rgb2hex(mix(bgL,a,.12)),
+      textL:rgb2hex(tL.c),textD:rgb2hex(tD.c),accentD:rgb2hex(accD),fgD:rgb2hex(fgD),btnRatio:f(cr(a,fg)),textLRatio:f(cr(tL.c,bgL)),textDRatio:f(cr(tD.c,bgD)),
+      fixL:tL.t>0?'· auto-darkened':'· as picked',fixD:tD.t>0?'· auto-lightened':'· as picked'};
+    const samples=['#a8431f','#8a6a2f','#ff5a1f','#e4ff3a','#f2a7c3','#2b59ff','#18a058','#7a7a7a'].map(h=>({hex:h,pick:()=>this.setState({pick:h})}));
+    return {d,samples};
+  }
+}
+</script>
+</body>
+</html>

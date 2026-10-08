@@ -1,0 +1,95 @@
+/* Appointments — motion primitives. Import once globally (after tokens.css).
+   Every animation here is transform/opacity only (GPU-composited, no layout thrash). */
+
+/* ---------- 1. Scroll reveal ----------
+   Markup: <div data-reveal style="--reveal-delay:80ms">…</div>
+   JS (useReveal) adds .is-visible once when ≥12% enters the viewport (rootMargin bottom −40px).
+   Elements are visible by default; .reveal-ready is added to <html> by JS so no-JS / reduced-motion users never see hidden content. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms var(--ease-out) var(--reveal-delay, 0ms),
+              transform 700ms var(--ease-out) var(--reveal-delay, 0ms);
+}
+.reveal-ready [data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* ---------- 2. Sticky header ---------- */
+.sf-header {
+  position: sticky; top: 0; z-index: 30;
+  min-height: 64px;
+  background: color-mix(in oklab, var(--background) 90%, transparent);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: min-height 200ms, border-color 200ms, box-shadow 200ms;
+}
+.sf-header[data-scrolled="true"] { min-height: 56px; border-bottom-color: var(--line); box-shadow: 0 6px 20px rgba(0,0,0,.06); }
+
+/* ---------- 3. Announcement collapse ---------- */
+.sf-announcement { overflow: hidden; max-height: 120px; opacity: 1; transition: max-height 300ms var(--ease-out), opacity 200ms; }
+.sf-announcement[data-dismissed="true"] { max-height: 0; opacity: 0; }
+
+/* ---------- 4. Mobile menu sheet ---------- */
+@keyframes sf-zoom { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+.sf-menu { transform-origin: top center; animation: sf-zoom 220ms var(--ease-out); }
+
+/* ---------- 5. Hero carousel ---------- */
+.hc-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transform: scale(1.06);
+  transition: opacity 800ms ease, transform 6000ms var(--ease-out); pointer-events: none; }
+.hc-slide[data-active="true"] { opacity: 1; transform: scale(1); }
+.hc-dot { width: 14px; height: 44px; padding: 0 3px; transition: width 300ms var(--ease-out); }
+.hc-dot[aria-selected="true"] { width: 34px; }
+.hc-dot__track { display: block; height: 4px; border-radius: 2px; background: rgba(255,255,255,.5); overflow: hidden; }
+.hc-dot__fill { display: block; height: 100%; width: 0; background: #fff; }
+.hc-dot[aria-selected="true"] .hc-dot__fill { animation: hc-progress var(--hc-interval, 5000ms) linear forwards; }
+.hc[data-paused="true"] .hc-dot__fill { animation-play-state: paused; }
+@keyframes hc-progress { to { width: 100%; } }
+
+/* ---------- 6. Parallax hero (full-bleed preset) ----------
+   JS writes --parallax-y (px) on the <img>. Image is 120% tall, top −10%. */
+.hero-parallax { position: absolute; left: 0; top: -10%; width: 100%; height: 120%; object-fit: cover;
+  transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.08); will-change: transform; }
+
+/* ---------- 7. Open-now pulse ---------- */
+@keyframes sf-pulse { 0% { box-shadow: 0 0 0 0 rgba(47,160,90,.55); } 70% { box-shadow: 0 0 0 8px rgba(47,160,90,0); } 100% { box-shadow: 0 0 0 0 rgba(47,160,90,0); } }
+.open-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--open-dot); animation: sf-pulse 2s infinite; flex: none; }
+
+/* ---------- 8. Image hover zoom (pointer devices only) ---------- */
+@media (hover: hover) {
+  .zoom-on-hover img { transition: transform 500ms var(--ease-out); }
+  .zoom-on-hover:hover img { transform: scale(1.06); }
+}
+
+/* ---------- 9. Lightbox ---------- */
+@keyframes sf-fade { from { opacity: 0; } to { opacity: 1; } }
+.lb { position: fixed; inset: 0; z-index: 100; background: rgba(8,8,8,.94); animation: sf-fade 250ms ease; }
+.lb img { animation: sf-zoom 350ms var(--ease-out); }
+
+/* ---------- 10. Mobile sticky booking bar ---------- */
+.sf-bookbar { position: sticky; bottom: 0; z-index: 25; transform: translateY(110%); transition: transform 350ms var(--ease-out);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: color-mix(in oklab, var(--background) 92%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line); }
+.sf-bookbar[data-visible="true"] { transform: none; }
+@media (min-width: 900px) { .sf-bookbar { display: none; } }
+
+/* ---------- 11. Buttons ---------- */
+.btn-primary { background: var(--accent); color: var(--accent-foreground); border-radius: var(--btn-radius); text-transform: var(--btn-transform);
+  min-height: 44px; transition: background 150ms, transform 100ms; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { background: var(--accent-pressed); transform: scale(.97); }
+.btn-primary:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; transform: none; }
+:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
+
+/* ---------- 12. Booking: service check pop ---------- */
+.svc-check { transition: transform 200ms var(--ease-spring), background 150ms; transform: scale(.92); }
+[aria-pressed="true"] .svc-check { transform: scale(1); background: var(--accent); color: var(--accent-foreground); border-color: var(--accent); }
+
+/* ---------- 13. Skeleton ---------- */
+@keyframes bk-skel { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+.skel { background: var(--line); animation: bk-skel 1.2s infinite; }
+.skel:nth-child(n) { animation-delay: calc(var(--i, 0) * 100ms); }
+
+/* ---------- 14. Manage page inline panels ---------- */
+@keyframes mb-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.mb-panel { animation: mb-in 250ms var(--ease-out); }

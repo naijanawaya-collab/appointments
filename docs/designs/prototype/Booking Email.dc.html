@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="shops.js"></script>
+</helmet>
+<div style="background:#eeeeec;padding:24px 12px;font-family:Geist,Helvetica,Arial,sans-serif;width:100%;box-sizing:border-box">
+<sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+  <div style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:6px;overflow:hidden;color:#1d1a17">
+    <div style="background:{{ e.accent }};color:{{ e.on }};padding:20px 28px;display:flex;align-items:center;gap:12px">
+      <sc-if value="{{ images }}" hint-placeholder-val="{{ true }}"><span style="width:36px;height:36px;border-radius:4px;background:{{ e.on }};color:{{ e.accent }};display:flex;align-items:center;justify-content:center;font:700 18px Georgia,serif">{{ s.mark }}</span></sc-if>
+      <sc-if value="{{ noImages }}" hint-placeholder-val="{{ false }}"><span style="height:36px;padding:0 8px;border:1px dashed {{ e.on }};display:flex;align-items:center;font:12px 'Geist Mono',monospace;opacity:.9">[logo] alt: {{ s.short }}</span></sc-if>
+      <span style="font:600 18px Georgia,'Times New Roman',serif;letter-spacing:.01em">{{ s.short }}</span>
+    </div>
+    <div style="padding:32px 28px 8px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:15px;color:#5c554e">Hi Lukas, you’re booked.</span>
+      <span style="font:600 44px/1.05 Georgia,serif;font-variant-numeric:tabular-nums">10:30</span>
+      <span style="font-size:18px;font-weight:600">Friday 9 October 2026</span>
+    </div>
+    <table style="width:calc(100% - 56px);margin:16px 28px;border-collapse:collapse;font-size:15px">
+      <tbody>
+        <tr><td style="padding:10px 0;color:#5c554e;border-top:1px solid #e6e3df">With</td><td style="padding:10px 0;text-align:right;border-top:1px solid #e6e3df">{{ b.staff }}</td></tr>
+        <tr><td style="padding:10px 0;color:#5c554e;border-top:1px solid #e6e3df">Services</td><td style="padding:10px 0;text-align:right;border-top:1px solid #e6e3df">{{ b.services }}</td></tr>
+        <tr><td style="padding:10px 0;color:#5c554e;border-top:1px solid #e6e3df">Duration · Price</td><td style="padding:10px 0;text-align:right;border-top:1px solid #e6e3df;font-weight:600">{{ b.dur }} · {{ b.price }}</td></tr>
+        <tr><td style="padding:10px 0;color:#5c554e;border-top:1px solid #e6e3df;border-bottom:1px solid #e6e3df">Where</td><td style="padding:10px 0;text-align:right;border-top:1px solid #e6e3df;border-bottom:1px solid #e6e3df">{{ s.address }}</td></tr>
+      </tbody>
+    </table>
+    <div style="padding:8px 28px 28px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+      <span style="background:{{ e.accent }};color:{{ e.on }};padding:14px 22px;border-radius:6px;font-weight:600;font-size:15px">Manage or cancel booking</span>
+      <span style="font-size:13px;color:#5c554e;line-height:1.5">Free cancellation until {{ s.lead }} hours before. Need to change something? Call <span style="color:#1d1a17">{{ s.phone }}</span>.</span>
+    </div>
+    <div style="padding:18px 28px;background:#f6f5f3;font-size:12px;color:#5c554e;line-height:1.5">{{ s.name }} · {{ s.address }}<br>Sent by Appointments on behalf of {{ s.short }}.</div>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:600,&quot;height&quot;:760},&quot;shop&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;kaiser&quot;,&quot;fadelab&quot;,&quot;lune&quot;],&quot;default&quot;:&quot;kaiser&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;images&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  componentDidMount(){ if(!window.SHOPS){ this.t=setInterval(()=>{ if(window.SHOPS){clearInterval(this.t);this.forceUpdate();} },50);} }
+  componentWillUnmount(){ clearInterval(this.t); }
+  renderVals(){
+    const SS=window.SHOPS; if(!SS) return {ready:false};
+    const s=SS[this.props.shop||'kaiser'];
+    const E={kaiser:{accent:'#7a5c25',on:'#ffffff'},fadelab:{accent:'#16171a',on:'#ffffff'},lune:{accent:'#a3456b',on:'#ffffff'}}[s.key];
+    const items={kaiser:['k1','k5'],fadelab:['f1','f5'],lune:['l1']}[s.key];
+    const all=s.categories.flatMap(c=>c.items).filter(i=>items.includes(i.id));
+    const img=this.props.images!==false;
+    return {ready:true,s,e:E,images:img,noImages:!img,b:{staff:s.staff[0].name,services:all.map(i=>i.name).join(', '),dur:window.fmtMin(all.reduce((a,i)=>a+i.min,0)),price:window.fmtEUR(all.reduce((a,i)=>a+i.price,0))}};
+  }
+}
+</script>
+</body>
+</html>

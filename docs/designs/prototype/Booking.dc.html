@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Cormorant+Garamond:wght@500;600&family=Barlow+Condensed:wght@600;700&family=Italiana&display=swap" rel="stylesheet">
+<script src="shops.js"></script>
+<style>body{margin:0}html,body{height:100%}a{color:inherit}@keyframes bk-skel{0%,100%{opacity:.55}50%{opacity:1}}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="{{ themeStyle }}">
+<div style="container-type:inline-size;background:var(--background);color:var(--foreground);font-family:Geist,system-ui,sans-serif;width:100%;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden;-webkit-font-smoothing:antialiased">
+<sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+  <header style="display:flex;align-items:center;gap:12px;padding:0 clamp(12px,3cqi,40px);min-height:60px;border-bottom:1px solid var(--line);flex:none">
+    <sc-if value="{{ showBack }}" hint-placeholder-val="{{ false }}"><button onClick="{{ back }}" aria-label="Back" style="width:44px;height:44px;border-radius:var(--btn-radius);border:1px solid var(--line);background:var(--surface);color:var(--foreground);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center;transition:border-color .15s" style-hover="border-color:var(--foreground)"><span aria-hidden="true" style="width:20px;height:20px;background:currentColor;-webkit-mask:url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg) center/contain no-repeat;mask:url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg) center/contain no-repeat"></span></button></sc-if>
+    <span style="display:flex;align-items:center;gap:10px;min-width:0;flex:1">
+      <span style="width:32px;height:32px;flex:none;border-radius:var(--radius);background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:var(--display-weight);font-size:19px">{{ s.mark }}</span>
+      <span style="font-family:var(--font-display);font-weight:var(--display-weight);text-transform:var(--display-transform);letter-spacing:var(--display-tracking);font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.short }}</span>
+    </span>
+    <sc-if value="{{ showCount }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;flex:none">Step {{ stepNo }} of 4</span></sc-if>
+  </header>
+
+  <div style="flex:1;min-height:0;display:grid;grid-template-columns:{{ cols }};gap:clamp(0px,4cqi,56px);padding:0 clamp(0px,3cqi,40px);overflow:hidden">
+  <main ref="{{ mainRef }}" style="min-width:0;overflow:auto;padding:clamp(16px,3cqi,40px) clamp(16px,2cqi,0px) 120px;display:flex;flex-direction:column;gap:20px">
+    <sc-if value="{{ showCount }}" hint-placeholder-val="{{ true }}">
+      <ol aria-label="Progress" style="display:flex;gap:6px;margin:0;padding:0;list-style:none">
+        <sc-for list="{{ progress }}" as="p" hint-placeholder-count="4"><li style="height:4px;flex:1;border-radius:2px;background:{{ p.bg }}"></li></sc-for>
+      </ol>
+    </sc-if>
+    <h2 ref="{{ headRef }}" tabindex="-1" style="margin:0;font-size:clamp(24px,5.6cqi,32px);font-weight:600;letter-spacing:-.02em;line-height:1.15;outline:none">{{ title }}</h2>
+
+    <sc-if value="{{ isServices }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:8px;overflow:hidden;margin-top:-4px">
+        <sc-for list="{{ s.categories }}" as="c" hint-placeholder-count="3"><span style="min-height:36px;padding:0 14px;border-radius:999px;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};display:flex;align-items:center;font-size:14px;font-weight:500;white-space:nowrap;box-sizing:border-box">{{ c.name }}</span></sc-for>
+      </div>
+      <sc-for list="{{ s.categories }}" as="c" hint-placeholder-count="2">
+        <section style="display:flex;flex-direction:column;gap:8px">
+          <h3 style="margin:0;font:500 12px Geist;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">{{ c.name }}</h3>
+          <ul style="margin:0;padding:0;list-style:none;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface)">
+            <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="3">
+              <li style="border-top:1px solid {{ it.sep }}"><button onClick="{{ it.toggle }}" aria-pressed="{{ it.on }}" style="width:100%;display:flex;align-items:center;gap:14px;padding:14px 16px;min-height:64px;border:0;background:{{ it.bg }};box-shadow:{{ it.bar }};color:var(--foreground);text-align:left;cursor:pointer;font-family:inherit">
+                <sc-if value="{{ it.img }}" hint-placeholder-val="{{ false }}"><img src="{{ it.img }}" alt="" style="width:52px;height:52px;flex:none;border-radius:calc(var(--radius) * .5);object-fit:cover;background:var(--line)"></sc-if>
+                <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:{{ it.w }}">{{ it.name }}</span><span style="font-size:14px;color:var(--muted)">{{ it.meta }}</span></span>
+                <span style="font-size:15px;font-weight:{{ it.w }};font-variant-numeric:tabular-nums;white-space:nowrap">{{ it.priceF }}</span>
+                <span style="width:28px;height:28px;flex:none;border-radius:50%;box-sizing:border-box;border:1.5px solid {{ it.ckBd }};background:{{ it.ckBg }};color:{{ it.ckFg }};display:flex;align-items:center;justify-content:center;font-size:14px;transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .15s;transform:scale({{ it.sc }})">{{ it.ck }}</span>
+              </button></li>
+            </sc-for>
+          </ul>
+        </section>
+      </sc-for>
+    </sc-if>
+
+    <sc-if value="{{ isStaff }}" hint-placeholder-val="{{ false }}">
+      <div role="radiogroup" aria-label="Professional" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(46%,180px),1fr));gap:10px">
+        <sc-for list="{{ staffOpts }}" as="p" hint-placeholder-count="3">
+          <button role="radio" aria-checked="{{ p.on }}" onClick="{{ p.pick }}" style="position:relative;text-align:left;display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:var(--radius-lg);border:{{ p.bd }};background:var(--surface);color:var(--foreground);cursor:pointer;font-family:inherit;min-height:44px;transition:border-color .15s,transform .1s" style-active="transform:scale(.98)">
+            <sc-if value="{{ p.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;font-size:13px">✓</span></sc-if>
+            <sc-if value="{{ p.img }}" hint-placeholder-val="{{ false }}"><img src="{{ p.img }}" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;background:var(--line)"></sc-if>
+            <sc-if value="{{ p.initialOnly }}" hint-placeholder-val="{{ true }}"><span style="width:56px;height:56px;border-radius:50%;background:{{ p.avBg }};color:{{ p.avFg }};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:var(--display-weight);font-size:26px">{{ p.initial }}</span></sc-if>
+            <span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:{{ p.w }};line-height:1.25">{{ p.name }}</span><span style="font-size:13px;color:var(--muted)">{{ p.title }}</span></span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTime }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ isTaken }}" hint-placeholder-val="{{ false }}">
+        <div role="alert" style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:var(--radius-lg);border:1px solid var(--danger);background:color-mix(in oklab,var(--danger) 8%,var(--surface))"><span style="width:22px;height:22px;flex:none;border-radius:50%;background:var(--danger);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">!</span><span style="display:flex;flex-direction:column;gap:2px;font-size:14px;line-height:1.45"><strong style="font-weight:600">That time was just taken.</strong><span style="color:var(--muted)">Someone booked 10:30 a moment ago. Your services and details are saved, pick another time.</span></span></div>
+      </sc-if>
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><strong style="font-size:15px;font-weight:600">October 2026</strong><span style="font-size:13px;color:var(--muted)">Vienna time</span></div>
+      <div role="radiogroup" aria-label="Date" style="display:flex;flex:none;gap:8px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;scroll-padding:0 16px;margin:0 -16px;padding:2px 16px">
+        <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
+          <button role="radio" aria-checked="{{ d.on }}" onClick="{{ d.pick }}" style="flex:none;width:60px;height:72px;border-radius:var(--radius-lg);border:1px {{ d.bs }} {{ d.bd }};background:{{ d.bg }};color:{{ d.fg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;font-family:inherit;box-sizing:border-box">
+            <span style="font-size:12px;font-weight:{{ d.w }}">{{ d.wd }}</span><span style="font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;text-decoration:{{ d.td }}">{{ d.n }}</span><span style="font-size:11px;opacity:.85">{{ d.sub }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+        <div aria-busy="true" style="display:flex;flex-direction:column;gap:10px"><span style="width:90px;height:12px;border-radius:3px;background:var(--line);animation:bk-skel 1.2s infinite"></span>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px"><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s infinite"></span><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s .1s infinite"></span><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s .2s infinite"></span><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s .3s infinite"></span><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s .4s infinite"></span><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s .5s infinite"></span><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s .6s infinite"></span><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s .7s infinite"></span></div>
+          <span style="width:90px;height:12px;border-radius:3px;background:var(--line);animation:bk-skel 1.2s infinite;margin-top:8px"></span>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px"><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s infinite"></span><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s .1s infinite"></span><span style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);background:var(--line);animation:bk-skel 1.2s .2s infinite"></span></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px dashed var(--line);border-radius:var(--radius-lg);padding:28px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px">
+          <span style="width:48px;height:48px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--muted)">◷</span>
+          <strong style="font-size:17px;font-weight:600">No free times on Sat 10 Oct</strong>
+          <span style="font-size:14px;color:var(--muted)">Please pick another date. The next free time is Tue 13 Oct at 09:30.</span>
+          <span style="margin-top:6px;min-height:44px;padding:0 18px;border-radius:var(--btn-radius);border:1px solid var(--line);background:var(--surface);display:flex;align-items:center;font-size:14px;font-weight:600;box-sizing:border-box">Jump to Tue 13 Oct</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+        <div role="alert" style="border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-lg);padding:20px;display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+          <strong style="font-size:16px;font-weight:600;color:var(--danger)">Couldn’t load times.</strong>
+          <span style="font-size:14px;color:var(--muted)">Check your connection and try again. Your selection is kept.</span>
+          <span style="min-height:44px;padding:0 18px;border-radius:var(--btn-radius);background:var(--foreground);color:var(--background);display:flex;align-items:center;font-size:14px;font-weight:600">Try again</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ showSlots }}" hint-placeholder-val="{{ true }}">
+        <sc-for list="{{ slotGroups }}" as="g" hint-placeholder-count="3">
+          <section style="display:flex;flex-direction:column;gap:8px">
+            <h3 style="margin:0;font:500 12px Geist;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">{{ g.part }}</h3>
+            <div role="radiogroup" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px">
+              <sc-for list="{{ g.slots }}" as="t" hint-placeholder-count="6">
+                <button role="radio" aria-checked="{{ t.on }}" onClick="{{ t.pick }}" style="height:48px;border-radius:calc(var(--radius) * .6 + 4px);border:1px {{ t.bs }} {{ t.bd }};background:{{ t.bg }};color:{{ t.fg }};font-family:inherit;font-size:15px;font-weight:{{ t.w }};font-variant-numeric:tabular-nums;text-decoration:{{ t.td }};cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;box-sizing:border-box;transition:transform .16s">{{ t.ck }}{{ t.label }}</button>
+              </sc-for>
+            </div>
+          </section>
+        </sc-for>
+      </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ isDetails }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Name<span style="height:50px;border:{{ f.nameBd }};border-radius:calc(var(--radius) * .6 + 4px);padding:0 14px;display:flex;align-items:center;font:400 16px Geist;background:var(--surface);box-sizing:border-box;color:{{ f.nameC }}">{{ f.name }}</span><sc-if value="{{ f.nameErr }}" hint-placeholder-val="{{ false }}"><span style="font-weight:400;font-size:13px;color:var(--danger)">! Please enter your name</span></sc-if></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Email<span style="height:50px;border:{{ f.mailBd }};border-radius:calc(var(--radius) * .6 + 4px);padding:0 14px;display:flex;align-items:center;font:400 16px Geist;background:var(--surface);box-sizing:border-box">{{ f.mail }}</span><sc-if value="{{ f.mailErr }}" hint-placeholder-val="{{ false }}"><span style="font-weight:400;font-size:13px;color:var(--danger)">! Enter a full email address, e.g. name@example.com</span></sc-if><sc-if value="{{ f.mailHint }}" hint-placeholder-val="{{ true }}"><span style="font-weight:400;font-size:13px;color:var(--muted)">We’ll send your confirmation here.</span></sc-if></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500"><span>Phone <span style="font-weight:400;color:var(--muted)">(optional)</span></span><span style="height:50px;border:1px solid var(--line);border-radius:calc(var(--radius) * .6 + 4px);padding:0 14px;display:flex;align-items:center;font:400 16px Geist;background:var(--surface);box-sizing:border-box;color:var(--muted)">+43</span></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500"><span>Note for the {{ s.proWord }} <span style="font-weight:400;color:var(--muted)">(optional)</span></span><span style="height:88px;border:1px solid var(--line);border-radius:calc(var(--radius) * .6 + 4px);padding:12px 14px;font:400 16px Geist;background:var(--surface);box-sizing:border-box;color:var(--muted)">Anything we should know?</span></label>
+        <p style="margin:0;font-size:13px;color:var(--muted);line-height:1.5">By booking you agree that {{ s.short }} stores your details to manage this appointment.</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--line);overflow:hidden">
+          <div style="background:var(--accent);color:var(--accent-foreground);padding:24px 22px;display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:14px;display:flex;align-items:center;gap:8px"><span ref="{{ checkRef }}" style="width:22px;height:22px;border-radius:50%;background:var(--accent-foreground);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">✓</span>You’re booked at {{ s.short }}</span>
+            <span style="font-family:var(--font-display);font-weight:var(--display-weight);text-transform:var(--display-transform);letter-spacing:var(--display-tracking);font-size:clamp(40px,10cqi,64px);line-height:1;font-variant-numeric:tabular-nums">{{ conf.time }}</span>
+            <span style="font-size:18px;font-weight:500">{{ conf.date }}</span>
+          </div>
+          <dl style="margin:0;padding:8px 22px 14px;display:grid;grid-template-columns:auto 1fr;font-size:15px">
+            <dt style="padding:10px 0;color:var(--muted);border-bottom:1px solid var(--line)">With</dt><dd style="margin:0;padding:10px 0;text-align:right;border-bottom:1px solid var(--line)">{{ conf.staff }}</dd>
+            <dt style="padding:10px 0;color:var(--muted);border-bottom:1px solid var(--line)">Services</dt><dd style="margin:0;padding:10px 0;text-align:right;border-bottom:1px solid var(--line)">{{ conf.services }}</dd>
+            <dt style="padding:10px 0;color:var(--muted);border-bottom:1px solid var(--line)">Duration</dt><dd style="margin:0;padding:10px 0;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">{{ sum.dur }}</dd>
+            <dt style="padding:10px 0;color:var(--muted);border-bottom:1px solid var(--line)">Price</dt><dd style="margin:0;padding:10px 0;text-align:right;border-bottom:1px solid var(--line);font-weight:600;font-variant-numeric:tabular-nums">{{ sum.price }}</dd>
+            <dt style="padding:10px 0;color:var(--muted)">Where</dt><dd style="margin:0;padding:10px 0;text-align:right">{{ s.address }}</dd>
+          </dl>
+        </div>
+        <p style="margin:0;font-size:14px;color:var(--muted)">A confirmation is on its way to <span style="color:var(--foreground)">lukas.berger@gmail.com</span>.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <a href="{{ manageHref }}" style="min-height:48px;padding:0 20px;border-radius:var(--btn-radius);border:1px solid var(--line);background:var(--surface);display:flex;align-items:center;font-size:15px;font-weight:500;box-sizing:border-box;text-decoration:none">Manage or cancel</a>
+          <a href="{{ icsHref }}" download="appointment.ics" style="min-height:48px;padding:0 20px;border-radius:var(--btn-radius);border:1px solid var(--line);background:var(--surface);display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;box-sizing:border-box;text-decoration:none"><span aria-hidden="true" style="width:16px;height:16px;background:currentColor;-webkit-mask:url(https://unpkg.com/lucide-static@0.460.0/icons/calendar-plus.svg) center/contain no-repeat;mask:url(https://unpkg.com/lucide-static@0.460.0/icons/calendar-plus.svg) center/contain no-repeat"></span>Add to calendar</a>
+          <button onClick="{{ reset }}" style="min-height:48px;padding:0 8px;border:0;background:none;color:var(--accent-text);font:500 15px Geist;text-decoration:underline;text-underline-offset:4px;cursor:pointer">Book another</button>
+        </div>
+      </div>
+    </sc-if>
+  </main>
+
+  <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ false }}">
+    <aside style="padding:40px 0;min-width:0">
+      <div style="position:sticky;top:40px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--surface);padding:22px;display:flex;flex-direction:column;gap:16px">
+        <strong style="font-size:15px;font-weight:600">Your booking</strong>
+        <sc-for list="{{ sum.items }}" as="i" hint-placeholder-count="1"><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="display:flex;flex-direction:column"><span style="font-weight:500">{{ i.name }}</span><span style="color:var(--muted)">{{ i.dur }}</span></span><span style="font-variant-numeric:tabular-nums">{{ i.price }}</span></div></sc-for>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;padding-top:14px;border-top:1px solid var(--line)"><div style="display:flex;justify-content:space-between"><span style="color:var(--muted)">With</span><span>{{ sum.staff }}</span></div><div style="display:flex;justify-content:space-between"><span style="color:var(--muted)">When</span><span style="font-variant-numeric:tabular-nums">{{ sum.when }}</span></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;border-top:1px solid var(--line)"><span style="font-size:14px;color:var(--muted)">Total · {{ sum.dur }}</span><span style="font-size:22px;font-weight:600;font-variant-numeric:tabular-nums">{{ sum.price }}</span></div>
+        <sc-if value="{{ showBar }}" hint-placeholder-val="{{ true }}"><button onClick="{{ next }}" style="min-height:52px;border:0;border-radius:var(--btn-radius);background:{{ btnBg }};color:{{ btnFg }};font:600 16px Geist;cursor:pointer">{{ cta }}</button></sc-if>
+      </div>
+    </aside>
+  </sc-if>
+  </div>
+
+  <sc-if value="{{ mobileBar }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 20px;background:color-mix(in oklab,var(--background) 90%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span aria-live="polite" style="flex:1;min-width:0;display:flex;flex-direction:column"><sc-if value="{{ sum.has }}" hint-placeholder-val="{{ true }}"><span style="font-size:18px;font-weight:600;font-variant-numeric:tabular-nums">{{ sum.price }}</span><span style="font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums">{{ sum.dur }} · {{ sum.count }}</span></sc-if><sc-if value="{{ sum.none }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:var(--muted)">Select at least one service</span></sc-if></span>
+        <button onClick="{{ next }}" style="min-height:52px;padding:0 26px;border:0;border-radius:var(--btn-radius);background:{{ btnBg }};color:{{ btnFg }};font:600 16px Geist;cursor:pointer;flex:none;transition:background .2s,transform .1s" style-active="transform:scale(.97)">{{ cta }}</button>
+      </div>
+    </div>
+  </sc-if>
+</sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;shop&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;kaiser&quot;,&quot;fadelab&quot;,&quot;lune&quot;],&quot;default&quot;:&quot;kaiser&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;mobile&quot;,&quot;desktop&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;default&quot;,&quot;light&quot;,&quot;dark&quot;,&quot;auto&quot;],&quot;default&quot;:&quot;default&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;step&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;services&quot;,&quot;staff&quot;,&quot;time&quot;,&quot;details&quot;,&quot;done&quot;],&quot;default&quot;:&quot;services&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;default&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;,&quot;taken&quot;,&quot;errors&quot;],&quot;default&quot;:&quot;default&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const STEPS=['services','staff','time','details','done'];
+const TITLES={services:'Choose services',staff:'Choose a professional',time:'Pick a time',details:'Your details',done:'Booking confirmed'};
+const WD=['Thu','Fri','Sat','Sun','Mon','Tue','Wed'];
+class Component extends DCLogic {
+  constructor(p){super(p);const st=p.step||'services';const S=window.SHOPS&&window.SHOPS[p.shop||'kaiser'];
+    const first=S?S.categories[0].items.map(i=>i.id):[];
+    this.state={step:st,sel:st==='services'?[first[0]]:[first[0],first.length>1?first[1]:first[0]].slice(0,st==='services'?1:2),staff:st==='staff'?'s1':'any',day:1,slot:'10:30'};
+    if(S&&S.key==='kaiser'&&st!=='services')this.state.sel=['k1','k5'];
+    if(S&&S.key==='fadelab'&&st!=='services')this.state.sel=['f1','f5'];
+    if(S&&S.key==='lune'&&st!=='services')this.state.sel=['l1'];
+  }
+  rootRef=React.createRef(); mainRef=React.createRef(); headRef=React.createRef(); checkRef=React.createRef();
+  componentDidMount(){
+    const go=()=>{ if(!window.SHOPS||!window.THEMES){ this.t=setTimeout(go,40); return; }
+      const el=this.rootRef.current; if(!el) return;
+      const inh=!!getComputedStyle(el.parentElement).getPropertyValue('--background').trim();
+      this.ro=new ResizeObserver(e=>{const w=Math.round(e[0].contentRect.width); if(w!==this.state.w)this.setState({w});}); this.ro.observe(el);
+      this.setState({inherit:inh});
+    }; go();
+  }
+  componentWillUnmount(){ clearTimeout(this.t); this.ro&&this.ro.disconnect(); }
+  componentDidUpdate(pp,ps){
+    if(pp.step!==this.props.step) this.setState({step:this.props.step});
+    if(ps.step!==this.state.step){
+      const fwd=STEPS.indexOf(this.state.step)>STEPS.indexOf(ps.step), m=this.mainRef.current, rm=window.reducedMotion&&window.reducedMotion();
+      if(m){ m.scrollTop=0; if(!rm&&m.animate) m.animate([{opacity:0,transform:'translateX('+(fwd?24:-24)+'px)'},{opacity:1,transform:'none'}],{duration:280,easing:'cubic-bezier(.2,.8,.2,1)'}); }
+      this.headRef.current&&this.headRef.current.focus({preventScroll:true});
+      if(this.state.step==='done'&&this.checkRef.current&&!rm&&this.checkRef.current.animate) this.checkRef.current.animate([{transform:'scale(0)'},{transform:'scale(1.25)'},{transform:'scale(1)'}],{duration:450,easing:'cubic-bezier(.34,1.56,.64,1)'});
+    }
+  }
+  renderVals(){
+    const SS=window.SHOPS; if(!SS||!window.THEMES) return {ready:false,rootRef:this.rootRef,themeStyle:{width:'100%',height:'100%'}};
+    const s=SS[this.props.shop||new URLSearchParams(location.search).get('shop')||'kaiser']||SS.kaiser; const md=s.media||{staff:{},services:{}}; const E=window.fmtEUR,M=window.fmtMin;
+    const dev=this.props.device||'auto', vs=this.props.state||'default';
+    let {step,sel,staff,day,slot}=this.state; const idx=STEPS.indexOf(step);
+    if(!this.inited){this.inited=true;const d={kaiser:['k1','k5'],fadelab:['f1','f5'],lune:['l1']}[s.key];sel=(this.props.step||'services')==='services'?[d[0]]:d;this.state.sel=sel;}
+    const all=s.categories.flatMap(c=>c.items); const picked=all.filter(i=>sel.includes(i.id));
+    const tot=picked.reduce((a,i)=>a+i.price,0), dur=picked.reduce((a,i)=>a+i.min,0);
+    const A=(on)=>on;
+    const toggle=id=>()=>this.setState(x=>({sel:x.sel.includes(id)?x.sel.filter(i=>i!==id):[...x.sel,id]}));
+    const categories=s.categories.map((c,ci)=>({name:c.name,bd:ci===0?'var(--foreground)':'var(--line)',bg:ci===0?'var(--foreground)':'transparent',fg:ci===0?'var(--background)':'var(--foreground)',
+      items:c.items.map((i,ii)=>{const on=sel.includes(i.id);return {...i,img:md.services[i.id]||null,on,toggle:toggle(i.id),priceF:E(i.price),meta:M(i.min)+(i.desc?' · '+i.desc:''),sep:ii===0?'transparent':'var(--line)',
+        bg:on?'var(--accent-subtle)':'transparent',bar:on?'inset 3px 0 0 var(--accent)':'none',w:on?600:500,ckBd:on?'var(--accent)':'var(--line)',ckBg:on?'var(--accent)':'transparent',ckFg:on?'var(--accent-foreground)':'var(--muted)',ck:on?'✓':'+',sc:on?1:.92};})}));
+    const proWord=s.key==='lune'?'artist':'barber';
+    const staffOpts=[{id:'any',name:'Any professional',title:'Earliest available time',photo:false},...s.staff].map(p=>{const on=staff===p.id;return {...p,on,pick:()=>this.setState({staff:p.id}),bd:on?'2px solid var(--accent)':'1px solid var(--line)',w:on?600:500,
+      img:md.staff[p.id]||null,initialOnly:!md.staff[p.id],initial:p.id==='any'?'✦':p.name.slice(0,1),avBg:p.id==='any'?'var(--accent-subtle)':'var(--foreground)',avFg:p.id==='any'?'var(--accent-text)':'var(--background)'};});
+    const days=Array.from({length:12},(_,i)=>{const n=8+i,wd=WD[i%7],closed=wd==='Sun'||wd==='Mon',on=i===(vs==='empty'?2:day);
+      return {n,wd:i===0?'Today':wd,on,pick:()=>this.setState({day:i}),bg:on?'var(--accent)':'var(--surface)',fg:on?'var(--accent-foreground)':(closed?'var(--muted)':'var(--foreground)'),bd:on?'var(--accent)':'var(--line)',bs:closed?'dashed':'solid',w:on?700:500,td:closed?'line-through':'none',sub:closed?'Closed':'Oct'};});
+    const mk=(arr)=>arr.map(l=>{const taken=vs==='taken'&&l==='10:30';const on=!taken&&slot===l&&vs!=='taken';
+      return {label:l,on,pick:()=>this.setState({slot:l}),bg:on?'var(--accent)':(taken?'transparent':'var(--surface)'),fg:on?'var(--accent-foreground)':(taken?'var(--muted)':'var(--foreground)'),bd:on?'var(--accent)':'var(--line)',bs:taken?'dashed':'solid',w:on?700:500,td:taken?'line-through':'none',ck:on?'✓ ':''};});
+    const slotGroups=[{part:'Morning',slots:mk(['09:00','09:30','10:30','11:00','12:00'])},{part:'Afternoon',slots:mk(['14:00','14:30','15:30','16:00','16:30'])},{part:'Evening',slots:mk(['17:30','18:00'])}];
+    const err=vs==='errors';
+    const f={name:err?'':'Lukas Berger',nameC:'var(--foreground)',nameBd:err?'1.5px solid var(--danger)':'1px solid var(--line)',nameErr:err,mail:err?'lukas.berger@gmail':'lukas.berger@gmail.com',mailBd:err?'1.5px solid var(--danger)':'1px solid var(--accent)',mailErr:err,mailHint:!err};
+    const dayLabel=`${WD[day%7]==='Thu'&&day===0?'Today':WD[day%7]} ${8+day} Oct`;
+    const staffName=staff==='any'?'Any professional':(s.staff.find(p=>p.id===staff)||{}).name;
+    const sum={has:picked.length>0,none:picked.length===0,price:E(tot),dur:M(dur),count:picked.length+(picked.length===1?' service':' services'),items:picked.map(i=>({name:i.name,dur:M(i.min),price:E(i.price)})),staff:idx>=1?staffName:'—',when:idx>=2?`${dayLabel}, ${slot}`:'—'};
+    const longDays=['Thursday','Friday','Saturday','Sunday','Monday','Tuesday','Wednesday'];
+    const conf={time:slot,date:`${longDays[day%7]} ${8+day} October`,staff:staff==='any'?s.staff[0].name:staffName,services:picked.map(i=>i.name).join(', ')};
+    const can=step==='services'?picked.length>0:step==='time'?vs!=='taken'&&vs!=='loading'&&vs!=='empty'&&vs!=='error':true;
+    const next=()=>{if(!can)return; this.setState(x=>({step:STEPS[Math.min(4,STEPS.indexOf(x.step)+1)]}));};
+    const isDesktop=dev==='desktop'||(dev!=='mobile'&&(this.state.w||0)>=960);
+    const standalone=this.state.inherit===false; const themeStyle={width:'100%',height:'100%',...(standalone?window.themeVars(s.key,this.props.mode==='default'?null:this.props.mode):{})};
+    const pad=n=>String(n).padStart(2,'0'); const dt='202610'+pad(8+day)+'T'+slot.replace(':','')+'00'; const endM=(+slot.slice(0,2))*60+(+slot.slice(3))+dur; const dtE='202610'+pad(8+day)+'T'+pad(Math.floor(endM/60))+pad(endM%60)+'00';
+    const icsHref='data:text/calendar;charset=utf-8,'+encodeURIComponent(['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT','DTSTART;TZID=Europe/Vienna:'+dt,'DTEND;TZID=Europe/Vienna:'+dtE,'SUMMARY:'+picked.map(i=>i.name).join(', ')+' at '+s.short,'LOCATION:'+s.address,'END:VEVENT','END:VCALENDAR'].join('\r\n'));
+    return {ready:true,rootRef:this.rootRef,mainRef:this.mainRef,headRef:this.headRef,checkRef:this.checkRef,themeStyle,icsHref,manageHref:'Manage Booking.dc.html?shop='+s.key,s:{...s,categories,proWord},title:TITLES[step],stepNo:Math.min(idx+1,4),showCount:step!=='done',showBack:idx>0&&step!=='done',
+      progress:[0,1,2,3].map(i=>({bg:i<=idx?'var(--accent)':'var(--line)'})),
+      isServices:step==='services',isStaff:step==='staff',isTime:step==='time',isDetails:step==='details',isDone:step==='done',
+      isTaken:vs==='taken',isLoading:vs==='loading',isEmpty:vs==='empty',isError:vs==='error',showSlots:step==='time'&&['default','taken'].includes(vs),
+      staffOpts,days,slotGroups,f,sum,conf,isDesktop,cols:isDesktop?'minmax(0,1fr) 360px':'minmax(0,1fr)',
+      mobileBar:!isDesktop&&step!=='done',showBar:step!=='done',
+      cta:step==='details'?'Confirm booking':'Continue',btnBg:can?'var(--accent)':'var(--line)',btnFg:can?'var(--accent-foreground)':'var(--muted)',
+      next,back:()=>this.setState(x=>({step:STEPS[Math.max(0,STEPS.indexOf(x.step)-1)]})),reset:()=>this.setState({step:'services',sel:[]})};
+  }
+}
+</script>
+</body>
+</html>

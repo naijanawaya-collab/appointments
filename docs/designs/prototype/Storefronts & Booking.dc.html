@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif&family=Cormorant+Garamond:wght@500;600&family=Barlow+Condensed:wght@600;700&family=Italiana&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#e4dfd7;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#1d1a17}a{color:#a8431f}a:hover{color:#813216}</style>
+</helmet>
+
+<section data-screen-label="Storefronts" style="padding:64px;display:flex;flex-direction:column;gap:40px">
+  <header style="display:flex;flex-direction:column;gap:10px;max-width:900px">
+    <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#6b6259">01 · Storefronts</span>
+    <h1 style="margin:0;font:400 72px/1 'Instrument Serif',serif">Three shops, one structure</h1>
+    <p style="margin:0;font-size:17px;line-height:1.55;color:#5b534b">Same component, same markup, different token set + content. Layout is fluid (container units + auto-fit grids): the mobile and desktop frames below are the same code at two widths.</p>
+  </header>
+
+  <div id="1a" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">1a</span><strong style="font-size:18px">Kaiser &amp; Co. — Classic preset · split hero · 6 barbers · 31 services · long name</strong></div>
+    <div style="display:flex;gap:40px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">mobile 390 · light</span>
+        <div style="width:390px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17,0 30px 60px rgba(0,0,0,.18);--background:#f4ecdf;--foreground:#2a2118;--surface:#fbf6ee;--muted:#6e604e;--line:#e2d6c3;--accent:#8a6a2f;--accent-foreground:#ffffff;--accent-hover:#775b27;--accent-pressed:#644c20;--accent-subtle:#ece0cb;--accent-text:#745824;--secondary:#2f3a2e;--danger:#b42318;--success:#2f6b3a;--font-display:'Cormorant Garamond',serif;--display-weight:600;--display-transform:none;--display-tracking:-0.01em;--radius:2px;--radius-lg:4px;--btn-radius:2px;--btn-transform:none"><dc-import name="Storefront" shop="kaiser" device="mobile" hint-size="390px,4000px"></dc-import></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">mobile 390 · dark (auto)</span>
+        <div style="width:390px;height:1400px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17,0 30px 60px rgba(0,0,0,.18);--background:#1a1612;--foreground:#f1e8da;--surface:#231e18;--muted:#ab9f8c;--line:#3a3128;--accent:#c9a45c;--accent-foreground:#1a1612;--accent-hover:#d6b573;--accent-pressed:#b8924a;--accent-subtle:#2f271b;--accent-text:#c9a45c;--secondary:#8fa08a;--danger:#f97066;--success:#7fc48c;--font-display:'Cormorant Garamond',serif;--display-weight:600;--display-transform:none;--display-tracking:-0.01em;--radius:2px;--radius-lg:4px;--btn-radius:2px;--btn-transform:none"><dc-import name="Storefront" shop="kaiser" device="mobile" hint-size="390px,1400px"></dc-import></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">desktop 1280 · light</span>
+        <div style="width:1280px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);--background:#f4ecdf;--foreground:#2a2118;--surface:#fbf6ee;--muted:#6e604e;--line:#e2d6c3;--accent:#8a6a2f;--accent-foreground:#ffffff;--accent-hover:#775b27;--accent-pressed:#644c20;--accent-subtle:#ece0cb;--accent-text:#745824;--secondary:#2f3a2e;--danger:#b42318;--success:#2f6b3a;--font-display:'Cormorant Garamond',serif;--display-weight:600;--display-transform:none;--display-tracking:-0.01em;--radius:2px;--radius-lg:4px;--btn-radius:2px;--btn-transform:none"><dc-import name="Storefront" shop="kaiser" device="desktop" hint-size="1280px,3600px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="1b" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">1b</span><strong style="font-size:18px">FADE/LAB — Modern preset · the new shop: no logo, 2 photos, no bios, no reviews</strong></div>
+    <div style="display:flex;gap:40px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">mobile 390 · dark (owner default)</span>
+        <div style="width:390px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17,0 30px 60px rgba(0,0,0,.18);--background:#16171a;--foreground:#f3f3f1;--surface:#1f2024;--muted:#a3a4a8;--line:#303136;--accent:#ff5a1f;--accent-foreground:#111111;--accent-hover:#ff7444;--accent-pressed:#e8480f;--accent-subtle:#2c1d17;--accent-text:#ff7a4a;--danger:#ff6b6b;--success:#6fd08c;--font-display:'Barlow Condensed',sans-serif;--display-weight:700;--display-transform:uppercase;--display-tracking:0.01em;--radius:0px;--radius-lg:0px;--btn-radius:0px;--btn-transform:uppercase"><dc-import name="Storefront" shop="fadelab" device="mobile" hint-size="390px,3200px"></dc-import></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">mobile 390 · light</span>
+        <div style="width:390px;height:1400px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17,0 30px 60px rgba(0,0,0,.18);--background:#f2f2f0;--foreground:#16171a;--surface:#ffffff;--muted:#5f6066;--line:#dcdcd8;--accent:#ff5a1f;--accent-foreground:#111111;--accent-hover:#ff7444;--accent-pressed:#e8480f;--accent-subtle:#ffe6dc;--accent-text:#b83d0c;--danger:#b42318;--success:#2f6b3a;--font-display:'Barlow Condensed',sans-serif;--display-weight:700;--display-transform:uppercase;--display-tracking:0.01em;--radius:0px;--radius-lg:0px;--btn-radius:0px;--btn-transform:uppercase"><dc-import name="Storefront" shop="fadelab" device="mobile" hint-size="390px,1400px"></dc-import></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">desktop 1280 · dark</span>
+        <div style="width:1280px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);--background:#16171a;--foreground:#f3f3f1;--surface:#1f2024;--muted:#a3a4a8;--line:#303136;--accent:#ff5a1f;--accent-foreground:#111111;--accent-hover:#ff7444;--accent-pressed:#e8480f;--accent-subtle:#2c1d17;--accent-text:#ff7a4a;--danger:#ff6b6b;--success:#6fd08c;--font-display:'Barlow Condensed',sans-serif;--display-weight:700;--display-transform:uppercase;--display-tracking:0.01em;--radius:0px;--radius-lg:0px;--btn-radius:0px;--btn-transform:uppercase"><dc-import name="Storefront" shop="fadelab" device="desktop" hint-size="1280px,3000px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="1c" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">1c</span><strong style="font-size:18px">Lune Nail &amp; Beauty — Soft preset · carousel hero · service images · no announcement</strong></div>
+    <div style="display:flex;gap:40px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">mobile 390 · light</span>
+        <div style="width:390px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17,0 30px 60px rgba(0,0,0,.18);--background:#faf3f1;--foreground:#3b2430;--surface:#fffaf8;--muted:#7a5d69;--line:#eedcd8;--accent:#a3456b;--accent-foreground:#ffffff;--accent-hover:#8f3a5d;--accent-pressed:#7b3050;--accent-subtle:#f4e1e6;--accent-text:#a3456b;--danger:#b42318;--success:#2f6b3a;--font-display:Italiana,serif;--display-weight:400;--display-transform:none;--display-tracking:0.02em;--radius:20px;--radius-lg:20px;--btn-radius:999px;--btn-transform:none"><dc-import name="Storefront" shop="lune" device="mobile" hint-size="390px,4200px"></dc-import></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">mobile 390 · dark (auto)</span>
+        <div style="width:390px;height:1400px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17,0 30px 60px rgba(0,0,0,.18);--background:#1c1418;--foreground:#f6e9ec;--surface:#261c21;--muted:#b89ca6;--line:#3b2c33;--accent:#e58aae;--accent-foreground:#1c1418;--accent-hover:#eda2bf;--accent-pressed:#d9739c;--accent-subtle:#3a2129;--accent-text:#e58aae;--danger:#f97066;--success:#7fc48c;--font-display:Italiana,serif;--display-weight:400;--display-transform:none;--display-tracking:0.02em;--radius:20px;--radius-lg:20px;--btn-radius:999px;--btn-transform:none"><dc-import name="Storefront" shop="lune" device="mobile" hint-size="390px,1400px"></dc-import></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">desktop 1280 · light</span>
+        <div style="width:1280px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);--background:#faf3f1;--foreground:#3b2430;--surface:#fffaf8;--muted:#7a5d69;--line:#eedcd8;--accent:#a3456b;--accent-foreground:#ffffff;--accent-hover:#8f3a5d;--accent-pressed:#7b3050;--accent-subtle:#f4e1e6;--accent-text:#a3456b;--danger:#b42318;--success:#2f6b3a;--font-display:Italiana,serif;--display-weight:400;--display-transform:none;--display-tracking:0.02em;--radius:20px;--radius-lg:20px;--btn-radius:999px;--btn-transform:none;--hero-ratio:21/9"><dc-import name="Storefront" shop="lune" device="desktop" hint-size="1280px,3600px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Booking flow" style="padding:64px;display:flex;flex-direction:column;gap:40px;border-top:1px solid #cfc7bb">
+  <header style="display:flex;flex-direction:column;gap:10px;max-width:900px">
+    <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#6b6259">02 · Booking flow</span>
+    <h1 style="margin:0;font:400 72px/1 'Instrument Serif',serif">Five steps, one page</h1>
+    <p style="margin:0;font-size:17px;line-height:1.55;color:#5b534b">Frames are interactive: tap services, barbers, dates and times; Continue and Back work. Layout never changes between shops, only tokens.</p>
+  </header>
+
+  <div id="2a" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">2a</span><strong style="font-size:18px">Happy path · FADE/LAB · mobile</strong></div>
+    <div style="display:flex;gap:32px;align-items:flex-start;--background:#16171a;--foreground:#f3f3f1;--surface:#1f2024;--muted:#a3a4a8;--line:#303136;--accent:#ff5a1f;--accent-foreground:#111111;--accent-hover:#ff7444;--accent-pressed:#e8480f;--accent-subtle:#2c1d17;--accent-text:#ff7a4a;--danger:#ff6b6b;--success:#6fd08c;--font-display:'Barlow Condensed',sans-serif;--display-weight:700;--display-transform:uppercase;--display-tracking:0.01em;--radius:0px;--radius-lg:0px;--btn-radius:0px">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">1 · Services</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="fadelab" step="services" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">2 · Professional</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="fadelab" step="staff" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">3 · Time</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="fadelab" step="time" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">4 · Details</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="fadelab" step="details" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">5 · Confirmation</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="fadelab" step="done" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+    </div>
+  </div>
+
+  <div id="2b" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">2b</span><strong style="font-size:18px">States · Kaiser &amp; Co. · mobile</strong></div>
+    <div style="display:flex;gap:32px;align-items:flex-start;--background:#f4ecdf;--foreground:#2a2118;--surface:#fbf6ee;--muted:#6e604e;--line:#e2d6c3;--accent:#8a6a2f;--accent-foreground:#ffffff;--accent-subtle:#ece0cb;--accent-text:#745824;--danger:#b42318;--success:#2f6b3a;--font-display:'Cormorant Garamond',serif;--display-weight:600;--display-transform:none;--display-tracking:-0.01em;--radius:2px;--radius-lg:4px;--btn-radius:2px">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Time · loading skeleton</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="kaiser" step="time" state="loading" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Time · empty day</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="kaiser" step="time" state="empty" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Time · error + retry</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="kaiser" step="time" state="error" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Time · just taken (409)</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="kaiser" step="time" state="taken" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Details · inline errors</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17"><dc-import name="Booking" shop="kaiser" step="details" state="errors" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+    </div>
+  </div>
+
+  <div id="2c" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">2c</span><strong style="font-size:18px">Same flow, other shops · desktop 1280 with sticky summary aside</strong></div>
+    <div style="display:flex;gap:40px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Lune · services with images</span><div style="width:1280px;height:820px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);--background:#faf3f1;--foreground:#3b2430;--surface:#fffaf8;--muted:#7a5d69;--line:#eedcd8;--accent:#a3456b;--accent-foreground:#ffffff;--accent-subtle:#f4e1e6;--accent-text:#a3456b;--danger:#b42318;--success:#2f6b3a;--font-display:Italiana,serif;--display-weight:400;--display-transform:none;--display-tracking:0.02em;--radius:20px;--radius-lg:20px;--btn-radius:999px"><dc-import name="Booking" shop="lune" device="desktop" step="services" hint-size="1280px,820px" style="width:1280px;height:820px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Kaiser · pick a time · dark</span><div style="width:1280px;height:820px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);--background:#1a1612;--foreground:#f1e8da;--surface:#231e18;--muted:#ab9f8c;--line:#3a3128;--accent:#c9a45c;--accent-foreground:#1a1612;--accent-subtle:#2f271b;--accent-text:#c9a45c;--danger:#f97066;--success:#7fc48c;--font-display:'Cormorant Garamond',serif;--display-weight:600;--display-transform:none;--display-tracking:-0.01em;--radius:2px;--radius-lg:4px;--btn-radius:2px"><dc-import name="Booking" shop="kaiser" device="desktop" step="time" hint-size="1280px,820px" style="width:1280px;height:820px"></dc-import></div></div>
+    </div>
+    <div style="display:flex;gap:32px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Kaiser · 6 barbers</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;--background:#f4ecdf;--foreground:#2a2118;--surface:#fbf6ee;--muted:#6e604e;--line:#e2d6c3;--accent:#8a6a2f;--accent-foreground:#ffffff;--accent-subtle:#ece0cb;--accent-text:#745824;--danger:#b42318;--font-display:'Cormorant Garamond',serif;--display-weight:600;--display-transform:none;--radius:2px;--radius-lg:4px;--btn-radius:2px"><dc-import name="Booking" shop="kaiser" step="staff" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Lune · confirmation · dark</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;--background:#1c1418;--foreground:#f6e9ec;--surface:#261c21;--muted:#b89ca6;--line:#3b2c33;--accent:#e58aae;--accent-foreground:#1c1418;--accent-subtle:#3a2129;--accent-text:#e58aae;--danger:#f97066;--font-display:Italiana,serif;--display-weight:400;--display-transform:none;--display-tracking:0.02em;--radius:20px;--radius-lg:20px;--btn-radius:999px"><dc-import name="Booking" shop="lune" step="done" hint-size="390px,844px" style="width:390px;height:844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px;max-width:420px;padding-top:28px"><strong style="font-size:15px">Flow rules</strong><ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.6;color:#5b534b"><li>1 barber → step 2 skipped, progress shows 3 segments</li><li>No single barber offers all chosen services → inline note on step 2 with “Go back”</li><li>Focus moves to the step heading on every change</li><li>Date strip: today + 60 days, closed days dashed + struck</li><li>Sticky bar reserves its height up front → CLS 0</li><li>Back keeps all earlier choices; a 409 keeps services + details</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Manage & email" style="padding:64px;display:flex;flex-direction:column;gap:40px;border-top:1px solid #cfc7bb">
+  <header style="display:flex;flex-direction:column;gap:10px;max-width:900px">
+    <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#6b6259">03 · After booking</span>
+    <h1 style="margin:0;font:400 72px/1 'Instrument Serif',serif">Manage page &amp; email</h1>
+  </header>
+  <div id="3a" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">3a</span><strong style="font-size:18px">Manage booking · Lune · mobile states (interactive two-step cancel)</strong></div>
+    <div style="display:flex;gap:32px;align-items:flex-start;--background:#faf3f1;--foreground:#3b2430;--surface:#fffaf8;--muted:#7a5d69;--line:#eedcd8;--accent:#a3456b;--accent-foreground:#ffffff;--accent-subtle:#f4e1e6;--accent-text:#a3456b;--danger:#b42318;--success:#2f6b3a;--font-display:Italiana,serif;--display-weight:400;--display-transform:none;--display-tracking:0.02em;--radius:20px;--radius-lg:20px;--btn-radius:999px">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Confirmed</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;background:var(--background)"><dc-import name="Manage Booking" shop="lune" state="confirmed" hint-size="390px,844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Cancel → confirm</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;background:var(--background)"><dc-import name="Manage Booking" shop="lune" state="confirming" hint-size="390px,844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Cancelled</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;background:var(--background)"><dc-import name="Manage Booking" shop="lune" state="cancelled" hint-size="390px,844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Too late to cancel</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;background:var(--background)"><dc-import name="Manage Booking" shop="lune" state="toolate" hint-size="390px,844px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Completed</span><div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;background:var(--background)"><dc-import name="Manage Booking" shop="lune" state="completed" hint-size="390px,844px"></dc-import></div></div>
+    </div>
+    <div style="display:flex;gap:40px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Kaiser · desktop 1280 · dark</span><div style="width:1280px;height:800px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);--background:#1a1612;--foreground:#f1e8da;--surface:#231e18;--muted:#ab9f8c;--line:#3a3128;--accent:#c9a45c;--accent-foreground:#1a1612;--accent-subtle:#2f271b;--accent-text:#c9a45c;--danger:#f97066;--success:#7fc48c;--font-display:'Cormorant Garamond',serif;--display-weight:600;--display-transform:none;--display-tracking:-0.01em;--radius:2px;--radius-lg:4px;--btn-radius:2px;background:var(--background)"><dc-import name="Manage Booking" shop="kaiser" state="confirmed" hint-size="1280px,800px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">FADE/LAB · mobile · cancelled</span><div style="width:390px;height:800px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;--background:#16171a;--foreground:#f3f3f1;--surface:#1f2024;--muted:#a3a4a8;--line:#303136;--accent:#ff5a1f;--accent-foreground:#111111;--accent-subtle:#2c1d17;--accent-text:#ff7a4a;--danger:#ff6b6b;--success:#6fd08c;--font-display:'Barlow Condensed',sans-serif;--display-weight:700;--display-transform:uppercase;--display-tracking:0.01em;--radius:0px;--radius-lg:0px;--btn-radius:0px;background:var(--background)"><dc-import name="Manage Booking" shop="fadelab" state="cancelled" hint-size="390px,800px"></dc-import></div></div>
+    </div>
+  </div>
+
+  <div id="3b" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">3b</span><strong style="font-size:18px">Confirmation email · table layout, inline hex (no CSS vars in mail clients), system serif for display</strong></div>
+    <div style="display:flex;gap:32px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Kaiser &amp; Co.</span><div style="width:600px"><dc-import name="Booking Email" shop="kaiser" hint-size="600px,760px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">FADE/LAB</span><div style="width:600px"><dc-import name="Booking Email" shop="fadelab" hint-size="600px,760px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Lune</span><div style="width:600px"><dc-import name="Booking Email" shop="lune" hint-size="600px,760px"></dc-import></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Images blocked</span><div style="width:600px"><dc-import name="Booking Email" shop="kaiser" images="{{ false }}" hint-size="600px,760px"></dc-import></div></div>
+    </div>
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

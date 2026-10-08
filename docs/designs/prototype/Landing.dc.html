@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif&family=Cormorant+Garamond:wght@500;600&family=Barlow+Condensed:wght@600;700&family=Italiana&display=swap" rel="stylesheet">
+<script src="shops.js"></script>
+<style>body{margin:0}a{color:inherit}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="{{ themeStyle }}">
+<div style="container-type:inline-size;background:var(--background);color:var(--foreground);font-family:Geist,system-ui,sans-serif;width:100%;-webkit-font-smoothing:antialiased">
+  <header style="position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 clamp(16px,4cqi,48px);min-height:68px;background:color-mix(in oklab,var(--background) 88%,transparent);backdrop-filter:blur(12px)">
+    <span style="font:400 26px/1 'Instrument Serif',serif">Appointments</span>
+    <sc-if value="{{ wide }}" hint-placeholder-val="{{ false }}"><nav style="display:flex;gap:4px;font-size:14px"><a href="#ex" style="min-height:44px;padding:0 12px;display:flex;align-items:center;color:var(--muted);text-decoration:none" style-hover="color:var(--foreground)">Examples</a><a href="#how" style="min-height:44px;padding:0 12px;display:flex;align-items:center;color:var(--muted);text-decoration:none" style-hover="color:var(--foreground)">How it works</a><a href="#features" style="min-height:44px;padding:0 12px;display:flex;align-items:center;color:var(--muted);text-decoration:none" style-hover="color:var(--foreground)">Features</a><a href="Editor, Landing &amp; Admin.dc.html#6a" style="min-height:44px;padding:0 12px;display:flex;align-items:center;color:var(--muted);text-decoration:none" style-hover="color:var(--foreground)">Sign in</a></nav></sc-if>
+    <a href="Editor, Landing &amp; Admin.dc.html#4a" style="background:var(--accent);color:var(--accent-foreground);min-height:44px;padding:0 18px;border-radius:10px;display:flex;align-items:center;font-size:14px;font-weight:500;text-decoration:none;white-space:nowrap;transition:background .15s" style-hover="background:var(--accent-hover)">Open your storefront</a>
+  </header>
+
+  <section style="padding:clamp(40px,8cqi,112px) clamp(16px,4cqi,48px) 0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(16px,2.4cqi,28px)">
+    <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Online booking for barbershops &amp; salons</span>
+    <h1 data-reveal="60" style="margin:0;font:400 clamp(48px,8.4cqi,120px)/0.95 'Instrument Serif',serif;letter-spacing:-.02em;max-width:14ch;text-wrap:balance">Your shop, your look. Booked in a minute.</h1>
+    <p style="margin:0;font-size:clamp(17px,1.7cqi,21px);line-height:1.5;color:var(--muted);max-width:46ch;text-wrap:pretty">A storefront that looks like your brand, not a template, and a booking flow your customers already know how to use.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px">
+      <a href="Editor, Landing &amp; Admin.dc.html#4a" style="background:var(--accent);color:var(--accent-foreground);min-height:52px;padding:0 26px;border-radius:10px;display:flex;align-items:center;font-weight:500;font-size:16px;text-decoration:none;transition:background .15s,transform .1s" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)">Open your storefront</a>
+      <a href="Storefront.dc.html?shop=kaiser" style="border:1px solid var(--line);background:var(--surface);min-height:52px;padding:0 22px;border-radius:10px;display:flex;align-items:center;font-weight:500;font-size:16px;box-sizing:border-box;text-decoration:none;transition:border-color .15s" style-hover="border-color:var(--foreground)">See a live demo</a>
+    </div>
+    <div id="ex" style="display:flex;gap:clamp(12px,2.4cqi,32px);justify-content:center;align-items:flex-start;margin-top:clamp(16px,3cqi,40px);width:100%;overflow:hidden;padding-bottom:4px">
+      <figure data-reveal="120" style="margin:0;display:flex;flex-direction:column;gap:10px;align-items:center;flex:none;margin-top:48px">
+        <div style="width:clamp(180px,22cqi,280px);aspect-ratio:390/760;border-radius:22px;overflow:hidden;box-shadow:0 0 0 6px var(--foreground),0 24px 48px rgba(0,0,0,.16);position:relative;--background:#f4ecdf;--foreground:#2a2118;--surface:#fbf6ee;--muted:#6e604e;--line:#e2d6c3;--accent:#8a6a2f;--accent-foreground:#ffffff;--accent-subtle:#ece0cb;--accent-text:#745824;--font-display:'Cormorant Garamond',serif;--display-weight:600;--display-transform:none;--display-tracking:-0.01em;--radius:2px;--btn-radius:2px;background:var(--background)">
+          <div style="width:390px;transform:scale({{ sc }});transform-origin:0 0;position:absolute;left:0;top:0"><dc-import name="Storefront" shop="kaiser" device="mobile" hint-size="390px,1200px"></dc-import></div>
+        </div>
+        <figcaption style="font-size:13px;color:var(--muted)">Classic · gentleman’s barber</figcaption>
+      </figure>
+      <figure data-reveal="120" style="margin:0;display:flex;flex-direction:column;gap:10px;align-items:center;flex:none">
+        <div style="width:clamp(180px,22cqi,280px);aspect-ratio:390/760;border-radius:22px;overflow:hidden;box-shadow:0 0 0 6px var(--foreground),0 24px 48px rgba(0,0,0,.2);position:relative;--background:#16171a;--foreground:#f3f3f1;--surface:#1f2024;--muted:#a3a4a8;--line:#303136;--accent:#ff5a1f;--accent-foreground:#111111;--accent-subtle:#2c1d17;--accent-text:#ff7a4a;--font-display:'Barlow Condensed',sans-serif;--display-weight:700;--display-transform:uppercase;--display-tracking:0.01em;--radius:0px;--btn-radius:0px;--btn-transform:uppercase;background:var(--background)">
+          <div style="width:390px;transform:scale({{ sc }});transform-origin:0 0;position:absolute;left:0;top:0"><dc-import name="Storefront" shop="fadelab" device="mobile" hint-size="390px,1200px"></dc-import></div>
+        </div>
+        <figcaption style="font-size:13px;color:var(--muted)">Modern · fade studio</figcaption>
+      </figure>
+      <figure data-reveal="120" style="margin:0;display:flex;flex-direction:column;gap:10px;align-items:center;flex:none;margin-top:48px">
+        <div style="width:clamp(180px,22cqi,280px);aspect-ratio:390/760;border-radius:22px;overflow:hidden;box-shadow:0 0 0 6px var(--foreground),0 24px 48px rgba(0,0,0,.16);position:relative;--background:#faf3f1;--foreground:#3b2430;--surface:#fffaf8;--muted:#7a5d69;--line:#eedcd8;--accent:#a3456b;--accent-foreground:#ffffff;--accent-subtle:#f4e1e6;--accent-text:#a3456b;--font-display:Italiana,serif;--display-weight:400;--display-transform:none;--display-tracking:0.02em;--radius:20px;--btn-radius:999px;background:var(--background)">
+          <div style="width:390px;transform:scale({{ sc }});transform-origin:0 0;position:absolute;left:0;top:0"><dc-import name="Storefront" shop="lune" device="mobile" hint-size="390px,1200px"></dc-import></div>
+        </div>
+        <figcaption style="font-size:13px;color:var(--muted)">Soft · nail &amp; beauty</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section style="padding:clamp(64px,10cqi,140px) clamp(16px,4cqi,48px);display:flex;flex-direction:column;gap:clamp(28px,4cqi,56px)">
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:640px"><span id="how" style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);scroll-margin-top:80px">How it works</span><h2 style="margin:0;font:400 clamp(36px,5cqi,64px)/1 'Instrument Serif',serif">Open for bookings this afternoon</h2></div>
+    <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(16px,3cqi,40px)">
+      <li data-reveal="0" style="display:flex;flex-direction:column;gap:12px;padding-top:20px;border-top:1px solid var(--foreground)"><span style="font:400 48px/1 'Instrument Serif',serif;color:var(--accent-text)">1</span><strong style="font-size:19px;font-weight:600">Pick a look</strong><span style="font-size:15px;line-height:1.55;color:var(--muted)">Start from one of six presets, then set your colour, font, logo and photos. Every colour stays readable automatically.</span></li>
+      <li data-reveal="0" style="display:flex;flex-direction:column;gap:12px;padding-top:20px;border-top:1px solid var(--foreground)"><span style="font:400 48px/1 'Instrument Serif',serif;color:var(--accent-text)">2</span><strong style="font-size:19px;font-weight:600">Add services, team &amp; hours</strong><span style="font-size:15px;line-height:1.55;color:var(--muted)">Prices, durations, who does what, breaks and holidays. Availability is calculated for you.</span></li>
+      <li data-reveal="0" style="display:flex;flex-direction:column;gap:12px;padding-top:20px;border-top:1px solid var(--foreground)"><span style="font:400 48px/1 'Instrument Serif',serif;color:var(--accent-text)">3</span><strong style="font-size:19px;font-weight:600">Share your link</strong><span style="font-size:15px;line-height:1.55;color:var(--muted)">On your own domain or ours. Customers book as guests, no account, and get a link to manage it.</span></li>
+    </ol>
+  </section>
+
+  <section style="padding:clamp(64px,10cqi,140px) clamp(16px,4cqi,48px);background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:clamp(28px,4cqi,56px)">
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:640px"><span id="features" style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);scroll-margin-top:80px">Features</span><h2 style="margin:0;font:400 clamp(36px,5cqi,64px)/1 'Instrument Serif',serif">Crafted on the outside, solid underneath</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden">
+      <div data-reveal="0" style="background:var(--background);padding:24px;display:flex;flex-direction:column;gap:8px"><strong style="font-size:17px;font-weight:600">Looks like you</strong><span style="font-size:15px;line-height:1.5;color:var(--muted)">Your colours, type, photos and section order. Two shops never look the same.</span></div>
+      <div data-reveal="0" style="background:var(--background);padding:24px;display:flex;flex-direction:column;gap:8px"><strong style="font-size:17px;font-weight:600">Fast on any phone</strong><span style="font-size:15px;line-height:1.5;color:var(--muted)">Themes render on the server. No flash, no layout jumps, light on data.</span></div>
+      <div data-reveal="0" style="background:var(--background);padding:24px;display:flex;flex-direction:column;gap:8px"><strong style="font-size:17px;font-weight:600">No double bookings</strong><span style="font-size:15px;line-height:1.5;color:var(--muted)">Two customers, one slot: exactly one gets it, the other picks a new time instantly.</span></div>
+      <div data-reveal="0" style="background:var(--background);padding:24px;display:flex;flex-direction:column;gap:8px"><strong style="font-size:17px;font-weight:600">Self-serve cancellations</strong><span style="font-size:15px;line-height:1.5;color:var(--muted)">Every email has a manage link. You set how late customers can cancel online.</span></div>
+      <div data-reveal="0" style="background:var(--background);padding:24px;display:flex;flex-direction:column;gap:8px"><strong style="font-size:17px;font-weight:600">Your own domain</strong><span style="font-size:15px;line-height:1.5;color:var(--muted)">yourshop.at shows your storefront. Same app, your address.</span></div>
+      <div data-reveal="0" style="background:var(--background);padding:24px;display:flex;flex-direction:column;gap:8px"><strong style="font-size:17px;font-weight:600">Accessible by default</strong><span style="font-size:15px;line-height:1.5;color:var(--muted)">AA contrast in light and dark, big tap targets, full keyboard support.</span></div>
+    </div>
+  </section>
+
+  <section style="padding:clamp(64px,10cqi,140px) clamp(16px,4cqi,48px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px">
+    <h2 style="margin:0;font:400 clamp(40px,6cqi,80px)/1 'Instrument Serif',serif;max-width:16ch;text-wrap:balance">Ready when your first customer is.</h2>
+    <a href="Editor, Landing &amp; Admin.dc.html#4a" style="background:var(--accent);color:var(--accent-foreground);min-height:52px;padding:0 26px;border-radius:10px;display:flex;align-items:center;font-weight:500;font-size:16px;text-decoration:none;transition:background .15s,transform .1s" style-hover="background:var(--accent-hover)" style-active="transform:scale(.97)">Open your storefront</a>
+  </section>
+  <footer style="padding:24px clamp(16px,4cqi,48px);border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted)"><span>Appointments · Vienna</span><span>Impressum · Privacy · Business sign in</span></footer>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;mobile&quot;,&quot;desktop&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;default&quot;,&quot;light&quot;,&quot;dark&quot;,&quot;auto&quot;],&quot;default&quot;:&quot;default&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state={inherit:null,w:0}; rootRef=React.createRef();
+  componentDidMount(){ const go=()=>{ if(!window.THEMES){this.t=setTimeout(go,40);return;} const el=this.rootRef.current; if(!el) return;
+    const inh=!!getComputedStyle(el.parentElement).getPropertyValue('--background').trim();
+    this.ro=new ResizeObserver(e=>{const w=Math.round(e[0].contentRect.width); if(w!==this.state.w)this.setState({w});}); this.ro.observe(el);
+    this.setState({inherit:inh},()=>{ if(!inh) this.reveal(); }); }; go(); }
+  componentWillUnmount(){ clearTimeout(this.t); this.ro&&this.ro.disconnect(); this.io&&this.io.disconnect(); }
+  reveal(){ const el=this.rootRef.current; if(!el||window.reducedMotion()) return;
+    this.io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='none'; this.io.unobserve(e.target);} }),{threshold:.12});
+    el.querySelectorAll(':scope > div > section [data-reveal], :scope > div > section > [data-reveal]').forEach((n,i)=>{ if(n.closest('[data-rv-skip]')) return; const d=+(n.getAttribute('data-reveal')||0)+(i%3)*60; n.style.opacity='0'; n.style.transform='translateY(24px)'; n.style.transition='opacity .7s cubic-bezier(.2,.8,.2,1) '+d+'ms, transform .7s cubic-bezier(.2,.8,.2,1) '+d+'ms'; this.io.observe(n); }); }
+  renderVals(){
+    const dev=this.props.device||'auto'; const w=dev==='desktop'||(dev!=='mobile'&&this.state.w>=900);
+    const pw=this.state.w?Math.max(180,Math.min(280,this.state.w*0.22)):(w?280:180);
+    const vars=this.state.inherit===false&&window.themeVars?window.themeVars('platform',this.props.mode==='default'?null:this.props.mode):{};
+    return {rootRef:this.rootRef,themeStyle:{width:'100%',...vars},wide:w,sc:(pw/390).toFixed(3)};
+  }
+}
+</script>
+</body>
+</html>

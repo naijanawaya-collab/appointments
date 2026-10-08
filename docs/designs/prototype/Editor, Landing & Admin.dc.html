@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif&family=Cormorant+Garamond:wght@500;600&family=Barlow+Condensed:wght@600;700&family=Anton&family=Italiana&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#e4dfd7;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#1d1a17}a{color:#a8431f}a:hover{color:#813216}</style>
+</helmet>
+
+<section data-screen-label="Storefront editor" style="padding:64px;display:flex;flex-direction:column;gap:40px">
+  <header style="display:flex;flex-direction:column;gap:10px;max-width:900px">
+    <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#6b6259">04 · Owner side</span>
+    <h1 style="margin:0;font:400 72px/1 'Instrument Serif',serif">Storefront editor</h1>
+    <p style="margin:0;font-size:17px;line-height:1.55;color:#5b534b">Preset → Colours → Font → Logo → Hero → Sections → Content → Publish. Settings on the left (bottom sheet on mobile), live preview on the right. The preview is the real storefront with draft tokens applied.</p>
+  </header>
+
+  <div id="4a" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">4a</span><strong style="font-size:18px">Colours step · contrast warning with one-click fix · desktop 1440</strong></div>
+    <div style="width:1440px;height:920px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);display:flex;flex-direction:column;--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;--accent-subtle:#f3e3da;--danger:#b42318;--success:#2f6b3a;background:var(--background);color:var(--foreground)">
+      <div style="height:60px;flex:none;display:flex;align-items:center;gap:16px;padding:0 20px;border-bottom:1px solid var(--line);background:var(--surface)">
+        <span style="font-size:14px;color:var(--muted)">← Dashboard</span><span style="width:1px;height:24px;background:var(--line)"></span>
+        <strong style="font-size:15px;font-weight:600">Kaiser &amp; Co. · Storefront</strong><span style="font-size:13px;color:var(--muted)">Draft · saved 2 min ago</span>
+        <span style="flex:1"></span>
+        <div role="radiogroup" style="display:flex;background:var(--background);border:1px solid var(--line);border-radius:10px;padding:3px"><span style="min-height:36px;padding:0 14px;border-radius:7px;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.08);display:flex;align-items:center;font-size:13px;font-weight:600">Mobile</span><span style="min-height:36px;padding:0 14px;display:flex;align-items:center;font-size:13px;color:var(--muted)">Desktop</span></div>
+        <span style="flex:1"></span>
+        <span style="min-height:40px;padding:0 12px;display:flex;align-items:center;font-size:14px;color:var(--muted)">Reset to preset</span>
+        <span style="min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;font-size:14px;font-weight:500;box-sizing:border-box">Preview on my domain ↗</span>
+        <span style="min-height:40px;padding:0 18px;border-radius:10px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;font-size:14px;font-weight:500">Publish</span>
+      </div>
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:420px 1fr">
+        <aside style="border-right:1px solid var(--line);background:var(--surface);overflow:hidden;display:flex;flex-direction:column">
+          <ol style="margin:0;padding:12px;list-style:none;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid var(--line)">
+            <li style="display:flex;align-items:center;gap:10px;min-height:36px;padding:0 10px;font-size:14px;color:var(--muted)"><span style="width:20px;height:20px;border-radius:50%;background:var(--success);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center">✓</span>Preset · Classic</li>
+            <li style="display:flex;align-items:center;gap:10px;min-height:36px;padding:0 10px;font-size:14px;font-weight:600;background:var(--accent-subtle);border-radius:8px"><span style="width:20px;height:20px;border-radius:50%;background:var(--foreground);color:var(--background);font-size:11px;display:flex;align-items:center;justify-content:center">2</span>Colours</li>
+            <li style="display:flex;align-items:center;gap:10px;min-height:36px;padding:0 10px;font-size:14px;color:var(--muted)"><span style="width:20px;height:20px;border-radius:50%;border:1px solid var(--line);font-size:11px;display:flex;align-items:center;justify-content:center;box-sizing:border-box">3</span>Font · Logo · Hero · Sections · Content · Publish</li>
+          </ol>
+          <div style="padding:20px;display:flex;flex-direction:column;gap:16px;overflow:auto;min-height:0">
+            <div style="display:flex;flex-direction:column;gap:8px"><strong style="font-size:14px;font-weight:600">Mode</strong>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);background:var(--background);border:1px solid var(--line);border-radius:10px;padding:3px"><span style="min-height:38px;display:flex;align-items:center;justify-content:center;font-size:14px;border-radius:7px;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.08);font-weight:600">Light</span><span style="min-height:38px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted)">Dark</span><span style="min-height:38px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted)">Auto</span></div>
+              <span style="font-size:12px;color:var(--muted)">Auto follows each visitor’s phone setting. We generate both palettes.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px"><strong style="font-size:14px;font-weight:600">Accent colour</strong>
+              <div style="display:flex;gap:10px;align-items:center"><span style="width:48px;height:48px;border-radius:10px;background:#c9a45c;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)"></span><span style="flex:1;height:48px;border:1px solid var(--accent);box-shadow:0 0 0 3px var(--accent-subtle);border-radius:10px;padding:0 14px;display:flex;align-items:center;font:15px 'Geist Mono';box-sizing:border-box">#C9A45C</span></div>
+              <div style="display:flex;gap:8px"><span style="width:32px;height:32px;border-radius:50%;background:#8a6a2f"></span><span style="width:32px;height:32px;border-radius:50%;background:#2f3a2e"></span><span style="width:32px;height:32px;border-radius:50%;background:#7a2e2a"></span><span style="width:32px;height:32px;border-radius:50%;background:#1f3a5a"></span><span style="width:32px;height:32px;border-radius:50%;background:#2a2118"></span><span style="font-size:12px;color:var(--muted);align-self:center">Classic suggestions</span></div>
+            </div>
+            <div role="alert" style="border:1px solid #d9a441;background:#fbf1dc;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;color:#3d2a07">
+              <span style="display:flex;gap:10px;align-items:flex-start"><span style="width:22px;height:22px;flex:none;border-radius:50%;background:#8a5a00;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">!</span><span style="display:flex;flex-direction:column;gap:4px;font-size:14px;line-height:1.45"><strong style="font-weight:600">Hard to read as text</strong><span>#C9A45C on your cream background is <strong style="font-variant-numeric:tabular-nums">2.0 : 1</strong>. Links and outlines need 4.5 : 1.</span><span style="font-size:13px">Buttons are fine: we’ll use black text on them (<span style="font-variant-numeric:tabular-nums">8.9 : 1</span>).</span></span></span>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="min-height:40px;padding:0 14px;border-radius:8px;background:#3d2a07;color:#fff;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500"><span style="width:16px;height:16px;border-radius:4px;background:#745824;box-shadow:0 0 0 1px rgba(255,255,255,.4)"></span>Fix it: use #745824 for text</span><span style="font-size:13px;text-decoration:underline">Keep mine</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px"><strong style="font-size:14px;font-weight:600">Secondary colour <span style="font-weight:400;color:var(--muted)">(optional)</span></strong>
+              <div style="display:flex;gap:10px;align-items:center"><span style="width:48px;height:48px;border-radius:10px;border:1px dashed var(--line);box-sizing:border-box;display:flex;align-items:center;justify-content:center;color:var(--muted)">+</span><span style="font-size:13px;color:var(--muted);line-height:1.4">Used for patterns and dividers only, so it can’t hurt readability.</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px"><strong style="font-size:14px;font-weight:600">Generated for you</strong>
+              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;font:10px 'Geist Mono';color:var(--muted)"><span style="display:flex;flex-direction:column;gap:4px"><span style="height:28px;border-radius:6px;background:#c9a45c"></span>button</span><span style="display:flex;flex-direction:column;gap:4px"><span style="height:28px;border-radius:6px;background:#b8924a"></span>hover</span><span style="display:flex;flex-direction:column;gap:4px"><span style="height:28px;border-radius:6px;background:#a5813e"></span>pressed</span><span style="display:flex;flex-direction:column;gap:4px"><span style="height:28px;border-radius:6px;background:#ece0cb"></span>tint</span><span style="display:flex;flex-direction:column;gap:4px"><span style="height:28px;border-radius:6px;background:#745824"></span>text</span></div>
+            </div>
+          </div>
+          <div style="margin-top:auto;padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:space-between"><span style="min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;font-size:14px;box-sizing:border-box">← Preset</span><span style="min-height:44px;padding:0 18px;border-radius:10px;background:var(--foreground);color:var(--background);display:flex;align-items:center;font-size:14px;font-weight:500">Next: Font →</span></div>
+        </aside>
+        <div style="background:repeating-linear-gradient(0deg,transparent 0 23px,rgba(0,0,0,.03) 23px 24px),#ebe6de;display:flex;justify-content:center;align-items:flex-start;padding:32px;overflow:hidden;gap:40px">
+          <div style="width:390px;height:780px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17,0 30px 60px rgba(0,0,0,.2);flex:none;--background:#f4ecdf;--foreground:#2a2118;--surface:#fbf6ee;--muted:#6e604e;--line:#e2d6c3;--accent:#c9a45c;--accent-foreground:#111111;--accent-subtle:#ece0cb;--accent-text:#a68545;--danger:#b42318;--font-display:'Cormorant Garamond',serif;--display-weight:600;--display-transform:none;--display-tracking:-0.01em;--radius:2px;--radius-lg:4px;--btn-radius:2px;background:var(--background)"><dc-import name="Storefront" shop="kaiser" device="mobile" hint-size="390px,780px"></dc-import></div>
+          <div style="display:flex;flex-direction:column;gap:12px;width:240px;padding-top:40px;font-size:13px;line-height:1.5;color:#5b534b">
+            <span style="font:500 11px 'Geist Mono';letter-spacing:.1em;text-transform:uppercase">Preview notes</span>
+            <span>Preview shows the <strong>unfixed</strong> colour so the owner sees why: “See all 31 services” link is hard to read.</span>
+            <span>Changes apply in ≤ 100 ms by swapping CSS variables on the preview root, no reload.</span>
+            <span>Scroll the preview; it’s the real page.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="4b" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">4b</span><strong style="font-size:18px">Sections (drag + toggle) with image upload dialog: crop, focal point, alt text, progress, errors</strong></div>
+    <div style="width:1440px;height:920px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);display:grid;grid-template-columns:420px 1fr;position:relative;--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;--accent-subtle:#f3e3da;--danger:#b42318;--success:#2f6b3a;background:var(--background);color:var(--foreground)">
+      <aside style="border-right:1px solid var(--line);background:var(--surface);padding:20px;display:flex;flex-direction:column;gap:14px">
+        <span style="font:500 11px 'Geist Mono';letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Step 6 of 8</span>
+        <strong style="font-size:20px;font-weight:600">Sections</strong>
+        <span style="font-size:13px;color:var(--muted)">Drag to reorder. Hidden sections keep their content.</span>
+        <div style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:1px solid var(--line);border-radius:10px;background:var(--background)"><span style="color:var(--muted)">⌂</span><span style="flex:1;font-size:15px;font-weight:500">Hero</span><span style="font-size:12px;color:var(--muted)">Always first</span></div>
+        <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px">
+          <li style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:1px solid var(--line);border-radius:10px"><span style="color:var(--muted);letter-spacing:-2px">⋮⋮</span><span style="flex:1;font-size:15px">About</span><span style="width:44px;height:26px;border-radius:13px;background:var(--foreground);position:relative"><span style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--surface)"></span></span></li>
+          <li style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:1px solid var(--line);border-radius:10px"><span style="color:var(--muted);letter-spacing:-2px">⋮⋮</span><span style="flex:1;font-size:15px">Services &amp; prices</span><span style="width:44px;height:26px;border-radius:13px;background:var(--foreground);position:relative"><span style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--surface)"></span></span></li>
+          <li style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:2px solid var(--accent);border-radius:10px;background:var(--surface);box-shadow:0 12px 24px rgba(0,0,0,.12);transform:translateX(8px) rotate(-.6deg)"><span style="color:var(--accent);letter-spacing:-2px">⋮⋮</span><span style="flex:1;font-size:15px;font-weight:600">Gallery</span><span style="font-size:12px;color:var(--muted)">dragging</span></li>
+          <li style="height:52px;border:1.5px dashed var(--accent);border-radius:10px;background:var(--accent-subtle)"></li>
+          <li style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:1px solid var(--line);border-radius:10px"><span style="color:var(--muted);letter-spacing:-2px">⋮⋮</span><span style="flex:1;font-size:15px">Team</span><span style="width:44px;height:26px;border-radius:13px;background:var(--foreground);position:relative"><span style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--surface)"></span></span></li>
+          <li style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:1px solid var(--line);border-radius:10px;color:var(--muted)"><span style="letter-spacing:-2px">⋮⋮</span><span style="flex:1;font-size:15px">Reviews <span style="font-size:12px">· hidden</span></span><span style="width:44px;height:26px;border-radius:13px;background:var(--line);position:relative"><span style="position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--surface)"></span></span></li>
+          <li style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:1px solid var(--line);border-radius:10px"><span style="color:var(--muted);letter-spacing:-2px">⋮⋮</span><span style="flex:1;font-size:15px">Hours &amp; location</span><span style="width:44px;height:26px;border-radius:13px;background:var(--foreground);position:relative"><span style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--surface)"></span></span></li>
+          <li style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:1px solid var(--line);border-radius:10px"><span style="color:var(--muted);letter-spacing:-2px">⋮⋮</span><span style="flex:1;font-size:15px">Contact &amp; socials</span><span style="width:44px;height:26px;border-radius:13px;background:var(--foreground);position:relative"><span style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--surface)"></span></span></li>
+        </ul>
+        <div style="display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:1px solid var(--line);border-radius:10px;background:var(--background)"><span style="color:var(--muted)">◉</span><span style="flex:1;font-size:15px;font-weight:500">“Book now” button</span><span style="font-size:12px;color:var(--muted)">Always on</span></div>
+        <span style="font-size:12px;color:var(--muted)">Keyboard: focus a handle, Space to lift, ↑↓ to move, Space to drop.</span>
+      </aside>
+      <div style="background:#ebe6de;position:relative">
+        <div style="position:absolute;inset:0;background:rgba(29,26,23,.45)"></div>
+        <div role="dialog" aria-label="Gallery photos" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:860px;background:var(--surface);border-radius:16px;box-shadow:0 40px 80px rgba(0,0,0,.3);display:flex;flex-direction:column;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line)"><strong style="font-size:17px;font-weight:600">Gallery photo</strong><span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px">×</span></div>
+          <div style="display:grid;grid-template-columns:1fr 300px;gap:22px;padding:22px">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:repeating-linear-gradient(135deg,#3b342d 0 1px,#2a2420 1px 10px)">
+                <span style="position:absolute;left:12px;top:12px;font:11px 'Geist Mono';color:#cfc7bb">interior-chairs.jpg · 3024 × 4032</span>
+                <div style="position:absolute;left:18%;top:8%;width:64%;height:84%;border:2px solid #fff;box-shadow:0 0 0 9999px rgba(0,0,0,.45)"><span style="position:absolute;left:33%;top:0;bottom:0;border-left:1px solid rgba(255,255,255,.4)"></span><span style="position:absolute;left:66%;top:0;bottom:0;border-left:1px solid rgba(255,255,255,.4)"></span><span style="position:absolute;top:33%;left:0;right:0;border-top:1px solid rgba(255,255,255,.4)"></span><span style="position:absolute;top:66%;left:0;right:0;border-top:1px solid rgba(255,255,255,.4)"></span></div>
+                <span style="position:absolute;left:58%;top:40%;width:28px;height:28px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px rgba(0,0,0,.4);transform:translate(-50%,-50%)"></span>
+                <span style="position:absolute;left:58%;top:40%;transform:translate(14px,14px);font:11px 'Geist Mono';color:#fff;background:rgba(0,0,0,.6);padding:3px 6px;border-radius:4px">focal 58% 40%</span>
+              </div>
+              <div style="display:flex;gap:8px"><span style="min-height:36px;padding:0 12px;border-radius:8px;background:var(--foreground);color:var(--background);display:flex;align-items:center;font-size:13px;font-weight:500">Square</span><span style="min-height:36px;padding:0 12px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;font-size:13px;box-sizing:border-box">4:5 mobile</span><span style="min-height:36px;padding:0 12px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;font-size:13px;box-sizing:border-box">16:9 desktop</span><span style="font-size:12px;color:var(--muted);align-self:center">Tap the photo to set the focal point; all crops follow it.</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Describe the photo (alt text)<span style="min-height:76px;border:1px solid var(--accent);box-shadow:0 0 0 3px var(--accent-subtle);border-radius:10px;padding:10px 12px;font:400 15px/1.4 Geist;box-sizing:border-box">Three leather barber chairs facing brass-framed mirrors</span><span style="font-weight:400;font-size:12px;color:var(--muted)">Read aloud to blind visitors. If empty we use “Inside Kaiser &amp; Co.”</span></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Type<span style="height:44px;border:1px solid var(--line);border-radius:10px;padding:0 12px;display:flex;align-items:center;font:400 15px Geist;box-sizing:border-box;justify-content:space-between">Interior <span style="color:var(--muted)">▾</span></span></label>
+              <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:14px">
+                <span style="font-size:13px;font-weight:600">Uploads</span>
+                <div style="display:flex;flex-direction:column;gap:4px;font-size:13px"><span style="display:flex;justify-content:space-between"><span>work-sidepart.jpg</span><span style="color:var(--muted);font-variant-numeric:tabular-nums">64 %</span></span><span style="height:4px;border-radius:2px;background:var(--line);overflow:hidden"><span style="display:block;height:100%;width:64%;background:var(--foreground)"></span></span></div>
+                <div style="display:flex;gap:8px;font-size:13px;line-height:1.4;color:var(--danger)"><strong>!</strong><span><strong>IMG_2201.HEIC is 18 MB.</strong> Max is 10 MB. Export as JPEG or pick a smaller photo.</span></div>
+                <div style="display:flex;gap:8px;font-size:13px;line-height:1.4;color:#7a4e00;background:#fbf1dc;padding:8px 10px;border-radius:8px"><strong>◐</strong><span><strong>shopfront.jpg looks soft as a hero</strong> (800 px wide). Use one at least 1600 px wide, or keep it for the gallery.</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:10px;padding:16px 22px;border-top:1px solid var(--line)"><span style="min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;font-size:14px;box-sizing:border-box">Cancel</span><span style="min-height:44px;padding:0 18px;border-radius:10px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;font-size:14px;font-weight:500">Save photo</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="4c" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:center;gap:12px"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">4c</span><strong style="font-size:18px">Mobile editor · bottom sheet (Preset, Hero) · Publish with share image</strong></div>
+    <div style="display:flex;gap:32px;align-items:flex-start;--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;--accent-subtle:#f3e3da;--danger:#b42318;--success:#2f6b3a">
+      <div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;position:relative;background:#ebe6de">
+        <div style="position:absolute;inset:0 0 auto 0;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:var(--surface);border-bottom:1px solid var(--line);z-index:2"><span style="font-size:14px">← Back</span><strong style="font-size:15px">Storefront</strong><span style="min-height:36px;padding:0 14px;border-radius:8px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;font-size:13px;font-weight:500">Publish</span></div>
+        <div style="position:absolute;top:72px;left:50%;transform:translateX(-50%) scale(.62);transform-origin:top center;width:390px;height:700px;overflow:hidden;border-radius:20px;box-shadow:0 0 0 6px #1d1a17;--background:#16171a;--foreground:#f3f3f1;--surface:#1f2024;--muted:#a3a4a8;--line:#303136;--accent:#ff5a1f;--accent-foreground:#111111;--accent-subtle:#2c1d17;--accent-text:#ff7a4a;--font-display:'Barlow Condensed',sans-serif;--display-weight:700;--display-transform:uppercase;--display-tracking:0.01em;--radius:0px;--btn-radius:0px;background:var(--background)"><dc-import name="Storefront" shop="fadelab" device="mobile" hint-size="390px,700px"></dc-import></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;height:400px;background:var(--surface);border-radius:20px 20px 0 0;box-shadow:0 -12px 30px rgba(0,0,0,.15);padding:10px 16px 20px;display:flex;flex-direction:column;gap:14px">
+          <span style="width:40px;height:5px;border-radius:3px;background:var(--line);align-self:center"></span>
+          <div style="display:flex;justify-content:space-between;align-items:baseline"><strong style="font-size:18px;font-weight:600">Choose a preset</strong><span style="font-size:13px;color:var(--muted)">1 of 8</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="border:1px solid var(--line);border-radius:12px;padding:12px;background:#f4ecdf;color:#2a2118;display:flex;flex-direction:column;gap:6px"><span style="font:600 22px/1 'Cormorant Garamond',serif">Classic</span><span style="display:flex;gap:4px"><span style="width:14px;height:14px;border-radius:50%;background:#8a6a2f"></span><span style="width:14px;height:14px;border-radius:50%;background:#2a2118"></span></span></div>
+            <div style="border:2px solid var(--accent);border-radius:12px;padding:11px;background:#16171a;color:#f3f3f1;display:flex;flex-direction:column;gap:6px;position:relative"><span style="position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center">✓</span><span style="font:700 22px/1 'Barlow Condensed',sans-serif;text-transform:uppercase">Modern</span><span style="display:flex;gap:4px"><span style="width:14px;height:14px;border-radius:50%;background:#ff5a1f"></span><span style="width:14px;height:14px;border-radius:50%;background:#f3f3f1"></span></span></div>
+            <div style="border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;color:#111;display:flex;flex-direction:column;gap:6px"><span style="font:500 21px/1 Geist;letter-spacing:-.04em">Minimal</span><span style="display:flex;gap:4px"><span style="width:14px;height:14px;border-radius:50%;background:#111"></span><span style="width:14px;height:14px;border-radius:50%;background:#ebebeb"></span></span></div>
+            <div style="border:1px solid var(--line);border-radius:12px;padding:12px;background:#0b0b0b;color:#fff;display:flex;flex-direction:column;gap:6px"><span style="font:400 22px/1 Anton,sans-serif;text-transform:uppercase">Bold</span><span style="display:flex;gap:4px"><span style="width:14px;height:14px;border-radius:50%;background:#e4ff3a"></span><span style="width:14px;height:14px;border-radius:50%;background:#fff"></span></span></div>
+          </div>
+          <span style="font-size:13px;color:var(--muted)">+ Editorial, Soft. Swipe the sheet up for full height; preview stays visible above.</span>
+          <span style="margin-top:auto;min-height:52px;border-radius:12px;background:var(--foreground);color:var(--background);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500">Next: Colours</span>
+        </div>
+      </div>
+
+      <div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;position:relative;background:var(--surface);display:flex;flex-direction:column">
+        <div style="height:56px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid var(--line)"><span style="font-size:14px">← Sections</span><strong style="font-size:15px">Hero</strong><span style="font-size:14px;color:var(--muted)">5 of 8</span></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:16px;overflow:hidden">
+          <strong style="font-size:16px;font-weight:600">Layout</strong>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="border:2px solid var(--accent);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:4/3;border-radius:6px;background:repeating-linear-gradient(135deg,#3b342d 0 1px,#2a2420 1px 7px);position:relative"><span style="position:absolute;left:6px;bottom:6px;width:50%;height:6px;background:#fff;border-radius:2px"></span></div><span style="font-size:13px;font-weight:600">✓ Full-bleed</span></div>
+            <div style="border:1px solid var(--line);border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:4/3;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;gap:3px"><span style="background:var(--line);border-radius:4px"></span><span style="background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 6px);border-radius:4px"></span></div><span style="font-size:13px">Split</span></div>
+            <div style="border:1px solid var(--line);border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:4/3;border-radius:6px;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 6px);display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;gap:3px;box-sizing:border-box"><span style="width:10px;height:3px;background:var(--foreground)"></span><span style="width:4px;height:3px;background:var(--muted)"></span><span style="width:4px;height:3px;background:var(--muted)"></span></div><span style="font-size:13px">Carousel <span style="color:var(--muted)">· needs 3+</span></span></div>
+            <div style="border:1px solid var(--line);border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:6px"><div style="aspect-ratio:4/3;border-radius:6px;background:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0) 0 0/8px 8px;display:flex;align-items:center;justify-content:center"><span style="width:50%;height:6px;background:var(--foreground);border-radius:2px"></span></div><span style="font-size:13px">Text + pattern</span></div>
+          </div>
+          <strong style="font-size:16px;font-weight:600">Photo</strong>
+          <div style="display:flex;gap:12px;align-items:center"><span style="width:88px;height:88px;border-radius:10px;flex:none;background:repeating-linear-gradient(135deg,#3b342d 0 1px,#2a2420 1px 7px);position:relative"><span style="position:absolute;left:50%;top:40%;width:14px;height:14px;border-radius:50%;border:2px solid #fff;transform:translate(-50%,-50%)"></span></span><span style="display:flex;flex-direction:column;gap:4px;font-size:13px"><strong style="font-size:14px">fade-closeup.jpg</strong><span style="color:var(--muted)">2400 × 3000 · 142 KB AVIF</span><span style="color:var(--success)">✓ Sharp enough for hero</span><span style="text-decoration:underline">Edit crop &amp; focal point</span></span></div>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Alt text<span style="min-height:48px;border:1px solid var(--line);border-radius:10px;padding:12px;font:400 15px Geist;box-sizing:border-box;color:var(--muted)">Close-up of a fresh skin fade</span></label>
+          <span style="font-size:12px;color:var(--muted);line-height:1.45">Text on the photo always gets a dark scrim, so any photo stays readable.</span>
+        </div>
+      </div>
+
+      <div style="width:390px;height:844px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;position:relative;background:var(--surface);display:flex;flex-direction:column">
+        <div style="height:56px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid var(--line)"><span style="font-size:14px">← Content</span><strong style="font-size:15px">Publish</strong><span style="font-size:14px;color:var(--muted)">8 of 8</span></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:16px">
+          <strong style="font-size:16px;font-weight:600">Share image <span style="font-weight:400;color:var(--muted);font-size:13px">· generated</span></strong>
+          <div style="aspect-ratio:1200/630;border-radius:10px;overflow:hidden;position:relative;background:repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 1px,transparent 1px 9px),#232428">
+            <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.8),rgba(0,0,0,.1))"></div>
+            <div style="position:absolute;left:16px;top:16px;bottom:16px;display:flex;flex-direction:column;justify-content:space-between;color:#fff"><span style="font:700 34px/0.9 'Barlow Condensed',sans-serif;text-transform:uppercase">FADE/LAB</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px">Skin fades, tapers and designs.</span><span style="background:#ff5a1f;color:#111;font:700 11px Geist;text-transform:uppercase;padding:5px 8px;align-self:flex-start">Book online</span></span></div>
+          </div>
+          <span style="font-size:12px;color:var(--muted)">1200 × 630 · hero + name + accent. Updates on publish.</span>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Page title<span style="height:48px;border:1px solid var(--line);border-radius:10px;padding:0 12px;display:flex;align-items:center;font:400 15px Geist;box-sizing:border-box">FADE/LAB – Book a fade in Neubau</span><span style="font-weight:400;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums">34 / 60</span></label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Description<span style="min-height:68px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:400 15px/1.4 Geist;box-sizing:border-box">Skin fades, tapers and designs at Neubaugasse 7. Book online in under a minute.</span></label>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px"><span style="min-height:52px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;box-sizing:border-box">Preview on fadelab.wien ↗</span><span style="min-height:52px;border-radius:12px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500">Publish changes</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Platform landing" style="padding:64px;display:flex;flex-direction:column;gap:40px;border-top:1px solid #cfc7bb">
+  <header style="display:flex;flex-direction:column;gap:10px;max-width:900px">
+    <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#6b6259">05 · Platform</span>
+    <h1 style="margin:0;font:400 72px/1 'Instrument Serif',serif">Landing page</h1>
+  </header>
+  <div id="5a" style="display:flex;gap:40px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:8px"><span style="display:flex;gap:10px;align-items:center"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">5a</span><span style="font:12px 'Geist Mono';color:#6b6259">desktop 1280 · light</span></span>
+      <div style="width:1280px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;--accent-subtle:#f3e3da;--accent-text:#a8431f"><dc-import name="Landing" device="desktop" hint-size="1280px,2800px"></dc-import></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px"><span style="display:flex;gap:10px;align-items:center"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">5b</span><span style="font:12px 'Geist Mono';color:#6b6259">mobile 390 · light</span></span>
+      <div style="width:390px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;--accent-subtle:#f3e3da;--accent-text:#a8431f"><dc-import name="Landing" device="mobile" hint-size="390px,3600px"></dc-import></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px"><span style="display:flex;gap:10px;align-items:center"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">5c</span><span style="font:12px 'Geist Mono';color:#6b6259">mobile 390 · dark</span></span>
+      <div style="width:390px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;--background:#14120f;--foreground:#f1ece4;--surface:#1d1a16;--muted:#a59c90;--line:#332d27;--accent:#e2805a;--accent-foreground:#14120f;--accent-subtle:#33231b;--accent-text:#e2805a"><dc-import name="Landing" device="mobile" hint-size="390px,3600px"></dc-import></div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Owner admin" style="padding:64px;display:flex;flex-direction:column;gap:40px;border-top:1px solid #cfc7bb">
+  <header style="display:flex;flex-direction:column;gap:10px;max-width:900px">
+    <span style="font:500 12px 'Geist Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#6b6259">06 · Phase 2 direction</span>
+    <h1 style="margin:0;font:400 72px/1 'Instrument Serif',serif">Owner admin</h1>
+  </header>
+  <div id="6a" style="display:flex;gap:40px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:8px"><span style="display:flex;gap:10px;align-items:center"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">6a</span><span style="font:12px 'Geist Mono';color:#6b6259">Sign in · desktop 1280</span></span>
+      <div style="width:1280px;height:800px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);display:grid;grid-template-columns:1fr 1fr;--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;--accent-subtle:#f3e3da;--danger:#b42318;background:var(--background);color:var(--foreground)">
+        <div style="display:flex;flex-direction:column;padding:40px 64px">
+          <span style="font:400 26px/1 'Instrument Serif',serif">Appointments</span>
+          <div style="margin:auto 0;max-width:380px;display:flex;flex-direction:column;gap:18px">
+            <h1 style="margin:0;font:400 48px/1 'Instrument Serif',serif">Business sign in</h1>
+            <p style="margin:0;font-size:15px;color:var(--muted)">Manage bookings, services and staff.</p>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Email<span style="height:50px;border:1px solid var(--accent);box-shadow:0 0 0 3px var(--accent-subtle);border-radius:10px;padding:0 14px;display:flex;align-items:center;font:400 16px Geist;background:var(--surface);box-sizing:border-box">anton@kaiser-barbers.at</span></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500"><span style="display:flex;justify-content:space-between">Password<span style="font-weight:400;color:var(--muted)">Forgot?</span></span><span style="height:50px;border:1.5px solid var(--danger);border-radius:10px;padding:0 14px;display:flex;align-items:center;font:400 16px Geist;background:var(--surface);box-sizing:border-box;letter-spacing:.2em">••••••</span><span style="font-weight:400;font-size:13px;color:var(--danger)">! Email or password is incorrect.</span></label>
+            <span style="min-height:52px;border-radius:10px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500">Sign in</span>
+          </div>
+          <span style="font-size:13px;color:var(--muted)">New shop? <span style="text-decoration:underline">Open your storefront</span></span>
+        </div>
+        <div style="background:#1d1a17;color:#f1ece4;padding:64px;display:flex;flex-direction:column;justify-content:flex-end;gap:16px;position:relative;overflow:hidden">
+          <div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 1px,transparent 1px 12px)"></div>
+          <span style="position:absolute;top:24px;right:24px;font:11px 'Geist Mono';color:#a59c90">image · shop owner at chair, dusk</span>
+          <span style="position:relative;font:400 44px/1.05 'Instrument Serif',serif;max-width:14ch">Today: 14 bookings, 9 free slots.</span>
+          <span style="position:relative;font-size:15px;color:#c9c0b4">Your day at a glance, the moment you sign in.</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Sign in · mobile 390 · dark</span>
+      <div style="width:390px;height:800px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;--background:#14120f;--foreground:#f1ece4;--surface:#1d1a16;--muted:#a59c90;--line:#332d27;--accent:#e2805a;--accent-foreground:#14120f;--accent-subtle:#33231b;background:var(--background);color:var(--foreground);padding:28px 20px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+        <span style="font:400 24px/1 'Instrument Serif',serif">Appointments</span>
+        <h1 style="margin:80px 0 0;font:400 42px/1 'Instrument Serif',serif">Business sign in</h1>
+        <p style="margin:0;font-size:15px;color:var(--muted)">Manage bookings, services and staff.</p>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Email<span style="height:50px;border:1px solid var(--line);border-radius:10px;padding:0 14px;display:flex;align-items:center;font:400 16px Geist;background:var(--surface);box-sizing:border-box">anton@kaiser-barbers.at</span></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500">Password<span style="height:50px;border:1px solid var(--line);border-radius:10px;padding:0 14px;display:flex;align-items:center;font:400 16px Geist;background:var(--surface);box-sizing:border-box;letter-spacing:.2em">••••••••</span></label>
+        <span style="min-height:52px;border-radius:10px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px;font-weight:500"><span style="width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;box-sizing:border-box"></span>Signing in…</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="6b" style="display:flex;gap:40px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:8px"><span style="display:flex;gap:10px;align-items:center"><span style="background:#1d1a17;color:#f6f3ee;font:600 12px 'Geist Mono';padding:4px 8px;border-radius:4px">6b</span><span style="font:12px 'Geist Mono';color:#6b6259">Dashboard · today timeline per barber · desktop 1440</span></span>
+      <div style="width:1440px;height:900px;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.14);display:grid;grid-template-columns:232px 1fr;--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;--accent-subtle:#f3e3da;--success:#2f6b3a;background:var(--background);color:var(--foreground)">
+        <nav style="background:var(--surface);border-right:1px solid var(--line);padding:20px 12px;display:flex;flex-direction:column;gap:4px">
+          <span style="display:flex;align-items:center;gap:10px;padding:0 8px 18px"><span style="width:32px;height:32px;border-radius:2px;background:#8a6a2f;color:#fff;display:flex;align-items:center;justify-content:center;font:600 19px 'Cormorant Garamond',serif">K</span><strong style="font-size:15px">Kaiser &amp; Co.</strong></span>
+          <span style="min-height:40px;padding:0 12px;border-radius:8px;background:var(--accent-subtle);display:flex;align-items:center;font-size:14px;font-weight:600">Today</span>
+          <span style="min-height:40px;padding:0 12px;display:flex;align-items:center;font-size:14px;color:var(--muted)">Calendar</span>
+          <span style="min-height:40px;padding:0 12px;display:flex;align-items:center;font-size:14px;color:var(--muted)">Bookings</span>
+          <span style="min-height:40px;padding:0 12px;display:flex;align-items:center;font-size:14px;color:var(--muted)">Services</span>
+          <span style="min-height:40px;padding:0 12px;display:flex;align-items:center;font-size:14px;color:var(--muted)">Team &amp; hours</span>
+          <span style="min-height:40px;padding:0 12px;display:flex;align-items:center;font-size:14px;color:var(--muted)">Storefront</span>
+          <span style="min-height:40px;padding:0 12px;display:flex;align-items:center;font-size:14px;color:var(--muted)">Settings</span>
+        </nav>
+        <main style="padding:28px 32px;display:flex;flex-direction:column;gap:22px;overflow:hidden">
+          <div style="display:flex;justify-content:space-between;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;color:var(--muted)">Thursday · Vienna time</span><h1 style="margin:0;font:400 44px/1 'Instrument Serif',serif">8 October</h1></div><div style="display:flex;gap:8px"><span style="min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;font-size:14px;box-sizing:border-box">‹ ›</span><span style="min-height:44px;padding:0 16px;border-radius:10px;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;font-size:14px;font-weight:500">+ Walk-in</span></div></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+            <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;color:var(--muted)">Bookings today</span><span style="font:600 28px Geist;font-variant-numeric:tabular-nums">14</span></div>
+            <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;color:var(--muted)">Booked revenue</span><span style="font:600 28px Geist;font-variant-numeric:tabular-nums">€ 486,00</span></div>
+            <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;color:var(--muted)">Free slots left</span><span style="font:600 28px Geist;font-variant-numeric:tabular-nums">9</span></div>
+            <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;color:var(--muted)">Next up</span><span style="font:600 20px Geist">11:30 · Florian K.</span></div>
+          </div>
+          <div style="flex:1;min-height:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:56px repeat(4,1fr);grid-template-rows:48px 1fr;position:relative">
+            <span style="border-bottom:1px solid var(--line)"></span>
+            <span style="border-bottom:1px solid var(--line);border-left:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;font-weight:600"><span style="width:24px;height:24px;border-radius:50%;background:var(--line)"></span>Anton</span>
+            <span style="border-bottom:1px solid var(--line);border-left:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;font-weight:600"><span style="width:24px;height:24px;border-radius:50%;background:var(--line)"></span>Mehmet</span>
+            <span style="border-bottom:1px solid var(--line);border-left:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;font-weight:600"><span style="width:24px;height:24px;border-radius:50%;background:var(--line)"></span>Lukas</span>
+            <span style="border-bottom:1px solid var(--line);border-left:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;font-weight:600"><span style="width:24px;height:24px;border-radius:50%;background:var(--line)"></span>Sofia <span style="font-weight:400;color:var(--muted);font-size:12px">+2</span></span>
+            <div style="display:flex;flex-direction:column;font:12px Geist;color:var(--muted);font-variant-numeric:tabular-nums"><span style="height:80px;padding:4px 8px;box-sizing:border-box">09:00</span><span style="height:80px;padding:4px 8px;box-sizing:border-box">10:00</span><span style="height:80px;padding:4px 8px;box-sizing:border-box">11:00</span><span style="height:80px;padding:4px 8px;box-sizing:border-box">12:00</span><span style="height:80px;padding:4px 8px;box-sizing:border-box">13:00</span><span style="height:80px;padding:4px 8px;box-sizing:border-box">14:00</span></div>
+            <div style="border-left:1px solid var(--line);position:relative;background:repeating-linear-gradient(transparent 0 79px,var(--line) 79px 80px)">
+              <div style="position:absolute;top:4px;left:6px;right:6px;height:50px;border-radius:8px;background:color-mix(in oklab,var(--foreground) 8%,var(--surface));border-left:3px solid var(--muted);padding:6px 8px;font-size:12px;box-sizing:border-box;color:var(--muted)"><strong style="color:var(--foreground)">Daniel R.</strong> · done</div>
+              <div style="position:absolute;top:84px;left:6px;right:6px;height:104px;border-radius:8px;background:var(--accent-subtle);border-left:3px solid var(--accent);padding:6px 8px;font-size:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px"><strong>Cut + hot-towel shave</strong><span>Markus W. · 10:00–11:20</span></div>
+              <div style="position:absolute;top:204px;left:6px;right:6px;height:50px;border-radius:8px;background:var(--surface);border:1px solid var(--accent);border-left:3px solid var(--accent);padding:6px 8px;font-size:12px;box-sizing:border-box"><strong>Florian K.</strong> · Classic cut</div>
+              <div style="position:absolute;top:320px;left:6px;right:6px;height:80px;border-radius:8px;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 6px);padding:6px 8px;font-size:12px;color:var(--muted);box-sizing:border-box">Lunch</div>
+            </div>
+            <div style="border-left:1px solid var(--line);position:relative;background:repeating-linear-gradient(transparent 0 79px,var(--line) 79px 80px)">
+              <div style="position:absolute;top:44px;left:6px;right:6px;height:66px;border-radius:8px;background:var(--accent-subtle);border-left:3px solid var(--accent);padding:6px 8px;font-size:12px;box-sizing:border-box"><strong>Scissor cut</strong><br>Paul H.</div>
+              <div style="position:absolute;top:164px;left:6px;right:6px;height:26px;border-radius:8px;border:1.5px dashed var(--muted);padding:4px 8px;font-size:12px;box-sizing:border-box;color:var(--muted)">Free · 11:00</div>
+              <div style="position:absolute;top:244px;left:6px;right:6px;height:60px;border-radius:8px;background:var(--accent-subtle);border-left:3px solid var(--accent);padding:6px 8px;font-size:12px;box-sizing:border-box"><strong>Beard package</strong><br>Ali S.</div>
+            </div>
+            <div style="border-left:1px solid var(--line);position:relative;background:repeating-linear-gradient(transparent 0 79px,var(--line) 79px 80px)">
+              <div style="position:absolute;top:4px;left:6px;right:6px;height:54px;border-radius:8px;background:color-mix(in oklab,var(--foreground) 8%,var(--surface));border-left:3px solid var(--muted);padding:6px 8px;font-size:12px;box-sizing:border-box;color:var(--muted)"><strong style="color:var(--foreground)">Jakob M.</strong> · done</div>
+              <div style="position:absolute;top:124px;left:6px;right:6px;height:54px;border-radius:8px;background:var(--accent-subtle);border-left:3px solid var(--accent);padding:6px 8px;font-size:12px;box-sizing:border-box"><strong>Classic cut</strong><br>Tobias L.</div>
+            </div>
+            <div style="border-left:1px solid var(--line);position:relative;background:repeating-linear-gradient(transparent 0 79px,var(--line) 79px 80px)">
+              <div style="position:absolute;top:84px;left:6px;right:6px;height:54px;border-radius:8px;background:var(--accent-subtle);border-left:3px solid var(--accent);padding:6px 8px;font-size:12px;box-sizing:border-box"><strong>Hot-towel shave</strong><br>Georg F.</div>
+              <div style="position:absolute;top:0;left:0;right:0;height:80px;background:repeating-linear-gradient(135deg,var(--line) 0 1px,transparent 1px 6px);font-size:11px;color:var(--muted);padding:6px 8px;box-sizing:border-box">Starts 10:00</div>
+            </div>
+            <div style="position:absolute;left:56px;right:0;top:234px;border-top:2px solid var(--accent)"><span style="position:absolute;right:6px;top:-10px;background:var(--accent);color:var(--accent-foreground);font:600 11px Geist;padding:2px 6px;border-radius:4px;font-variant-numeric:tabular-nums">11:20</span></div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px"><span style="font:12px 'Geist Mono';color:#6b6259">Dashboard · mobile 390</span>
+      <div style="width:390px;height:900px;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px #1d1a17;--background:#f6f3ee;--foreground:#1d1a17;--surface:#fffdfa;--muted:#6b6259;--line:#e3dcd1;--accent:#a8431f;--accent-foreground:#fffdfa;--accent-subtle:#f3e3da;background:var(--background);color:var(--foreground);display:flex;flex-direction:column">
+        <div style="padding:20px 16px 12px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="display:flex;flex-direction:column"><span style="font-size:13px;color:var(--muted)">Thursday</span><span style="font:400 34px/1 'Instrument Serif',serif">8 October</span></span><span style="width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;font-size:22px">+</span></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"><span style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column"><span style="font-size:11px;color:var(--muted)">Bookings</span><strong style="font-size:20px;font-variant-numeric:tabular-nums">14</strong></span><span style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column"><span style="font-size:11px;color:var(--muted)">Revenue</span><strong style="font-size:17px;font-variant-numeric:tabular-nums">€ 486</strong></span><span style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column"><span style="font-size:11px;color:var(--muted)">Free</span><strong style="font-size:20px;font-variant-numeric:tabular-nums">9</strong></span></div>
+          <div style="display:flex;gap:8px;overflow:hidden"><span style="min-height:36px;padding:0 14px;border-radius:999px;background:var(--foreground);color:var(--background);display:flex;align-items:center;font-size:13px;font-weight:500">Everyone</span><span style="min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;font-size:13px;box-sizing:border-box">Anton</span><span style="min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;font-size:13px;box-sizing:border-box">Mehmet</span><span style="min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;font-size:13px;box-sizing:border-box">Lukas</span></div>
+        </div>
+        <ul style="margin:0;padding:0 16px;list-style:none;display:flex;flex-direction:column;gap:8px;font-variant-numeric:tabular-nums">
+          <li style="display:flex;gap:12px;padding:12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);opacity:.6"><span style="font-size:14px;font-weight:600;width:44px">09:00</span><span style="flex:1;display:flex;flex-direction:column"><strong style="font-size:15px">Daniel R.</strong><span style="font-size:13px;color:var(--muted)">Classic cut · Anton</span></span><span style="font-size:12px">✓ Done</span></li>
+          <li style="display:flex;gap:12px;padding:12px;border-radius:12px;background:var(--accent-subtle);border:1px solid var(--accent)"><span style="font-size:14px;font-weight:600;width:44px">10:00</span><span style="flex:1;display:flex;flex-direction:column"><strong style="font-size:15px">Markus W.</strong><span style="font-size:13px;color:var(--muted)">Cut + hot-towel shave · Anton</span></span><span style="font-size:12px;font-weight:600">Now</span></li>
+          <li style="display:flex;gap:12px;padding:12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)"><span style="font-size:14px;font-weight:600;width:44px">10:30</span><span style="flex:1;display:flex;flex-direction:column"><strong style="font-size:15px">Paul H.</strong><span style="font-size:13px;color:var(--muted)">Scissor cut · Mehmet</span></span></li>
+          <li style="display:flex;gap:12px;padding:12px;border-radius:12px;border:1.5px dashed var(--line)"><span style="font-size:14px;font-weight:600;width:44px;color:var(--muted)">11:00</span><span style="flex:1;font-size:14px;color:var(--muted)">Free · Mehmet</span></li>
+          <li style="display:flex;gap:12px;padding:12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)"><span style="font-size:14px;font-weight:600;width:44px">11:30</span><span style="flex:1;display:flex;flex-direction:column"><strong style="font-size:15px">Florian K.</strong><span style="font-size:13px;color:var(--muted)">Classic cut · Anton</span></span></li>
+          <li style="display:flex;gap:12px;padding:12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)"><span style="font-size:14px;font-weight:600;width:44px">12:00</span><span style="flex:1;display:flex;flex-direction:column"><strong style="font-size:15px">Ali S.</strong><span style="font-size:13px;color:var(--muted)">Beard package · Mehmet</span></span></li>
+        </ul>
+        <nav style="margin-top:auto;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--surface);padding-bottom:16px"><span style="min-height:56px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600">Today</span><span style="min-height:56px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted)">Calendar</span><span style="min-height:56px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted)">Storefront</span><span style="min-height:56px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted)">More</span></nav>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&family=Barlow+Condensed:wght@600;700&family=Italiana&display=swap" rel="stylesheet">
+<script src="shops.js"></script>
+<style>body{margin:0}a{color:inherit}@keyframes mb-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="{{ themeStyle }}">
+<div style="container-type:inline-size;background:var(--background);color:var(--foreground);font-family:Geist,system-ui,sans-serif;width:100%;min-height:100vh;-webkit-font-smoothing:antialiased">
+<sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+  <header style="display:flex;align-items:center;gap:10px;padding:0 clamp(16px,4cqi,48px);min-height:60px;border-bottom:1px solid var(--line)">
+    <span style="width:32px;height:32px;flex:none;border-radius:var(--radius);background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:var(--display-weight);font-size:19px">{{ s.mark }}</span>
+    <span style="font-family:var(--font-display);font-weight:var(--display-weight);text-transform:var(--display-transform);letter-spacing:var(--display-tracking);font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.short }}</span>
+  </header>
+  <main style="max-width:600px;margin:0 auto;padding:clamp(24px,5cqi,64px) clamp(16px,4cqi,24px) 48px;display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <h1 style="margin:0;font-size:clamp(26px,6cqi,34px);font-weight:600;letter-spacing:-.02em">Your booking</h1>
+      <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font:500 13px Geist;background:{{ pill.bg }};color:{{ pill.fg }};border:{{ pill.bd }}"><span aria-hidden="true">{{ pill.icon }}</span>{{ pill.label }}</span>
+    </div>
+    <div style="border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--surface);overflow:hidden;opacity:{{ cardOpacity }}">
+      <div style="padding:22px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid var(--line)">
+        <span style="font-family:var(--font-display);font-weight:var(--display-weight);text-transform:var(--display-transform);letter-spacing:var(--display-tracking);font-size:clamp(40px,10cqi,60px);line-height:1;font-variant-numeric:tabular-nums;text-decoration:{{ strike }}">10:30</span>
+        <span style="font-size:18px;font-weight:500">Friday 9 October 2026</span>
+        <span style="font-size:13px;color:var(--muted)">Vienna time</span>
+      </div>
+      <dl style="margin:0;padding:6px 22px 12px;display:grid;grid-template-columns:auto 1fr;font-size:15px">
+        <dt style="padding:10px 0;color:var(--muted);border-bottom:1px solid var(--line)">With</dt><dd style="margin:0;padding:10px 0;text-align:right;border-bottom:1px solid var(--line)">{{ b.staff }}</dd>
+        <dt style="padding:10px 0;color:var(--muted);border-bottom:1px solid var(--line)">Services</dt><dd style="margin:0;padding:10px 0;text-align:right;border-bottom:1px solid var(--line)">{{ b.services }}</dd>
+        <dt style="padding:10px 0;color:var(--muted);border-bottom:1px solid var(--line)">Duration</dt><dd style="margin:0;padding:10px 0;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums">{{ b.dur }}</dd>
+        <dt style="padding:10px 0;color:var(--muted);border-bottom:1px solid var(--line)">Price</dt><dd style="margin:0;padding:10px 0;text-align:right;border-bottom:1px solid var(--line);font-weight:600;font-variant-numeric:tabular-nums">{{ b.price }}</dd>
+        <dt style="padding:10px 0;color:var(--muted)">Where</dt><dd style="margin:0;padding:10px 0;text-align:right">{{ s.address }}</dd>
+      </dl>
+    </div>
+
+    <sc-if value="{{ isConfirmed }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <span style="min-height:48px;padding:0 20px;border-radius:var(--btn-radius);border:1px solid var(--line);background:var(--surface);display:flex;align-items:center;font-size:15px;font-weight:500;box-sizing:border-box">Add to calendar</span>
+        <span style="min-height:48px;padding:0 20px;border-radius:var(--btn-radius);border:1px solid var(--line);background:var(--surface);display:flex;align-items:center;font-size:15px;font-weight:500;box-sizing:border-box">Directions ↗</span>
+        <button onClick="{{ ask }}" style="min-height:48px;padding:0 20px;border-radius:var(--btn-radius);border:1px solid var(--danger);background:transparent;color:var(--danger);font:500 15px Geist;cursor:pointer">Cancel booking</button>
+      </div>
+      <span style="font-size:13px;color:var(--muted)">{{ cancelNote }}</span>
+    </sc-if>
+    <sc-if value="{{ isConfirming }}" hint-placeholder-val="{{ false }}">
+      <div role="alertdialog" data-anim="1" aria-label="Cancel this appointment?" style="animation:mb-in .25s cubic-bezier(.2,.8,.2,1);border:1.5px solid var(--danger);border-radius:var(--radius-lg);padding:18px;display:flex;flex-direction:column;gap:14px;background:color-mix(in oklab,var(--danger) 6%,var(--surface))">
+        <span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:16px;font-weight:600">Cancel this appointment?</strong><span style="font-size:14px;color:var(--muted)">Your time will be released to other customers. This can’t be undone.</span></span>
+        <div style="display:flex;flex-wrap:wrap;gap:10px"><button onClick="{{ doCancel }}" style="min-height:48px;padding:0 22px;border:0;border-radius:var(--btn-radius);background:var(--danger);color:#fff;font:600 15px Geist;cursor:pointer">Yes, cancel</button><button onClick="{{ keep }}" style="min-height:48px;padding:0 20px;border-radius:var(--btn-radius);border:1px solid var(--line);background:var(--surface);color:var(--foreground);font:500 15px Geist;cursor:pointer">Keep it</button></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isCancelled }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="animation:mb-in .3s cubic-bezier(.2,.8,.2,1);border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px;display:flex;flex-direction:column;gap:12px;background:var(--surface)">
+        <span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:16px;font-weight:600">This booking has been cancelled.</strong><span style="font-size:14px;color:var(--muted)">A confirmation email is on its way. Nothing to pay.</span></span>
+        <span style="align-self:flex-start;min-height:48px;padding:0 22px;border-radius:var(--btn-radius);background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;font-size:15px;font-weight:600">Book a new time</span>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isLate }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px;display:flex;flex-direction:column;gap:12px;background:var(--surface)">
+        <span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:16px;font-weight:600">Too late to cancel online</strong><span style="font-size:14px;color:var(--muted);line-height:1.5">Online cancellation closes {{ s.lead }} hours before your appointment. Please call the shop, they’ll sort it out.</span></span>
+        <div style="display:flex;flex-wrap:wrap;gap:10px"><span style="min-height:48px;padding:0 22px;border-radius:var(--btn-radius);background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums">Call {{ s.phone }}</span><span style="min-height:48px;padding:0 20px;border-radius:var(--btn-radius);border:1px solid var(--line);display:flex;align-items:center;font-size:15px;font-weight:500;box-sizing:border-box">WhatsApp</span></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isCompleted }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><span style="min-height:48px;padding:0 22px;border-radius:var(--btn-radius);background:var(--accent);color:var(--accent-foreground);display:flex;align-items:center;font-size:15px;font-weight:600">Book again</span><span style="font-size:14px;color:var(--muted)">Thanks for visiting {{ s.short }}.</span></div>
+    </sc-if>
+  </main>
+</sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;shop&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;kaiser&quot;,&quot;fadelab&quot;,&quot;lune&quot;],&quot;default&quot;:&quot;kaiser&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;default&quot;,&quot;light&quot;,&quot;dark&quot;,&quot;auto&quot;],&quot;default&quot;:&quot;default&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;confirmed&quot;,&quot;confirming&quot;,&quot;cancelled&quot;,&quot;toolate&quot;,&quot;completed&quot;],&quot;default&quot;:&quot;confirmed&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state={st:null,inherit:null}; rootRef=React.createRef();
+  componentDidMount(){ const go=()=>{ if(!window.SHOPS||!window.THEMES){this.t=setTimeout(go,40);return;} const el=this.rootRef.current; if(!el) return; this.setState({inherit:!!getComputedStyle(el.parentElement).getPropertyValue('--background').trim()}); }; go(); }
+  componentWillUnmount(){ clearTimeout(this.t); }
+  renderVals(){
+    const SS=window.SHOPS; if(!SS||!window.THEMES) return {ready:false,rootRef:this.rootRef,themeStyle:{width:'100%'}};
+    const s=SS[this.props.shop||new URLSearchParams(location.search).get('shop')||'kaiser']||SS.kaiser; const themeStyle={width:'100%',...(this.state.inherit===false?window.themeVars(s.key,this.props.mode==='default'?null:this.props.mode):{})}; const st=this.state.st||this.props.state||'confirmed';
+    const items={kaiser:['k1','k5'],fadelab:['f1','f5'],lune:['l1']}[s.key];
+    const all=s.categories.flatMap(c=>c.items).filter(i=>items.includes(i.id));
+    const P={confirmed:{label:'Confirmed',icon:'✓',bg:'color-mix(in oklab,var(--success) 14%,var(--surface))',fg:'var(--success)',bd:'0'},
+      confirming:{label:'Confirmed',icon:'✓',bg:'color-mix(in oklab,var(--success) 14%,var(--surface))',fg:'var(--success)',bd:'0'},
+      toolate:{label:'Confirmed',icon:'✓',bg:'color-mix(in oklab,var(--success) 14%,var(--surface))',fg:'var(--success)',bd:'0'},
+      cancelled:{label:'Cancelled',icon:'×',bg:'color-mix(in oklab,var(--danger) 12%,var(--surface))',fg:'var(--danger)',bd:'0'},
+      completed:{label:'Completed',icon:'●',bg:'var(--line)',fg:'var(--foreground)',bd:'0'}};
+    const appt=new Date(2026,9,9,10,30), dl=new Date(appt.getTime()-s.lead*3600e3), WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const cancelNote=`Free online cancellation until ${WD[dl.getDay()]} ${dl.getDate()} Oct, ${String(dl.getHours()).padStart(2,'0')}:${String(dl.getMinutes()).padStart(2,'0')} (${s.lead} h before).`;
+    return {ready:true,rootRef:this.rootRef,themeStyle,s,cancelNote,pill:P[st],cardOpacity:st==='cancelled'?.7:1,strike:st==='cancelled'?'line-through':'none',
+      b:{staff:s.staff[0].name,services:all.map(i=>i.name).join(', '),dur:window.fmtMin(all.reduce((a,i)=>a+i.min,0)),price:window.fmtEUR(all.reduce((a,i)=>a+i.price,0))},
+      isConfirmed:st==='confirmed',isConfirming:st==='confirming',isCancelled:st==='cancelled',isLate:st==='toolate',isCompleted:st==='completed',
+      ask:()=>this.setState({st:'confirming'}),keep:()=>this.setState({st:'confirmed'}),doCancel:()=>this.setState({st:'cancelled'})};
+  }
+}
+</script>
+</body>
+</html>
